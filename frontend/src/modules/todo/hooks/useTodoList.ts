@@ -8,17 +8,31 @@ export function useTodoList() {
   const [{ items, filter }, setState] = useState<{
     items: Array<TodoItem>;
     filter: TodoListFilter;
+    nextId: number;
   }>(() => ({
     items: INITIAL_ITEMS,
     filter: 'all',
+    nextId: 4,
   }));
 
   const addItem = (item: Omit<TodoItem, 'id'>) => {
-    // TODO
+    setState((prevState) => ({
+      ...prevState,
+      items: [{ ...item, id: prevState.nextId }, ...prevState.items],
+      nextId: prevState.nextId + 1,
+    }));
   };
 
   const setItemIsCompleted = (id: TodoItemId, isCompleted: boolean) => {
-    // TODO
+    setState((prevState) => ({
+      ...prevState,
+      items: prevState.items.map((item) => {
+        if (item.id === id) {
+          return { ...item, isCompleted };
+        }
+        return item;
+      }),
+    }));
   };
 
   const removeItem = (id: TodoItemId) => {
