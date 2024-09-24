@@ -1,4 +1,7 @@
-import { Practical01Page } from '@frontend/modules/static-pages';
+import {
+  Practical01Page,
+  Practical02Page,
+} from '@frontend/modules/static-pages';
 
 export const route = {
   home: () => `/`,
@@ -15,4 +18,5 @@ export const todoListStateParamName = 'filter';
 export const PRACTICALS = [
   // Practical pages
   { id: '01', PageComponent: Practical01Page, wrapperProps: {} },
+  { id: '02', PageComponent: Practical02Page },
 ];
