@@ -5,15 +5,11 @@ import { type TodoItem, type TodoItemId } from '../types';
 export type TodoListFilter = 'all' | 'completed' | 'not-completed';
 
 export function useTodoList() {
-  const [{ items, filter }, setState] = useState<{
+  const [{ items, activeFilter }, setState] = useState<{
     items: Array<TodoItem>;
-    filter: TodoListFilter;
+    activeFilter: TodoListFilter;
     nextId: number;
-  }>(() => ({
-    items: INITIAL_ITEMS,
-    filter: 'all',
-    nextId: 4,
-  }));
+  }>(INITIAL_STATE);
 
   const addItem = (item: Omit<TodoItem, 'id'>) => {
     setState((prevState) => ({
@@ -36,20 +32,43 @@ export function useTodoList() {
   };
 
   const removeItem = (id: TodoItemId) => {
-    // TODO
+    setState((prevState) => ({
+      ...prevState,
+      items: prevState.items.filter((item) => {
+        if (item.id === id) return false;
+        return true;
+      }),
+    }));
   };
 
-  const setFilter = (filter: TodoListFilter) => {
-    // TODO
+  const setActiveFilter = (activeFilter: TodoListFilter) => {
+    setState((prevState) => ({
+      ...prevState,
+      activeFilter,
+    }));
   };
+
+  const filteredItems =
+    activeFilter === 'all'
+      ? items
+      : items.filter((item) => {
+          switch (activeFilter) {
+            case 'completed':
+              return item.isCompleted === true;
+            case 'not-completed':
+              return item.isCompleted !== true;
+            default:
+              return true;
+          }
+        });
 
   return {
-    items,
+    items: filteredItems,
     addItem,
     setItemIsCompleted,
     removeItem,
-    filter,
-    setFilter,
+    activeFilter,
+    setActiveFilter,
   };
 }
 
@@ -70,3 +89,9 @@ const INITIAL_ITEMS: Array<TodoItem> = [
     isCompleted: false,
   },
 ];
+
+const INITIAL_STATE = {
+  items: INITIAL_ITEMS,
+  nextId: Math.max(...INITIAL_ITEMS.map(({ id }) => id)) + 1,
+  activeFilter: 'all',
+} as const;
