@@ -34,7 +34,6 @@ export function AboutTemplate() {
           </Link>
           .
         </Paragraph>
-        <Heading as="h2">Tasks</Heading>
       </MainSection>
     </>
   );

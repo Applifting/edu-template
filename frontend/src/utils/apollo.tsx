@@ -5,7 +5,6 @@ import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
-  createHttpLink,
   from,
   InMemoryCache,
 } from '@apollo/client';
@@ -55,7 +54,7 @@ export function EnhancedApolloProvider({ children }: Props) {
   const cache = useMemo(() => new InMemoryCache(), []);
 
   const client = new ApolloClient({
-    link: from([logoutLink, authLink, uploadLink, httpLink]),
+    link: from([logoutLink, authLink, uploadLink]),
     cache,
     defaultOptions: {
       watchQuery: {
@@ -89,10 +88,6 @@ const hasNetworkStatusCode = (
 ) => {
   return error && 'statusCode' in error && error.statusCode === code;
 };
-
-const httpLink = createHttpLink({
-  uri: config.GRAPHQL_API,
-});
 
 const uploadLink = createUploadLink({
   uri: config.GRAPHQL_API,
