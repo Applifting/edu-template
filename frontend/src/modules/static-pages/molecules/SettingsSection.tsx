@@ -30,14 +30,18 @@ export function SettingsSection<
 }: SettingsSectionProps<TFieldValues>) {
   return (
     <Form {...formProps}>
-      <Heading>{title}</Heading>
-      {description && <Paragraph>{description}</Paragraph>}
-      <Stack p="8" bg="white">
-        {children}
-        <Box textAlign="right">
-          <Button type="submit">Save</Button>
+      <Flex direction={{ base: 'column', md: 'row' }} columnGap="2">
+        <Box flex="1">
+          <Heading>{title}</Heading>
+          {description && <Paragraph>{description}</Paragraph>}
         </Box>
-      </Stack>
+        <Stack flex="2" p="8" bg="white" borderRadius="md" boxShadow="base">
+          {children}
+          <Box textAlign="right">
+            <Button type="submit">Save</Button>
+          </Box>
+        </Stack>
+      </Flex>
     </Form>
   );
 }

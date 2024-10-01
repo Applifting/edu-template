@@ -4,3 +4,4 @@ export {
   SingleFileUploadField,
   type SingleFileUploadFieldProps,
 } from './SingleFileUploadField';
+export { SwitchField, type SwitchFieldProps } from './SwitchField';

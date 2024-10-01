@@ -6,12 +6,20 @@ import {
   RadioGroup,
   Select,
   Stack,
-  Switch,
   Textarea,
 } from '@frontend/shared/design-system';
-import { InputField } from '@frontend/shared/forms';
+import {
+  InputField,
+  SwitchField,
+  zod,
+  zodResolver,
+} from '@frontend/shared/forms';
 
 import { SettingsSection } from '../molecules';
+
+const profileSchema = zod.object({
+  firstName: zod.string().min(1),
+});
 
 export function Practical03Page() {
   return (
@@ -24,6 +32,7 @@ export function Practical03Page() {
           title="Profile"
           description="This is your profile information."
           formProps={{
+            resolver: zodResolver(profileSchema),
             defaultValues: {
               firstName: 'John',
               lastName: 'Doe',
@@ -39,13 +48,15 @@ export function Practical03Page() {
           }}
         >
           <InputField name="firstName" label="First name" />
-          <InputField name="about" label="Profile bio" as={Textarea} />
+          <InputField name="bio" label="Profile bio" as={Textarea} />
           <Select>
             <option value="public">Public</option>
             <option value="friends">Only friends</option>
             <option value="private">Private</option>
           </Select>
-          <Switch> Agree to Terms and Conditions</Switch>
+          <SwitchField name="agreeToc">
+            Agree to Terms and Conditions
+          </SwitchField>
         </SettingsSection>
         <SettingsSection
           title="Notifications"
