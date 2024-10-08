@@ -47,13 +47,17 @@ const init = async () => {
 
   await server.start();
 
-  const drizzle = MOCKS ? null : await getConnection();
-
   const customContext = async ({
     req,
+    res,
   }: ExpressContextFunctionArgument): Promise<CustomContext> => {
+    const drizzle = MOCKS ? null : await getConnection();
     const authToken = req.headers.authorization ?? '';
     const authUser = parseAndVerifyJWT(authToken);
+
+    res.on('close', () => {
+      drizzle?.connection.end();
+    });
 
     return {
       db: drizzle?.db as unknown as MySql2Database,
