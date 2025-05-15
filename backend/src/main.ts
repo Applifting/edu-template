@@ -14,9 +14,7 @@ import { Config } from './shared/config/config.service';
  */
 async function main(): Promise<void> {
   // Create NestJS application instance
-  const app = await NestFactory.create(AppModule, {
-    bufferLogs: false,
-  });
+  const app = await NestFactory.create(AppModule, { bufferLogs: false });
 
   // Get configuration service
   const config = app.get(Config);
@@ -64,7 +62,7 @@ async function main(): Promise<void> {
 
   // Start the application
   await app.listen(config.port);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  console.log(`Application is running on: ${config.baseUrl}`);
 }
 
 // Execute the main function

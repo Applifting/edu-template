@@ -1,4 +1,4 @@
-image: node:20.17.0
+image: node:22.15.0-alpine
 
 stages:
   - install
@@ -84,6 +84,20 @@ build-frontend:
     policy: pull
   script:
     - yarn frontend build
+
+test-backend:
+  stage: test
+  interruptible: true
+  rules:
+    - !reference [.rules, rules]
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - cache/yarn
+      - node_modules
+    policy: pull
+  script:
+    - yarn backend test
 
 build-backend:
   stage: build
