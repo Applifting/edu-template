@@ -1,0 +1,99 @@
+.backend_base_job:
+  image: node:22-alpine
+  before_script:
+    - cd be
+    - npm ci --cache .npm --prefer-offline --no-audit --progress=false
+  cache:
+    key:
+      files:
+        - be/package-lock.json
+    paths:
+      - be/.npm/
+  rules:
+    - changes:
+        - be/**/*
+
+backend_graphql_schema_change_notify_slack:
+  extends: .backend_base_job
+  stage: check
+  script:
+    - apk add --update curl
+    - DIFF_ANCHOR=$(echo -n be/src/schema.gql | sha1sum | cut -f 1 -d " ")
+    - echo $DIFF_ANCHOR
+    - 'curl -X POST --data-urlencode "payload={\"text\": \":meow_party: New <https://git.applifting.cz/nodejs/full-stack-template-v1/-/commit/${CI_COMMIT_SHA}#${DIFF_ANCHOR}|changes> merged to ${CI_COMMIT_BRANCH}\"}" ${SLACK_WEBHOOK_URL}' # Do not forget to put a real slack webhook url
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - be/src/schema.gql
+      allow_failure: true
+
+backend_audit:
+  extends: .backend_base_job
+  stage: check
+  script:
+    - npm audit --audit-level=high
+  allow_failure: true # Allow warnings
+
+backend_code_check:
+  extends: .backend_base_job
+  stage: check
+  script:
+    - npm run lint:check
+    - npm run format:check
+
+backend_build:
+  extends: .backend_base_job
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - be/dist/
+    expire_in: 1h
+    when: on_success
+
+backend_test:
+  extends: .backend_base_job
+  stage: test
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  script:
+    - npm run test:ci
+  artifacts:
+    paths:
+      - be/coverage/
+    when: always
+    reports:
+      junit:
+        - be/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: be/coverage/cobertura-coverage.xml
+
+backend_test_integration:
+  stage: test
+  image: docker:latest
+  tags:
+    - dind
+  cache:
+    key:
+      files:
+        - be/package-lock.json
+    paths:
+      - be/.npm/
+  before_script:
+    - mkdir -p ${HOME}/.docker
+    - echo ${DOCKER_AUTH_CONFIG} > ${HOME}/.docker/config.json # Auth to Docker Hub
+    - apk add nodejs-current npm
+  script:
+    - set -e
+    - cd be
+    - npm ci --cache .npm --prefer-offline --no-audit --progress=false
+    - dockerd &
+    - unset DOCKER_HOST
+    - npm run test:integration:ci
+
+backend_test_arch:
+  extends: .backend_base_job
+  stage: test
+  script:
+    - npm run test:arch

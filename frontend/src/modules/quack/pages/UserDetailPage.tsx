@@ -3,15 +3,15 @@ import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
 import { gql } from '@frontend/gql';
-import { useAuth } from '@frontend/modules/auth';
+import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { useAddQuackFormState } from '@frontend/modules/quack/hooks/useAddQuackFormState';
 import { NotFoundPage } from '@frontend/shared/navigation';
 
 import { UserDetailTemplate } from '../templates';
 
 const USER_DETAIL_QUERY = gql(/* GraphQL */ `
-  query UserDetail($userName: String!) {
-    user(userName: $userName) {
+  query UserDetail($username: String!) {
+    user(username: $username) {
       ...QuackUserDetail
     }
   }
@@ -19,10 +19,10 @@ const USER_DETAIL_QUERY = gql(/* GraphQL */ `
 
 export function UserDetailPage() {
   const { user } = useAuth();
-  const { userName } = useParams();
+  const { username } = useParams();
 
   const userFetcher = useQuery(USER_DETAIL_QUERY, {
-    variables: { userName: userName ?? '' },
+    variables: { username: username ?? '' },
   });
 
   const { refetch } = userFetcher;
@@ -47,7 +47,7 @@ export function UserDetailPage() {
       onReload={refetchUser}
       quackFormState={quackFormState}
       currentUser={user}
-      userName={userName}
+      username={username}
     />
   );
 }

@@ -1,39 +1,56 @@
-type AuthInfo {
-  token: String!
-  user: User!
-}
-
 """
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
-scalar DateTimeISO
+scalar DateTime
 
 type Mutation {
   addQuack(text: String!): Quack!
   deleteQuack(quackId: Float!): String!
-  signIn(email: String!, password: String!): AuthInfo!
-  signUp(
-    email: String!
-    name: String!
-    password: String!
-    profileImage: Upload
-    userName: String!
-  ): AuthInfo!
+  deleteUser(id: ID!): User!
+  signUp(data: SignUpInputType!): User!
+  updateUser(data: UpdateUserInputType!): User!
 }
 
 type Quack {
-  createdAt: DateTimeISO!
+  createdAt: DateTime!
   id: ID!
   text: String!
   user: User!
-  userId: Float!
+  userId: String!
+}
+
+"""
+Event emitted when a new quack is created. Subscribe via the `quackCreated` subscription field
+"""
+type QuackCreatedEventType {
+  """
+  The id of the newly created quack
+  """
+  quackId: String!
 }
 
 type Query {
-  helloWorld: String!
   quacks: [Quack!]!
-  user(userName: String!): User
-  users: [User!]!
+  user(username: String!): User
+}
+
+input SignUpInputType {
+  email: String!
+  name: String!
+  password: String!
+  profilePicture: Upload
+  username: String!
+}
+
+type Subscription {
+  quackCreated: QuackCreatedEventType!
+}
+
+input UpdateUserInputType {
+  email: String
+  id: ID!
+  name: String
+  role: UserRoleEnum
 }
 
 """
@@ -47,5 +64,14 @@ type User {
   name: String!
   profileImageUrl: String
   quacks: [Quack!]!
-  userName: String!
+  role: UserRoleEnum!
+  username: String!
+}
+
+"""
+User role
+"""
+enum UserRoleEnum {
+  admin
+  user
 }

@@ -1,66 +1,38 @@
-import { useCallback } from 'react';
-import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
-import { gql } from '@frontend/gql';
-import { useAuth } from '@frontend/modules/auth';
-
 import { SignUpTemplate } from '../templates';
-
-const SIGNUP_MUTATION = gql(/* GraphQL */ `
-  mutation SignUp(
-    $email: String!
-    $name: String!
-    $password: String!
-    $userName: String!
-    $profileImage: Upload
-  ) {
-    signUp(
-      email: $email
-      name: $name
-      password: $password
-      userName: $userName
-      profileImage: $profileImage
-    ) {
-      user {
-        id
-        name
-        userName
-        profileImageUrl
-      }
-      token
-    }
-  }
-`);
+import { useAuth } from '../use-auth.hook';
 
 export function SignUpPage() {
-  const auth = useAuth();
   const navigate = useNavigate();
-  const [signupRequest, signupRequestState] = useMutation(SIGNUP_MUTATION, {
-    onCompleted: ({ signUp: { user, token } }) => {
-      auth.signIn({ token, user });
-      navigate('/');
-    },
-    onError: () => {},
-  });
+  const { signUp, isPending, error } = useAuth();
 
-  const handleSignUpFormSubmit = useCallback(
-    (variables: {
-      email: string;
-      name: string;
-      userName: string;
-      password: string;
-      profileImage: File | null;
-    }) => {
-      signupRequest({ variables });
-    },
-    [signupRequest],
-  );
+  const handleSignUpFormSubmit = async (variables: {
+    email: string;
+    name: string;
+    username: string;
+    password: string;
+    profileImage: File | null;
+  }) => {
+    try {
+      await signUp(
+        variables.email,
+        variables.password,
+        variables.name,
+        variables.username,
+        variables.profileImage,
+      );
+
+      navigate('/');
+    } catch (err) {
+      console.error('Error during sign up:', err);
+    }
+  };
 
   return (
     <SignUpTemplate
-      isLoading={signupRequestState.loading}
-      error={signupRequestState.error}
+      isLoading={isPending}
+      error={error}
       onSubmit={handleSignUpFormSubmit}
     />
   );

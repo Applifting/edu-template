@@ -4,8 +4,8 @@ import { Button, ErrorBanner, Stack } from '@frontend/shared/design-system';
 import { Form, InputField, zod, zodResolver } from '@frontend/shared/forms';
 
 const schema = zod.object({
-  email: zod.string().email().nonempty(),
-  password: zod.string().nonempty({ message: 'Password is required' }),
+  email: zod.string().trim().min(1, 'Email is required').email('Invalid email'),
+  password: zod.string().trim().min(1, 'Password is required'),
 });
 
 type FormValues = zod.infer<typeof schema>;
@@ -32,7 +32,8 @@ export function SignInForm({
     <Form
       onSubmit={onSubmit}
       defaultValues={initialValues}
-      resolver={zodResolver(schema)}
+      // todo: fix type error
+      resolver={zodResolver(schema as any)}
       noValidate
     >
       <Stack spacing="3" py="4">

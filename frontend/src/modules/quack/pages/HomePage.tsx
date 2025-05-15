@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 
 import { gql } from '@frontend/gql';
-import { useAuth } from '@frontend/modules/auth';
+import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { useAddQuackFormState } from '@frontend/modules/quack/hooks/useAddQuackFormState';
 
 import { HomeTemplate } from '../templates';

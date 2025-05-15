@@ -11,7 +11,7 @@ export const route = {
   terms: () => `/terms`,
   signIn: () => `/auth/signin`,
   signUp: () => `/auth/signup`,
-  userDetail: (userName: string) => `/${userName}`,
+  userDetail: (username: string) => `/${username}`,
 };
 
 export const todoListStateParamName = 'filter';
@@ -23,10 +23,6 @@ export const PRACTICALS = [
   {
     id: '03',
     PageComponent: Practical03Page,
-    wrapperProps: {
-      maxW: '80rem',
-      minW: 'none',
-      w: '100%',
-    },
+    wrapperProps: { maxW: '80rem', minW: 'none', w: '100%' },
   },
 ];

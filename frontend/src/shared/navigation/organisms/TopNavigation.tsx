@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@frontend/modules/auth';
+import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { PRACTICALS, route } from '@frontend/route';
 import {
   AvatarPhoto,
@@ -72,11 +72,11 @@ export function TopNavigation() {
           </Flex>
           {user ? (
             <>
-              <RouterNavLink to={route.userDetail(user.userName)} py="0">
+              <RouterNavLink to={route.userDetail(user.username)} py="0">
                 {user.profileImageUrl && (
                   <AvatarPhoto
                     src={user.profileImageUrl}
-                    alt={user.userName}
+                    alt={user.username}
                     size="6"
                   />
                 )}
