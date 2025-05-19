@@ -1,5 +1,4 @@
 import { type ReactNode } from 'react';
-import { type FieldValues } from 'react-hook-form';
 
 import {
   Box,
@@ -9,7 +8,11 @@ import {
   Paragraph,
   Stack,
 } from '@frontend/shared/design-system';
-import { Form, type FormProps } from '@frontend/shared/forms';
+import {
+  FieldValues,
+  Form,
+  type FormProps,
+} from '@frontend/shared/forms/molecules/Form';
 
 export type SettingsSectionProps<
   TFieldValues extends FieldValues = FieldValues,

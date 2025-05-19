@@ -1,3 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod';
+
 import {
   BodyBackground,
   Heading,
@@ -8,12 +11,8 @@ import {
   Stack,
   Textarea,
 } from '@frontend/shared/design-system';
-import {
-  InputField,
-  SwitchField,
-  zod,
-  zodResolver,
-} from '@frontend/shared/forms';
+import { InputField } from '@frontend/shared/forms/molecules/fields/InputField';
+import { SwitchField } from '@frontend/shared/forms/molecules/fields/SwitchField';
 
 import { SettingsSection } from '../molecules/SettingsSection';
 

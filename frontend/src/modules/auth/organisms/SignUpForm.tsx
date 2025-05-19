@@ -1,15 +1,13 @@
 import { type ReactNode } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod';
 
 import { route } from '@frontend/route';
 import { Button, ErrorBanner, Stack } from '@frontend/shared/design-system';
-import {
-  CheckboxField,
-  Form,
-  InputField,
-  SingleFileUploadField,
-  zod,
-  zodResolver,
-} from '@frontend/shared/forms';
+import { CheckboxField } from '@frontend/shared/forms/molecules/fields/CheckboxField';
+import { InputField } from '@frontend/shared/forms/molecules/fields/InputField';
+import { SingleFileUploadField } from '@frontend/shared/forms/molecules/fields/SingleFileUploadField';
+import { Form } from '@frontend/shared/forms/molecules/Form';
 import { RouterLink } from '@frontend/shared/navigation';
 
 const schema = zod

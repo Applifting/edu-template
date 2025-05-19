@@ -4,7 +4,8 @@ import { AvatarPhoto, Box, Stack } from '@frontend/shared/design-system';
 import { RouterLink } from '@frontend/shared/navigation';
 import { formatDate } from '@shared/date';
 
-import { UsersName, UsersUserName } from '../atoms';
+import { UsersName } from '../atoms/UsersName';
+import { UsersUserName } from '../atoms/UsersUserName';
 import {
   BaseQuackFragment,
   type BaseQuackFragmentType,
