@@ -11,7 +11,7 @@ generator json {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,30 +23,32 @@ enum UserRole {
 }
 
 model Quack {
-  id        String   @id @default(uuid())
-  text      String
+  id        String   @id @default(cuid())
+  text      String   @db.Text
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@index([userId])
   @@map("quack")
 }
 
 model Session {
   id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @db.VarChar(255)
   createdAt DateTime
   updatedAt DateTime
-  ipAddress String?
-  userAgent String?
+  ipAddress String?  @db.VarChar(45)
+  userAgent String?  @db.Text
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   activeOrganizationId String?
 
   @@unique([token])
+  @@index([userId])
   @@map("session")
 }
 
@@ -56,16 +58,17 @@ model Account {
   providerId            String
   userId                String
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  idToken               String?   @db.Text
   accessTokenExpiresAt  DateTime?
   refreshTokenExpiresAt DateTime?
   scope                 String?
-  password              String?
+  password              String?   @db.Text
   createdAt             DateTime
   updatedAt             DateTime
 
+  @@index([userId])
   @@map("account")
 }
 
@@ -85,17 +88,17 @@ model User {
   name            String
   email           String
   emailVerified   Boolean
-  image           String?
+  image           String?   @db.Text
   createdAt       DateTime
   updatedAt       DateTime
   sessions        Session[]
   accounts        Account[]
   quacks          Quack[]
   role            UserRole  @default(user)
-  profileImageUrl String?
+  profileImageUrl String?   @db.Text
 
-  username        String?
-  displayUsername String?
+  username        String? @db.VarChar(50)
+  displayUsername String? @db.VarChar(50)
 
   @@unique([email])
   @@unique([username])

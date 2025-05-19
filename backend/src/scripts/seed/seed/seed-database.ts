@@ -11,17 +11,22 @@ export const seedDatabase = async (
 ) => {
   const auth = betterAuth;
 
-  // Drop existing database data from both tables
-  await prisma.$executeRawUnsafe('DELETE FROM "quack";');
-  await prisma.$executeRawUnsafe('DELETE FROM "user";');
-  await prisma.$executeRawUnsafe('DELETE FROM "verification";');
-  await prisma.$executeRawUnsafe('DELETE FROM "account";');
-  await prisma.$executeRawUnsafe('DELETE FROM "session";');
-
-  // in case of using Postgres instead of SQLite
-  // await prisma.$executeRawUnsafe(
-  //   'TRUNCATE TABLE "quack", "user", "verification", "account", "session" CASCADE',
-  // );
+  // Drop existing database data from all tables
+  try {
+    // In MySQL/MariaDB, we need to disable foreign key checks temporarily
+    await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS=0;');
+    
+    await prisma.$executeRawUnsafe('TRUNCATE TABLE `quack`;');
+    await prisma.$executeRawUnsafe('TRUNCATE TABLE `user`;');
+    await prisma.$executeRawUnsafe('TRUNCATE TABLE `verification`;');
+    await prisma.$executeRawUnsafe('TRUNCATE TABLE `account`;');
+    await prisma.$executeRawUnsafe('TRUNCATE TABLE `session`;');
+    
+    // Re-enable foreign key checks
+    await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS=1;');
+  } catch (error) {
+    console.error('Error truncating tables:', error);
+  }
 
   console.log('Creating superadmin user');
 

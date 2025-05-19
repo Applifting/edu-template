@@ -39,7 +39,9 @@
     "nest:upgrade": "npx npm-check-updates '/@nestjs.*/' -u && npm install && npm test && npm run docker:up-rebuild",
     "adr:new": "adr new $npm_config_title",
     "auth:generate": "npx @better-auth/cli generate --config ./src/shared/auth/utils/cli-auth-client.ts",
-    "switch-db": "ts-node scripts/switch-database.ts"
+    "switch-db": "ts-node src/scripts/switch-database.ts",
+    "db:migrate:mysql": "prisma migrate dev --name mysql-migration",
+    "db:reset": "prisma migrate reset --force"
   },
   "dependencies": {
     "@apollo/server": "^4.9.4",

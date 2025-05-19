@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 
 /**
  * Synchronizes the Prisma schema with the database using 'prisma db push'.
- * Intended for development and SQLite environments only.
+ * Intended for development environments.
  *
  * @throws {Error} If the schema sync fails.
  */

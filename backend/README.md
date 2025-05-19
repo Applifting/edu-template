@@ -54,6 +54,73 @@ classDiagram
 - Primarily code-first Apollo Graphql over Rest, same reasons as above
 - BetterAuth library for authentication to provide battery-included solution for registering users, logging in, email verification etc. without having to re-invent the wheel
 
+## Database Configuration
+
+This project supports both SQLite (for local development) and MariaDB (for production-like environments).
+
+### Using MariaDB with Docker
+
+1. Start the database and adminer:
+
+   ```
+   docker-compose up -d db adminer
+   ```
+
+2. Access Adminer at http://localhost:8080
+
+   - Server: db
+   - Username: quackerUser
+   - Password: quackerPassword
+   - Database: quacker
+
+3. Start the backend with MariaDB:
+   ```
+   docker-compose up -d be
+   ```
+
+### Switching Database Providers
+
+You can switch between SQLite and MariaDB using the provided script:
+
+```
+# Switch to MariaDB
+npm run switch-db mysql
+
+# Switch to SQLite
+npm run switch-db sqlite
+```
+
+After switching database providers, you need to update your schema:
+
+```
+# Generate Prisma client
+npx prisma generate
+
+# For MySQL - create a migration
+npm run db:migrate:mysql
+
+# For SQLite - just push the schema
+npx prisma db push
+```
+
+### Database Reset
+
+To reset your database:
+
+```
+npm run db:reset
+```
+
+## Running in Development
+
+```
+npm run start:dev
+```
+
+## API Documentation
+
+API documentation is available at http://localhost:4000/graphql when the server is running.
+
 # Installation
 
 First, make sure that you provided all the necessary env variables in .env file using .env.example as a template.
