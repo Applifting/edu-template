@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useTodoList } from '@frontend/modules/todo/hooks';
+import { useTodoList } from '@frontend/modules/todo/hooks/useTodoList';
 import {
   Box,
   Button,
@@ -39,10 +39,7 @@ export function Practical02Page() {
         onSubmit={(event) => {
           event.preventDefault();
 
-          addItem({
-            description: inputValue,
-            isCompleted: false,
-          });
+          addItem({ description: inputValue, isCompleted: false });
 
           setInputValue('');
         }}

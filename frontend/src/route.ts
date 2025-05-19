@@ -1,8 +1,6 @@
-import {
-  Practical01Page,
-  Practical02Page,
-  Practical03Page,
-} from '@frontend/modules/static-pages';
+import { Practical01Page } from './modules/static-pages/pages/Practical01Page';
+import { Practical02Page } from './modules/static-pages/pages/Practical02Page';
+import { Practical03Page } from './modules/static-pages/pages/Practical03Page';
 
 export const route = {
   home: () => `/`,

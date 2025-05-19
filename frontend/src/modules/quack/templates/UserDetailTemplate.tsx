@@ -13,8 +13,9 @@ import {
   QuackUserDetailFragment,
   type QuackUserDetailFragmentType,
 } from '../graphql/QuackUserDetailFragment';
-import { QuackForm, UserDetailHeader } from '../molecules';
-import { QuackList } from '../organisms';
+import { QuackForm } from '../molecules/QuackForm';
+import { UserDetailHeader } from '../molecules/UserDetailHeader';
+import { QuackList } from '../organisms/QuackList';
 
 type Props = {
   username?: string;

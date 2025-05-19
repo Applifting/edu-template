@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { SignUpTemplate } from '../templates';
+import { SignUpTemplate } from '../templates/SignUpTemplate';
 import { useAuth } from '../use-auth.hook';
 
 export function SignUpPage() {

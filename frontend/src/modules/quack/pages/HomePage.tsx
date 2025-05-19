@@ -4,7 +4,7 @@ import { gql } from '@frontend/gql';
 import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { useAddQuackFormState } from '@frontend/modules/quack/hooks/useAddQuackFormState';
 
-import { HomeTemplate } from '../templates';
+import { HomeTemplate } from '../templates/HomeTemplate';
 
 const QUACKS_QUERY = gql(/* GraphQL */ `
   query Quacks {

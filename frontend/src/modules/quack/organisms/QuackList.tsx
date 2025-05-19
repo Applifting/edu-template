@@ -1,7 +1,7 @@
 import { Button, ErrorBanner, Loading } from '@frontend/shared/design-system';
 
 import { type BaseQuackFragmentType } from '../graphql/BaseQuackFragment';
-import { Quack } from '../molecules';
+import { Quack } from '../molecules/Quack';
 
 export type QuackListProps = {
   quacks: Array<BaseQuackFragmentType & { id: string }>;

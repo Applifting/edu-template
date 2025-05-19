@@ -7,7 +7,7 @@ import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { useAddQuackFormState } from '@frontend/modules/quack/hooks/useAddQuackFormState';
 import { NotFoundPage } from '@frontend/shared/navigation';
 
-import { UserDetailTemplate } from '../templates';
+import { UserDetailTemplate } from '../templates/UserDetailTemplate';
 
 const USER_DETAIL_QUERY = gql(/* GraphQL */ `
   query UserDetail($username: String!) {

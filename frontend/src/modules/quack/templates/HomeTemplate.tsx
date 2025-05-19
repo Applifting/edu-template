@@ -4,8 +4,8 @@ import { Heading, ReloadButton } from '@frontend/shared/design-system';
 import { MainSection, TopNavigation } from '@frontend/shared/navigation';
 
 import { type BaseQuackFragmentType } from '../graphql/BaseQuackFragment';
-import { QuackForm } from '../molecules';
-import { QuackList } from '../organisms';
+import { QuackForm } from '../molecules/QuackForm';
+import { QuackList } from '../organisms/QuackList';
 
 type Props = {
   data: { quacks: Array<BaseQuackFragmentType & { id: string }> } | undefined;

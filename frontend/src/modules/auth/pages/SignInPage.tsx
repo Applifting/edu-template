@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { SignInTemplate } from '@frontend/modules/auth/templates';
+import { SignInTemplate } from '@frontend/modules/auth/templates/SignInTemplate';
 import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 
 export function SignInPage() {

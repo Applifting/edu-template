@@ -1,14 +1,12 @@
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
 import { HomePage, UserDetailPage } from '@frontend/modules/quack';
-import {
-  AboutPage,
-  TermsAndConditionsPage,
-} from '@frontend/modules/static-pages';
 import { NotFoundPage, PageWrapper } from '@frontend/shared/navigation';
 
-import { SignUpPage } from './modules/auth/pages';
 import { SignInPage } from './modules/auth/pages/SignInPage';
+import { SignUpPage } from './modules/auth/pages/SignUpPage';
+import { AboutPage } from './modules/static-pages/pages/AboutPage';
+import { TermsAndConditionsPage } from './modules/static-pages/pages/TermsAndConditionsPage';
 import { PRACTICALS, route } from './route';
 
 export function Routes() {

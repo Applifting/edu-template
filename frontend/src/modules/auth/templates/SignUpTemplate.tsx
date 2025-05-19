@@ -6,7 +6,7 @@ import {
   TopNavigation,
 } from '@frontend/shared/navigation';
 
-import { SignUpForm } from '../organisms';
+import { SignUpForm } from '../organisms/SignUpForm';
 
 export type SignUpTemplateProps = {
   isLoading: boolean;

@@ -15,11 +15,9 @@ import {
   zodResolver,
 } from '@frontend/shared/forms';
 
-import { SettingsSection } from '../molecules';
+import { SettingsSection } from '../molecules/SettingsSection';
 
-const profileSchema = zod.object({
-  firstName: zod.string().min(1),
-});
+const profileSchema = zod.object({ firstName: zod.string().min(1) });
 
 export function Practical03Page() {
   return (
@@ -62,9 +60,7 @@ export function Practical03Page() {
           title="Notifications"
           description="Setup how much notification you will receive"
           formProps={{
-            defaultValues: {
-              notificationsLevel: 'mentions',
-            },
+            defaultValues: { notificationsLevel: 'mentions' },
             onSubmit: (data) => {
               alert(JSON.stringify(data, null, 2));
             },

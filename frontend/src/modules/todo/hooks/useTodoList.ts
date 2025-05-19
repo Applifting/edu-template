@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { type TodoItem, type TodoItemId } from '../types';
+import { type TodoItem, type TodoItemId } from '../types/todoList';
 
 export type TodoListFilter = 'all' | 'completed' | 'not-completed';
 
@@ -42,10 +42,7 @@ export function useTodoList() {
   };
 
   const setActiveFilter = (activeFilter: TodoListFilter) => {
-    setState((prevState) => ({
-      ...prevState,
-      activeFilter,
-    }));
+    setState((prevState) => ({ ...prevState, activeFilter }));
   };
 
   const filteredItems =
@@ -73,21 +70,9 @@ export function useTodoList() {
 }
 
 const INITIAL_ITEMS: Array<TodoItem> = [
-  {
-    id: 1,
-    description: 'go grocery shopping',
-    isCompleted: true,
-  },
-  {
-    id: 2,
-    description: 'wash the dishes',
-    isCompleted: true,
-  },
-  {
-    id: 3,
-    description: 'write some React code',
-    isCompleted: false,
-  },
+  { id: 1, description: 'go grocery shopping', isCompleted: true },
+  { id: 2, description: 'wash the dishes', isCompleted: true },
+  { id: 3, description: 'write some React code', isCompleted: false },
 ];
 
 const INITIAL_STATE = {
