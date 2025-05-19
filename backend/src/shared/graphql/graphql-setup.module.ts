@@ -8,8 +8,6 @@ import { AuthModule } from 'src/shared/auth/auth.module';
 import { BetterAuth } from '../auth/providers/better-auth.provider';
 import { getSessionFromRequest } from '../auth/utils/get-session-from-request';
 import { Config } from '../config/config.service';
-import { mockResolvers } from './mocks/mocks';
-import { MocksApolloPlugin } from './plugins/mocks-apollo.plugin';
 
 const logger = new Logger('GraphqlSetupModule');
 
@@ -39,10 +37,6 @@ const logger = new Logger('GraphqlSetupModule');
             ApolloServerPluginLandingPageLocalDefault({
               includeCookies: true,
               embed: true,
-            }),
-            new MocksApolloPlugin({
-              resolvers: mockResolvers,
-              isEnabled: false, // todo - return this back?
             }),
           ],
           subscriptions: {
