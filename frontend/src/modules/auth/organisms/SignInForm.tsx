@@ -32,8 +32,7 @@ export function SignInForm({
     <Form
       onSubmit={onSubmit}
       defaultValues={initialValues}
-      // todo: fix type error
-      resolver={zodResolver(schema as any)}
+      resolver={zodResolver(schema)}
       noValidate
     >
       <Stack spacing="3" py="4">
