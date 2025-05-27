@@ -45,12 +45,6 @@ const createAuth = (
           defaultValue: 'user',
           input: false,
         },
-        userName: {
-          type: 'string',
-          required: true,
-          defaultValue: '',
-          input: false,
-        },
       },
     },
     trustedOrigins: [config.frontendBaseUrl],
