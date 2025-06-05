@@ -4,24 +4,23 @@ import { AvatarPhoto, Box, Stack } from '@frontend/shared/design-system';
 import { RouterLink } from '@frontend/shared/navigation';
 import { formatDate } from '@shared/date';
 
-import { UsersName, UsersUserName } from '../atoms';
+import { UsersName } from '../atoms/UsersName';
+import { UsersUserName } from '../atoms/UsersUserName';
 import {
   BaseQuackFragment,
   type BaseQuackFragmentType,
 } from '../graphql/BaseQuackFragment';
 
-export type QuackProps = {
-  quackFragment: BaseQuackFragmentType;
-};
+export type QuackProps = { quackFragment: BaseQuackFragmentType };
 
 export function Quack({ quackFragment }: QuackProps) {
   const {
-    user: { name, userName, profileImageUrl },
+    user: { name, username, profileImageUrl },
     text,
     createdAt,
   } = useFragment(BaseQuackFragment, quackFragment);
 
-  const linkToUser = route.userDetail(userName);
+  const linkToUser = route.userDetail(username);
   const nameInitials = name
     .split(' ')
     .map((word) => word[0])
@@ -53,7 +52,7 @@ export function Quack({ quackFragment }: QuackProps) {
       <Stack spacing="0">
         <Box>
           <RouterLink to={linkToUser} color="inherit">
-            <UsersName name={name} /> <UsersUserName userName={userName} />
+            <UsersName name={name} /> <UsersUserName username={username} />
           </RouterLink>
           {' - '}
           <Box as="span" fontSize="sm" color="gray.500">

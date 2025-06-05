@@ -6,7 +6,7 @@ import {
   TopNavigation,
 } from '@frontend/shared/navigation';
 
-import { SignUpForm } from '../organisms';
+import { SignUpForm } from '../organisms/SignUpForm';
 
 export type SignUpTemplateProps = {
   isLoading: boolean;
@@ -14,7 +14,7 @@ export type SignUpTemplateProps = {
   onSubmit: (data: {
     email: string;
     password: string;
-    userName: string;
+    username: string;
     name: string;
     profileImage: File | null;
   }) => void;

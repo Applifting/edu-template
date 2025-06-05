@@ -1,3 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod';
+
 import {
   BodyBackground,
   Heading,
@@ -8,18 +11,12 @@ import {
   Stack,
   Textarea,
 } from '@frontend/shared/design-system';
-import {
-  InputField,
-  SwitchField,
-  zod,
-  zodResolver,
-} from '@frontend/shared/forms';
+import { InputField } from '@frontend/shared/forms/molecules/fields/InputField';
+import { SwitchField } from '@frontend/shared/forms/molecules/fields/SwitchField';
 
-import { SettingsSection } from '../molecules';
+import { SettingsSection } from '../molecules/SettingsSection';
 
-const profileSchema = zod.object({
-  firstName: zod.string().min(1),
-});
+const profileSchema = zod.object({ firstName: zod.string().min(1) });
 
 export function Practical03Page() {
   return (
@@ -62,9 +59,7 @@ export function Practical03Page() {
           title="Notifications"
           description="Setup how much notification you will receive"
           formProps={{
-            defaultValues: {
-              notificationsLevel: 'mentions',
-            },
+            defaultValues: { notificationsLevel: 'mentions' },
             onSubmit: (data) => {
               alert(JSON.stringify(data, null, 2));
             },

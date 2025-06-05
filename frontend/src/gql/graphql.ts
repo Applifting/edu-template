@@ -27,24 +27,19 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format. */
-  DateTimeISO: { input: any; output: any };
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: { input: any; output: any };
   /** The `Upload` scalar type represents a file upload. */
   Upload: { input: any; output: any };
-};
-
-export type AuthInfo = {
-  __typename?: 'AuthInfo';
-  token: Scalars['String']['output'];
-  user: User;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   addQuack: Quack;
   deleteQuack: Scalars['String']['output'];
-  signIn: AuthInfo;
-  signUp: AuthInfo;
+  deleteUser: User;
+  signUp: User;
+  updateUser: User;
 };
 
 export type MutationAddQuackArgs = {
@@ -55,38 +50,62 @@ export type MutationDeleteQuackArgs = {
   quackId: Scalars['Float']['input'];
 };
 
-export type MutationSignInArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationSignUpArgs = {
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  profileImage?: InputMaybe<Scalars['Upload']['input']>;
-  userName: Scalars['String']['input'];
+  data: SignUpInputType;
+};
+
+export type MutationUpdateUserArgs = {
+  data: UpdateUserInputType;
 };
 
 export type Quack = {
   __typename?: 'Quack';
-  createdAt: Scalars['DateTimeISO']['output'];
+  createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   text: Scalars['String']['output'];
   user: User;
-  userId: Scalars['Float']['output'];
+  userId: Scalars['String']['output'];
+};
+
+/** Event emitted when a new quack is created. Subscribe via the `quackCreated` subscription field */
+export type QuackCreatedEventType = {
+  __typename?: 'QuackCreatedEventType';
+  /** The id of the newly created quack */
+  quackId: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  helloWorld: Scalars['String']['output'];
   quacks: Array<Quack>;
   user?: Maybe<User>;
-  users: Array<User>;
 };
 
 export type QueryUserArgs = {
-  userName: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+export type SignUpInputType = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  profilePicture?: InputMaybe<Scalars['Upload']['input']>;
+  username: Scalars['String']['input'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  quackCreated: QuackCreatedEventType;
+};
+
+export type UpdateUserInputType = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<UserRoleEnum>;
 };
 
 export type User = {
@@ -96,49 +115,30 @@ export type User = {
   name: Scalars['String']['output'];
   profileImageUrl?: Maybe<Scalars['String']['output']>;
   quacks: Array<Quack>;
-  userName: Scalars['String']['output'];
+  role: UserRoleEnum;
+  username: Scalars['String']['output'];
 };
 
-export type SignInMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
-
-export type SignInMutation = {
-  __typename?: 'Mutation';
-  signIn: {
-    __typename?: 'AuthInfo';
-    token: string;
-    user: {
-      __typename?: 'User';
-      id: string;
-      name: string;
-      userName: string;
-      profileImageUrl?: string | null;
-    };
-  };
-};
+/** User role */
+export enum UserRoleEnum {
+  Admin = 'admin',
+  User = 'user',
+}
 
 export type SignUpMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  userName: Scalars['String']['input'];
-  profileImage?: InputMaybe<Scalars['Upload']['input']>;
+  data: SignUpInputType;
 }>;
 
 export type SignUpMutation = {
   __typename?: 'Mutation';
   signUp: {
-    __typename?: 'AuthInfo';
-    token: string;
-    user: {
-      __typename?: 'User';
-      id: string;
-      name: string;
-      userName: string;
-      profileImageUrl?: string | null;
-    };
+    __typename?: 'User';
+    id: string;
+    name: string;
+    email: string;
+    username: string;
+    profileImageUrl?: string | null;
+    role: UserRoleEnum;
   };
 };
 
@@ -160,7 +160,7 @@ export type BaseQuackFragment = {
     __typename?: 'User';
     id: string;
     name: string;
-    userName: string;
+    username: string;
     profileImageUrl?: string | null;
   };
 } & { ' $fragmentName'?: 'BaseQuackFragment' };
@@ -169,7 +169,7 @@ export type QuackUserDetailFragment = {
   __typename?: 'User';
   id: string;
   name: string;
-  userName: string;
+  username: string;
   profileImageUrl?: string | null;
   quacks: Array<
     { __typename?: 'Quack'; id: string } & {
@@ -190,7 +190,7 @@ export type QuacksQuery = {
 };
 
 export type UserDetailQueryVariables = Exact<{
-  userName: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 }>;
 
 export type UserDetailQuery = {
@@ -225,7 +225,7 @@ export const BaseQuackFragmentDoc = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'profileImageUrl' },
@@ -254,7 +254,7 @@ export const QuackUserDetailFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'userName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
           { kind: 'Field', name: { kind: 'Name', value: 'profileImageUrl' } },
           {
             kind: 'Field',
@@ -293,7 +293,7 @@ export const QuackUserDetailFragmentDoc = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'profileImageUrl' },
@@ -307,98 +307,6 @@ export const QuackUserDetailFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<QuackUserDetailFragment, unknown>;
-export const SignInDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'SignIn' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'email' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'signIn' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'email' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'email' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'password' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'password' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'userName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'profileImageUrl' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'token' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SignInMutation, SignInMutationVariables>;
 export const SignUpDocument = {
   kind: 'Document',
   definitions: [
@@ -409,64 +317,14 @@ export const SignUpDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'email' },
-          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'SignUpInputType' },
             },
           },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'userName' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'profileImage' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Upload' } },
         },
       ],
       selectionSet: {
@@ -478,68 +336,25 @@ export const SignUpDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'email' },
+                name: { kind: 'Name', value: 'data' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'email' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'name' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'name' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'password' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'password' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'userName' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'userName' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'profileImage' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'profileImage' },
+                  name: { kind: 'Name', value: 'data' },
                 },
               },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'userName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'profileImageUrl' },
-                      },
-                    ],
-                  },
+                  name: { kind: 'Name', value: 'profileImageUrl' },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'token' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
               ],
             },
           },
@@ -643,7 +458,7 @@ export const QuacksDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'profileImageUrl' },
@@ -669,7 +484,7 @@ export const UserDetailDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'userName' },
+            name: { kind: 'Name', value: 'username' },
           },
           type: {
             kind: 'NonNullType',
@@ -689,10 +504,10 @@ export const UserDetailDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'userName' },
+                name: { kind: 'Name', value: 'username' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'userName' },
+                  name: { kind: 'Name', value: 'username' },
                 },
               },
             ],
@@ -729,7 +544,7 @@ export const UserDetailDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'profileImageUrl' },
@@ -753,7 +568,7 @@ export const UserDetailDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'userName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
           { kind: 'Field', name: { kind: 'Name', value: 'profileImageUrl' } },
           {
             kind: 'Field',

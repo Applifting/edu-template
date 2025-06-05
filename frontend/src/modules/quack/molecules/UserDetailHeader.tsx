@@ -2,13 +2,13 @@ import { AvatarPhoto, Heading } from '@frontend/shared/design-system';
 
 export type UserDetailHeaderProps = {
   name: string;
-  userName: string;
+  username: string;
   profileImageUrl?: string | null;
 };
 
 export function UserDetailHeader({
   name,
-  userName,
+  username,
   profileImageUrl,
 }: UserDetailHeaderProps) {
   return (
@@ -20,7 +20,7 @@ export function UserDetailHeader({
         {name}
       </Heading>
       <Heading as="h5" fontWeight="400" color="gray.500">
-        @{userName}
+        @{username}
       </Heading>
     </header>
   );

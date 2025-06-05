@@ -1,23 +1,19 @@
-import { AuthUser } from '@frontend/modules/auth/auth-core';
+import { User } from '@frontend/modules/auth/use-auth.hook';
 import { type AddQuackFormState } from '@frontend/modules/quack/types/addQuackForm';
 import { Heading, ReloadButton } from '@frontend/shared/design-system';
 import { MainSection, TopNavigation } from '@frontend/shared/navigation';
 
 import { type BaseQuackFragmentType } from '../graphql/BaseQuackFragment';
-import { QuackForm } from '../molecules';
-import { QuackList } from '../organisms';
+import { QuackForm } from '../molecules/QuackForm';
+import { QuackList } from '../organisms/QuackList';
 
 type Props = {
-  data:
-    | {
-        quacks: Array<BaseQuackFragmentType & { id: string }>;
-      }
-    | undefined;
+  data: { quacks: Array<BaseQuackFragmentType & { id: string }> } | undefined;
   loading: boolean;
   error?: Error;
   refetchQuacks: () => void;
   quackFormState: AddQuackFormState;
-  currentUser: AuthUser | null;
+  currentUser: User | null;
 };
 
 export function HomeTemplate({

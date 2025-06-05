@@ -6,7 +6,7 @@ export const QuackUserDetailFragment = gql(/* GraphQL */ `
   fragment QuackUserDetail on User {
     id
     name
-    userName
+    username
     profileImageUrl
     quacks {
       id

@@ -1,26 +1,29 @@
 import { type ReactNode } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod';
 
 import { route } from '@frontend/route';
 import { Button, ErrorBanner, Stack } from '@frontend/shared/design-system';
-import {
-  CheckboxField,
-  Form,
-  InputField,
-  SingleFileUploadField,
-  zod,
-  zodResolver,
-} from '@frontend/shared/forms';
+import { CheckboxField } from '@frontend/shared/forms/molecules/fields/CheckboxField';
+import { InputField } from '@frontend/shared/forms/molecules/fields/InputField';
+import { SingleFileUploadField } from '@frontend/shared/forms/molecules/fields/SingleFileUploadField';
+import { Form } from '@frontend/shared/forms/molecules/Form';
 import { RouterLink } from '@frontend/shared/navigation';
 
 const schema = zod
   .object({
-    email: zod.string().email().nonempty(),
-    name: zod.string().nonempty({ message: 'Name is required' }),
-    password: zod.string().nonempty({ message: 'Password is required' }),
+    email: zod
+      .string()
+      .trim()
+      .min(1, 'Email is required')
+      .email('Invalid email'),
+    name: zod.string().trim().min(1, 'Name is required'),
+    password: zod.string().trim().min(1, 'Password is required'),
     passwordConfirmation: zod
       .string()
-      .nonempty({ message: 'Password confirmation is required' }),
-    userName: zod.string().nonempty({ message: 'Username is required' }),
+      .trim()
+      .min(1, 'Password confirmation is required'),
+    username: zod.string().trim().min(1, 'Username is required'),
     profileImage: zod.instanceof(File).nullable(),
     terms: zod.literal<boolean>(true, {
       errorMap: () => ({ message: 'You must accept the terms and conditions' }),
@@ -38,7 +41,7 @@ const initialValues: FormValues = {
   name: '',
   password: '',
   passwordConfirmation: '',
-  userName: '',
+  username: '',
   profileImage: null,
   terms: false,
 };
@@ -50,7 +53,7 @@ export type SignUpFormProps = {
     email: string;
     password: string;
     name: string;
-    userName: string;
+    username: string;
     profileImage: File | null;
   }) => void;
   children?: ReactNode;
@@ -82,7 +85,7 @@ export function SignUpForm({
           autoCapitalize="off"
         />
         <InputField
-          name="userName"
+          name="username"
           label="Username"
           type="text"
           isRequired

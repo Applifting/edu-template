@@ -9,7 +9,7 @@ export const BaseQuackFragment = gql(/* GraphQL */ `
     user {
       id
       name
-      userName
+      username
       profileImageUrl
     }
     text

@@ -7,6 +7,8 @@ import {
   type UseFormProps,
 } from 'react-hook-form';
 
+export { type FieldValues } from 'react-hook-form';
+
 export type FormProps<TFieldValues extends FieldValues = FieldValues> =
   UseFormProps<TFieldValues> & {
     children: ReactNode;

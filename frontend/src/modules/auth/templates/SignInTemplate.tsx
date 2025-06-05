@@ -6,7 +6,7 @@ import {
   TopNavigation,
 } from '@frontend/shared/navigation';
 
-import { SignInForm } from '../organisms';
+import { SignInForm } from '../organisms/SignInForm';
 
 export type SignInTemplateProps = {
   isLoading: boolean;

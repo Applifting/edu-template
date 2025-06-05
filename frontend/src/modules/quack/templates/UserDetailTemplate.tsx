@@ -1,5 +1,5 @@
 import { useFragment } from '@frontend/gql';
-import { AuthUser } from '@frontend/modules/auth/auth-core';
+import { User } from '@frontend/modules/auth/use-auth.hook';
 import { type AddQuackFormState } from '@frontend/modules/quack/types/addQuackForm';
 import {
   Button,
@@ -13,21 +13,22 @@ import {
   QuackUserDetailFragment,
   type QuackUserDetailFragmentType,
 } from '../graphql/QuackUserDetailFragment';
-import { QuackForm, UserDetailHeader } from '../molecules';
-import { QuackList } from '../organisms';
+import { QuackForm } from '../molecules/QuackForm';
+import { UserDetailHeader } from '../molecules/UserDetailHeader';
+import { QuackList } from '../organisms/QuackList';
 
 type Props = {
-  userName?: string;
+  username?: string;
   userFragment: QuackUserDetailFragmentType | null;
   loading: boolean;
   error?: Error;
   onReload: () => void;
   quackFormState: AddQuackFormState;
-  currentUser: AuthUser | null;
+  currentUser: User | null;
 };
 
 export function UserDetailTemplate({
-  userName,
+  username,
   userFragment,
   loading,
   error,
@@ -36,7 +37,7 @@ export function UserDetailTemplate({
   currentUser,
 }: Props) {
   const showQuackForm =
-    quackFormState && currentUser && currentUser.userName === userName;
+    quackFormState && currentUser && currentUser.username === username;
 
   const user = useFragment(QuackUserDetailFragment, userFragment);
 
@@ -58,7 +59,7 @@ export function UserDetailTemplate({
           <>
             <UserDetailHeader
               name={user.name}
-              userName={user.userName}
+              username={user.username}
               profileImageUrl={user.profileImageUrl}
             />
             {showQuackForm && <QuackForm {...quackFormState} mt="2" />}

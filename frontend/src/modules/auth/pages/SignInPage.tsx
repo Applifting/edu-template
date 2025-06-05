@@ -1,48 +1,24 @@
-import { useCallback } from 'react';
-import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
-import { gql } from '@frontend/gql';
-import { useAuth } from '@frontend/modules/auth';
-
-import { SignInTemplate } from '../templates';
-
-const SIGNIN_MUTATION = gql(/* GraphQL */ `
-  mutation SignIn($email: String!, $password: String!) {
-    signIn(email: $email, password: $password) {
-      user {
-        id
-        name
-        userName
-        profileImageUrl
-      }
-      token
-    }
-  }
-`);
+import { SignInTemplate } from '@frontend/modules/auth/templates/SignInTemplate';
+import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 
 export function SignInPage() {
-  const auth = useAuth();
+  const { signIn, isPending, error } = useAuth();
   const navigate = useNavigate();
-  const [signinRequest, signinRequestState] = useMutation(SIGNIN_MUTATION, {
-    onCompleted: ({ signIn: { user, token } }) => {
-      auth.signIn({ token, user });
-      navigate('/');
-    },
-    onError: () => {},
-  });
 
-  const handleSignInFormSubmit = useCallback(
-    (variables: { email: string; password: string }) => {
-      signinRequest({ variables });
-    },
-    [signinRequest],
-  );
+  const handleSignInFormSubmit = async (variables: {
+    email: string;
+    password: string;
+  }) => {
+    await signIn(variables.email, variables.password);
+    navigate('/');
+  };
 
   return (
     <SignInTemplate
-      isLoading={signinRequestState.loading}
-      error={signinRequestState.error}
+      isLoading={isPending}
+      error={error}
       onSubmit={handleSignInFormSubmit}
     />
   );

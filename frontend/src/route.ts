@@ -1,8 +1,6 @@
-import {
-  Practical01Page,
-  Practical02Page,
-  Practical03Page,
-} from '@frontend/modules/static-pages';
+import { Practical01Page } from './modules/static-pages/pages/Practical01Page';
+import { Practical02Page } from './modules/static-pages/pages/Practical02Page';
+import { Practical03Page } from './modules/static-pages/pages/Practical03Page';
 
 export const route = {
   home: () => `/`,
@@ -11,7 +9,7 @@ export const route = {
   terms: () => `/terms`,
   signIn: () => `/auth/signin`,
   signUp: () => `/auth/signup`,
-  userDetail: (userName: string) => `/${userName}`,
+  userDetail: (username: string) => `/${username}`,
 };
 
 export const todoListStateParamName = 'filter';
@@ -23,10 +21,6 @@ export const PRACTICALS = [
   {
     id: '03',
     PageComponent: Practical03Page,
-    wrapperProps: {
-      maxW: '80rem',
-      minW: 'none',
-      w: '100%',
-    },
+    wrapperProps: { maxW: '80rem', minW: 'none', w: '100%' },
   },
 ];

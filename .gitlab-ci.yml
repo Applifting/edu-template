@@ -1,4 +1,4 @@
-image: node:20.17.0
+image: node:22.15.0-alpine
 
 stages:
   - install
@@ -14,6 +14,9 @@ variables:
     - if: ($CI_PIPELINE_SOURCE == "merge_request_event")
     - if: ($CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push")
 
+before_script:
+  - yarn config set workspaces-experimental true
+
 install:
   stage: install
   interruptible: true
@@ -24,9 +27,13 @@ install:
     paths:
       - cache/yarn
       - node_modules
+      - backend/node_modules
+      - frontend/node_modules
     policy: push
   script:
     - yarn install --frozen-lockfile
+    - yarn backend install --frozen-lockfile
+    - yarn frontend install --frozen-lockfile
 
 format:
   stage: lint
@@ -84,6 +91,20 @@ build-frontend:
     policy: pull
   script:
     - yarn frontend build
+
+test-backend:
+  stage: test
+  interruptible: true
+  rules:
+    - !reference [.rules, rules]
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - cache/yarn
+      - node_modules
+    policy: pull
+  script:
+    - yarn backend test:ci
 
 build-backend:
   stage: build
