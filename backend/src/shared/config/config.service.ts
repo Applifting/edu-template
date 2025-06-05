@@ -14,9 +14,9 @@ import {
 @Injectable()
 export class Config {
   // basic info
-  readonly name: string = 'Applifting NestJS Simplified Template';
+  readonly name: string = 'Quacker backend';
   readonly description: string =
-    'Template NestJS backend for Applifting projects. Implements basic functionality that is a good start for most projects. This is a simplified version for educational purposes.';
+    'Backend for Quacker, a social media platform for sharing short messages. Project example for educational purposes.';
 
   @IsSemVer()
   readonly version: string = '0.1.0';
