@@ -97,7 +97,7 @@ test-backend:
       - node_modules
     policy: pull
   script:
-    - yarn backend test
+    - yarn backend test:ci
 
 build-backend:
   stage: build

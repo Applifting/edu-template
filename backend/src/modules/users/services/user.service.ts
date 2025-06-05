@@ -30,7 +30,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly abilityFactory: AbilityFactory,
-    @InjectBetterAuth() private readonly betterAuth: BetterAuth,
+    @InjectBetterAuth private readonly betterAuth: BetterAuth,
   ) {}
 
   async getUserById(id: string): Promise<User | null> {
