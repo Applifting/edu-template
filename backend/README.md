@@ -49,21 +49,21 @@ classDiagram
 
 ## Decisions explanation
 
-- SQLite to be able to run the app locally without having to install any database (it is still possible to use it with postgres)
+- MariaDB running in Docker Compose for consistent development and production environments
 - Prisma over TypeORM as it's newer, more type safe and offers a better developer experience overall
 - Primarily code-first Apollo Graphql over Rest, same reasons as above
 - BetterAuth library for authentication to provide battery-included solution for registering users, logging in, email verification etc. without having to re-invent the wheel
 
 ## Database Configuration
 
-This project supports both SQLite (for local development) and MariaDB (for production-like environments).
+This project uses MariaDB running in Docker Compose for both development and production-like environments.
 
 ### Using MariaDB with Docker
 
 1. Start the database and adminer:
 
-   ```
-   docker-compose up -d db adminer
+   ```bash
+   yarn backend docker:up
    ```
 
 2. Access Adminer at http://localhost:8080
@@ -73,48 +73,23 @@ This project supports both SQLite (for local development) and MariaDB (for produ
    - Password: quackerPassword
    - Database: quacker
 
-3. Start the backend with MariaDB:
+3. Start the MariaDB:
+   ```bash
+   yarn backend docker:up
    ```
-   docker-compose up -d be
-   ```
-
-### Switching Database Providers
-
-You can switch between SQLite and MariaDB using the provided script:
-
-```
-# Switch to MariaDB
-npm run switch-db mysql
-
-# Switch to SQLite
-npm run switch-db sqlite
-```
-
-After switching database providers, you need to update your schema:
-
-```
-# Generate Prisma client
-npx prisma generate
-
-# For MySQL - create a migration
-npm run db:migrate:mysql
-
-# For SQLite - just push the schema
-npx prisma db push
-```
 
 ### Database Reset
 
 To reset your database:
 
-```
-npm run db:reset
+```bash
+yarn backend db:reset
 ```
 
 ## Running in Development
 
-```
-npm run start:dev
+```bash
+yarn backend start:dev
 ```
 
 ## API Documentation
@@ -126,70 +101,57 @@ API documentation is available at http://localhost:4000/graphql when the server 
 First, make sure that you provided all the necessary env variables in .env file using .env.example as a template.
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 or
 
 ```bash
-$ npm run docker:up # this will also install and start the database, preferred
+$ yarn backend docker:up # this will also install and start the database, preferred
 ```
 
 ### Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn backend start
 
 # watch mode
-$ npm run start:dev
+$ yarn backend start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn backend start:prod
 
 # locally with docker compose (run in repo root)
-$ npm run docker:up
+$ yarn backend docker:up
 
-# regenerate prisma schema after changes (run in repo root)
-$ npm run docker:prisma:generate
-
-# reinstall node module after changes (run in repo root)
-$ npm run docker:up-rebuild
+# regenerate prisma schema after changes
+$ yarn backend prisma:generate
 ```
 
 ### Prisma
 
-#### Locally
+All Prisma commands should be run from the root directory of the project using the `yarn backend` prefix:
 
 ```bash
-# generate and run migrations
-$ npx prisma migrate dev --name [MigrationName]
+# generate Prisma client
+$ yarn backend prisma:generate
 
-# regenerate client after each schema change
-$ npx prisma generate
-```
+# create a new migration
+$ yarn backend prisma:migrations:generate [MigrationName]
 
-#### With Docker Compose
+# run migrations
+$ yarn backend prisma:migrations:run
 
-```bash
-# generate and run migrations (run in repo root)
-$ npm run docker:migrations:generate [MigrationName]
-
-# generate migrations (run in repo root)
-$ npm run docker:migrations:run [MigrationName]
-
-# re-generate client (run in repo root)
-$ npm run docker:prisma:generate
+# open Prisma Studio to view/edit data
+$ yarn backend prisma:studio
 ```
 
 ### Seed
 
 ```bash
 # seed database with example data
-$ npm run seed
-
-# with docker (run in repo root)
-$ npm run docker:seed
+$ yarn backend seed
 ```
 
 ### Test
@@ -198,16 +160,16 @@ Integration tests creates clean database on startup so the tests are run on clea
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn backend test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn backend test:e2e
 
 # integration tests
-$ npm run test:integration
+$ yarn backend test:integration
 
 # test coverage
-$ npm run test:cov
+$ yarn backend test:cov
 ```
 
 ### Better Auth
@@ -216,7 +178,7 @@ In this application, [**better-auth**](https://www.npmjs.com/package/better-auth
 
 ```bash
 # propagate changes to the database schema (schema.prisma)
-$ npm run auth:generate
+$ yarn backend auth:generate
 ```
 
 ### GraphQL playground
@@ -229,7 +191,7 @@ Visualize the code structure, modules, classes etc.
 
 ```bash
 # serve documentation
-$ npm run docs:serve
+$ yarn backend docs:serve
 ```
 
 ### Prisma studio
@@ -238,7 +200,7 @@ When the app is running in docker, you can run prisma studio locally with the fo
 
 ```bash
 # run in repo root
-$ npm run docker:prisma:studio
+$ yarn backend docker:prisma:studio
 ```
 
 ### Dropping/creating DB
