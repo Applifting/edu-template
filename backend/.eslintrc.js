@@ -18,7 +18,12 @@ const config = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', '**/*.spec.ts', '**/*.test.ts'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    '**/*.spec.ts',
+    '**/*.test.ts',
+    'coverage/**',
+  ],
   rules: {
     '@typescript-eslint/no-unused-vars': [
       'error',

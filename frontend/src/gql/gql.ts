@@ -45,37 +45,37 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n'
+  source: '\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n',
 ): (typeof documents)['\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n'
+  source: '\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n',
 ): (typeof documents)['\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n'
+  source: '\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n',
 ): (typeof documents)['\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n'
+  source: '\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n',
 ): (typeof documents)['\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n'
+  source: '\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n',
 ): (typeof documents)['\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n'
+  source: '\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n',
 ): (typeof documents)['\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n'];
 
 export function gql(source: string) {

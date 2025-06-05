@@ -1,7 +1,8 @@
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PrismaJson {
-    /// Your JSON types
+    // Your JSON types
   }
 }
 
-export {}
+export {};

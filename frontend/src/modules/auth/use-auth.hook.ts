@@ -25,7 +25,7 @@ export function useAuth() {
         username: data?.user?.username ?? '',
 
         // todo: figure out how to properly type this
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         role: (data?.user as any)?.role ?? undefined,
       }
     : null;

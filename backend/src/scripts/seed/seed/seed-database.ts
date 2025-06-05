@@ -15,13 +15,13 @@ export const seedDatabase = async (
   try {
     // In MySQL/MariaDB, we need to disable foreign key checks temporarily
     await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS=0;');
-    
+
     await prisma.$executeRawUnsafe('TRUNCATE TABLE `quack`;');
     await prisma.$executeRawUnsafe('TRUNCATE TABLE `user`;');
     await prisma.$executeRawUnsafe('TRUNCATE TABLE `verification`;');
     await prisma.$executeRawUnsafe('TRUNCATE TABLE `account`;');
     await prisma.$executeRawUnsafe('TRUNCATE TABLE `session`;');
-    
+
     // Re-enable foreign key checks
     await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS=1;');
   } catch (error) {

@@ -20,7 +20,8 @@ if (provider === 'mysql') {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }`;
-  newEnvUrl = 'DATABASE_URL="mysql://quackerUser:quackerPassword@localhost:3306/quacker"';
+  newEnvUrl =
+    'DATABASE_URL="mysql://quackerUser:quackerPassword@localhost:3306/quacker"';
 } else {
   newDatasource = `datasource db {
   provider = "sqlite"
@@ -41,7 +42,7 @@ let envContent = '';
 try {
   if (fs.existsSync(envPath)) {
     envContent = fs.readFileSync(envPath, 'utf8');
-    
+
     // Replace DATABASE_URL if it exists
     if (envContent.includes('DATABASE_URL=')) {
       envContent = envContent.replace(/DATABASE_URL=.*/, newEnvUrl);
@@ -53,7 +54,7 @@ try {
     // Create .env file if it doesn't exist
     envContent = newEnvUrl;
   }
-  
+
   fs.writeFileSync(envPath, envContent);
 } catch (error) {
   console.error('Error updating .env file:', error);
@@ -67,4 +68,4 @@ if (provider === 'mysql') {
   console.log('2. npm run db:migrate:mysql');
 } else {
   console.log('2. npx prisma db push');
-} 
+}
