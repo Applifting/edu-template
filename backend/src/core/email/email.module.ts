@@ -1,11 +1,17 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common';
+import {
+  DynamicModule,
+  InjectionToken,
+  Module,
+  OptionalFactoryDependency,
+  Provider,
+} from '@nestjs/common';
 import { EmailService } from './interfaces/email-service.interface';
 
 @Module({})
 export class EmailModule {
   static forRootAsync(options: {
-    useFactory: (...args: any[]) => Promise<EmailService> | EmailService;
-    inject: any[];
+    useFactory: (...args: unknown[]) => Promise<EmailService> | EmailService;
+    inject: (InjectionToken | OptionalFactoryDependency)[];
   }): DynamicModule {
     const emailProvider: Provider = {
       provide: 'EmailService',

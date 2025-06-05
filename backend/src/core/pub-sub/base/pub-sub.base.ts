@@ -16,6 +16,7 @@ export abstract class BasePubSubService implements PubSub {
 
   subscribe<Payload>(triggers: Topic | Topic[]): Observable<Payload> {
     const asyncIterator = this.asyncIterator(triggers);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return from(asyncIterator as any).pipe(map((event) => event as Payload));
   }
 
@@ -23,6 +24,7 @@ export abstract class BasePubSubService implements PubSub {
     triggers: Topic | Topic[],
   ): Observable<MessageEvent | { data: Payload }> {
     return this.subscribe(triggers).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       map((event) => ({ data: event as any as Payload }) as MessageEvent),
     );
   }

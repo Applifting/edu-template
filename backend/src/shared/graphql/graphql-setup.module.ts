@@ -26,7 +26,17 @@ const logger = new Logger('GraphqlSetupModule');
           sortSchema: true,
           playground: false,
           introspection: true,
-          context: async ({ req, res, extra }) => {
+          context: async ({
+            req,
+            res,
+            extra,
+          }): Promise<{
+            req: Request;
+            res: Response;
+            // todo: figure out proper typing here
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            extra: any;
+          }> => {
             return {
               req: extra?.request ?? req,
               res,
@@ -41,7 +51,9 @@ const logger = new Logger('GraphqlSetupModule');
           ],
           subscriptions: {
             'graphql-ws': {
-              onConnect: async (context: any) => {
+              // todo: add proper type for context
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onConnect: async (context: any): Promise<any> => {
                 logger.log('Subscription connection established');
 
                 const { extra } = context;

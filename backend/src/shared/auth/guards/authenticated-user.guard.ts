@@ -9,7 +9,7 @@ import { getSessionFromRequest } from '../utils/get-session-from-request';
 
 @Injectable()
 export class AuthenticatedUserGuard {
-  constructor(@InjectBetterAuth() private readonly betterAuth: BetterAuth) {}
+  constructor(@InjectBetterAuth private readonly betterAuth: BetterAuth) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = this.getRequest(context);
@@ -30,7 +30,9 @@ export class AuthenticatedUserGuard {
     return true;
   }
 
-  getRequest(context: ExecutionContext) {
+  // todo: figure out proper typing here
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getRequest(context: ExecutionContext): any {
     const ctx = GqlExecutionContext.create(context);
     const { req, connection } = ctx.getContext();
 

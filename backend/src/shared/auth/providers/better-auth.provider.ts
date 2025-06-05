@@ -14,6 +14,7 @@ const createAuth = (
   config: Config,
   emailProvider: EmailService,
   emailTemplateService: EmailTemplateService,
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 ) =>
   betterAuth({
     database: prismaAdapter(prismaService, {
@@ -84,4 +85,4 @@ export const betterAuthProvider: Provider = {
   inject: [PrismaService, Config, 'EmailService', EmailTemplateService],
 };
 
-export const InjectBetterAuth = () => Inject('BetterAuth');
+export const InjectBetterAuth = Inject('BetterAuth');

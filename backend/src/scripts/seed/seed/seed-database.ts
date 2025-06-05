@@ -8,7 +8,7 @@ export const seedDatabase = async (
   prisma: PrismaService,
   config: Config,
   betterAuth: BetterAuth,
-) => {
+): Promise<void> => {
   const auth = betterAuth;
 
   // Drop existing database data from all tables

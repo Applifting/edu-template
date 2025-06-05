@@ -1,4 +1,4 @@
-import { UserRole } from '@prisma/client';
+import { User, UserRole } from '@prisma/client';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { BetterAuth } from '../../../shared/auth/providers/better-auth.provider';
 
@@ -15,7 +15,7 @@ export async function createUser(
   prisma: PrismaService,
   auth: BetterAuth,
   params: CreateUserParams,
-) {
+): Promise<User> {
   const { email, password, name, username, role, profilePictureUrl } = params;
 
   // use better auth api to sign the user up using email & password

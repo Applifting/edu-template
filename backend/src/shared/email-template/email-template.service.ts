@@ -2,7 +2,10 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { Injectable } from '@nestjs/common';
 import Handlebars from 'handlebars';
-import { CompilableTemplate } from './interfaces/compilable-template.interface';
+import {
+  CompilableTemplate,
+  TemplateVariableValue,
+} from './interfaces/compilable-template.interface';
 
 @Injectable()
 export class EmailTemplateService {
@@ -11,7 +14,13 @@ export class EmailTemplateService {
     '../../../assets/templates/html/',
   );
 
-  async compileTemplate<T extends Record<string, any>>({
+  /**
+   * Compiles an email template with provided variables
+   * @param templatePath - Path to the template file
+   * @param variables - Variables to inject into the template
+   * @returns Compiled HTML template as string
+   */
+  async compileTemplate<T extends Record<string, TemplateVariableValue>>({
     templatePath,
     variables,
   }: CompilableTemplate<T>): Promise<string> {
@@ -20,7 +29,6 @@ export class EmailTemplateService {
       const htmlTemplate = await fs.readFile(filePath, 'utf8');
       const handlebarsTemplate = Handlebars.compile(htmlTemplate);
       const filledTemplate = handlebarsTemplate(variables);
-
       return filledTemplate;
     } catch (error) {
       console.error('Error compiling template:', error);

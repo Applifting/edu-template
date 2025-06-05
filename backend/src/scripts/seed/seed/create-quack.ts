@@ -1,3 +1,4 @@
+import { Quack } from 'src/modules/quack/domain/quack';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 
 type CreateQuackParams = {
@@ -8,7 +9,7 @@ type CreateQuackParams = {
 export async function createQuack(
   prisma: PrismaService,
   params: CreateQuackParams,
-) {
+): Promise<Quack> {
   const { text, userId } = params;
 
   return await prisma.quack.create({

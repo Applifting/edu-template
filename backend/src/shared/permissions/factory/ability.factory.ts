@@ -24,17 +24,17 @@ export class AbilityFactory {
     const isAdmin = user.role === UserRoleEnum.admin;
 
     return {
-      canAddQuack: () => true,
-      canReadQuacks: () => true,
-      canDeleteQuack: (quack) => {
+      canAddQuack: (): boolean => true,
+      canReadQuacks: (): boolean => true,
+      canDeleteQuack: (quack): boolean => {
         return quack.userId === user.id || isAdmin;
       },
-      canCreateUser: () => isAdmin,
-      canReadUsers: () => true,
-      canUpdateUser: (userToUpdate) => {
+      canCreateUser: (): boolean => isAdmin,
+      canReadUsers: (): boolean => true,
+      canUpdateUser: (userToUpdate): boolean => {
         return userToUpdate.id === user.id || isAdmin;
       },
-      canDeleteUser: (userToDelete) => {
+      canDeleteUser: (userToDelete): boolean => {
         return userToDelete.id === user.id || isAdmin;
       },
     };

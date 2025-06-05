@@ -9,7 +9,12 @@ export class SeedController {
    * Syncs the database schema and seeds the database with initial data (removes all currently present data.)
    */
   @Get()
-  async seed() {
+  async seed(): Promise<{
+    success: boolean;
+    message: string;
+    error?: string;
+    timestamp: string;
+  }> {
     try {
       await this.seedService.run();
       return {
