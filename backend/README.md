@@ -101,7 +101,7 @@ API documentation is available at http://localhost:4000/graphql when the server 
 First, make sure that you provided all the necessary env variables in .env file using .env.example as a template.
 
 ```bash
-$ yarn install
+$ yarn backend install
 ```
 
 or
@@ -113,10 +113,7 @@ $ yarn backend docker:up # this will also install and start the database, prefer
 ### Running the app
 
 ```bash
-# development
-$ yarn backend start
-
-# watch mode
+# watch mode (you will mostly need this)
 $ yarn backend start:dev
 
 # production mode
@@ -146,6 +143,9 @@ $ yarn backend prisma:migrations:run
 # open Prisma Studio to view/edit data
 $ yarn backend prisma:studio
 ```
+
+You actually do not need to manage migrations manually, the seed script by itself should be able to synchronize your database with the prisma schema.
+This should be sufficient for the aim of this course (have a working application ready for presentation). Migrations are a topic you will have to deal with in the future if you're going to turn this into a real project.
 
 ### Seed
 
