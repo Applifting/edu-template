@@ -1,14 +1,12 @@
-import { BoxProps } from '@chakra-ui/react';
-
 import {
   Box,
+  BoxProps,
   Button,
-  FormControl,
-  FormErrorMessage,
+  Field,
+  Flex,
   Spacer,
-  Stack,
   Textarea,
-} from '@frontend/shared/design-system';
+} from '@chakra-ui/react';
 
 export type QuackFormProps = Omit<BoxProps, 'onSubmit'> & {
   error?: Error;
@@ -46,7 +44,7 @@ export function QuackForm({
           onSubmit({ text });
         }}
       >
-        <FormControl isInvalid={!!error}>
+        <Field.Root invalid={!!error}>
           <Textarea
             bg="white"
             value={text}
@@ -56,18 +54,21 @@ export function QuackForm({
             name="comment"
             placeholder="Quack something..."
             disabled={isLoading}
-            isRequired
+            required
+            minHeight={20}
           />
-          <Stack
+          <Flex
             direction="row"
             alignItems="center"
             justifyContent="flex-end"
             pt="2"
+            gap="2"
+            width="100%"
           >
-            <FormErrorMessage
+            <Field.ErrorText
               m="0"
               alignSelf="flex-start"
-            >{`${error}`}</FormErrorMessage>
+            >{`${error}`}</Field.ErrorText>
             <Spacer />
             <Box
               as="span"
@@ -79,14 +80,15 @@ export function QuackForm({
             <Button
               type="submit"
               size="md"
-              isLoading={isLoading}
+              rounded="13"
+              loading={isLoading}
               loadingText="Sending"
-              colorScheme="green"
+              colorPalette="green"
             >
               Quack
             </Button>
-          </Stack>
-        </FormControl>
+          </Flex>
+        </Field.Root>
       </form>
     </Box>
   );

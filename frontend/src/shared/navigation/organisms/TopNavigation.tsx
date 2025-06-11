@@ -1,23 +1,24 @@
 import { useEffect, useMemo } from 'react';
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Stack,
+  useDisclosure,
+} from '@chakra-ui/react';
+import {
+  FaBars as HamburgerMenuIcon,
+  FaFeatherAlt as QuackerIcon,
+  FaTimes as CloseIcon,
+} from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { PRACTICALS, route } from '@frontend/route';
-import {
-  AvatarPhoto,
-  Box,
-  Button,
-  CloseIcon,
-  Flex,
-  HamburgerMenuIcon,
-  Icon,
-  IconButton,
-  QuackerIcon,
-  Stack,
-  useDisclosure,
-} from '@frontend/shared/design-system';
-
-import { ReactRouterLink, RouterLink, RouterNavLink } from '../atoms';
+import { AvatarPhoto, Icon } from '@frontend/shared/design-system/components';
+import { RouterLink } from '@frontend/shared/navigation/atoms/RouterLink';
+import { RouterNavLink } from '@frontend/shared/navigation/atoms/RouterNavLink';
 
 export function TopNavigation() {
   const { user, signOut } = useAuth();
@@ -59,13 +60,14 @@ export function TopNavigation() {
           py="3"
           px="4"
         >
+          {/* TODO: Why are we using the Icon with `as`? Wouldn't be better to directly use the icon like <QuackerIcon />  */}
           <Icon as={QuackerIcon} mr="2" fontSize="xl" />
           Quacker
         </RouterLink>
         <Flex alignItems="stretch">
           <Flex display={{ base: 'none', md: 'flex' }}>
             {baseLinks.map(({ to, title }) => (
-              <RouterNavLink to={to} key={to}>
+              <RouterNavLink to={to} key={to} color="white">
                 {title}
               </RouterNavLink>
             ))}
@@ -80,13 +82,17 @@ export function TopNavigation() {
                     size="6"
                   />
                 )}
-                <Box ml="2" display={{ base: 'none', sm: 'block' }}>
+                <Box
+                  ml="2"
+                  display={{ base: 'none', sm: 'block' }}
+                  color="white"
+                >
                   {user.name}
                 </Box>
               </RouterNavLink>
               <Flex alignItems="center">
                 <Button
-                  colorScheme="green"
+                  colorPalette="green"
                   size="sm"
                   mx={{ base: '2', sm: '4' }}
                   onClick={() => {
@@ -104,13 +110,12 @@ export function TopNavigation() {
               <RouterNavLink to={route.signIn()}>Sign In</RouterNavLink>
               <Flex alignItems="center">
                 <Button
-                  colorScheme="green"
+                  colorPalette="green"
                   size="sm"
                   mx={{ base: '2', sm: '4' }}
-                  to={route.signUp()}
-                  as={ReactRouterLink}
+                  asChild
                 >
-                  Sign Up
+                  <RouterLink to={route.signUp()}>Sign Up</RouterLink>
                 </Button>
               </Flex>
             </>
@@ -125,16 +130,14 @@ export function TopNavigation() {
             aria-label="Open menu"
             variant="ghost"
             fontSize="lg"
-            icon={mobileNav.isOpen ? <CloseIcon /> : <HamburgerMenuIcon />}
             onClick={mobileNav.onToggle}
             mr="2"
-          />
+          >
+            {mobileNav.open ? <CloseIcon /> : <HamburgerMenuIcon />}
+          </IconButton>
         </Flex>
       </Flex>
-      <Stack
-        spacing="0"
-        display={{ base: mobileNav.isOpen ? 'flex' : 'none', md: 'none' }}
-      >
+      <Stack display={{ base: mobileNav.open ? 'flex' : 'none', md: 'none' }}>
         {baseLinks.map(({ to, title }) => (
           <RouterNavLink to={to} key={to}>
             {title}

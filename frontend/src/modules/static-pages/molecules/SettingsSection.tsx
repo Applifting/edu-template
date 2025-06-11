@@ -1,18 +1,9 @@
 import { type ReactNode } from 'react';
+import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { type FieldValues } from 'react-hook-form';
 
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Paragraph,
-  Stack,
-} from '@frontend/shared/design-system';
-import {
-  FieldValues,
-  Form,
-  type FormProps,
-} from '@frontend/shared/forms/molecules/Form';
+import { Heading, Paragraph } from '@frontend/shared/design-system/components';
+import { Form, FormProps } from '@frontend/shared/forms/molecules/Form';
 
 export type SettingsSectionProps<
   TFieldValues extends FieldValues = FieldValues,

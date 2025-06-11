@@ -1,4 +1,5 @@
-import { Heading, Link, Paragraph } from '@frontend/shared/design-system';
+import { Heading, Paragraph } from '@frontend/shared/design-system/components';
+import { Link } from '@frontend/shared/design-system/components/atoms/Link';
 import { MainSection, TopNavigation } from '@frontend/shared/navigation';
 
 export function AboutTemplate() {

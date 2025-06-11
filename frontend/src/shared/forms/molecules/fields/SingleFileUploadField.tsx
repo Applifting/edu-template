@@ -1,4 +1,4 @@
-import { Input, type InputProps } from '@frontend/shared/design-system';
+import { Input, InputProps } from '@chakra-ui/react';
 
 import { FormField, type FormFieldBaseProps } from '../FormField';
 
@@ -13,12 +13,7 @@ export function SingleFileUploadField({
   ...inputProps
 }: SingleFileUploadFieldProps) {
   return (
-    <FormField
-      id={id}
-      name={name}
-      label={label}
-      isRequired={inputProps.isRequired}
-    >
+    <FormField id={id} name={name} label={label} required={inputProps.required}>
       {({ value, onChange, ...restField }) => (
         <Input
           {...inputProps}

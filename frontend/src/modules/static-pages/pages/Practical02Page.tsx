@@ -1,20 +1,18 @@
 import { useState } from 'react';
-
-import { useTodoList } from '@frontend/modules/todo/hooks/useTodoList';
 import {
   Box,
   Button,
   Center,
   Checkbox,
-  DeleteIcon,
-  Heading,
   IconButton,
   Input,
   Stack,
-  Tab,
-  TabList,
   Tabs,
-} from '@frontend/shared/design-system';
+} from '@chakra-ui/react';
+import { FaTrash as DeleteIcon } from 'react-icons/fa';
+
+import { useTodoList } from '@frontend/modules/todo/hooks/useTodoList';
+import { Heading } from '@frontend/shared/design-system/components';
 
 const STATES = ['all', 'completed', 'not-completed'] as const;
 
@@ -50,28 +48,26 @@ export function Practical02Page() {
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
         />
-        <Button type="submit" colorScheme="green">
+        <Button type="submit" colorPalette="green">
           Add
         </Button>
       </Stack>
-      <Tabs
-        index={STATES.indexOf(activeFilter)}
-        onChange={(index) => setActiveFilter(STATES[index])}
-        variant="soft-rounded"
-        colorScheme="blue"
-        my="4"
+      <Tabs.Root
+        value={activeFilter}
+        onValueChange={(e) =>
+          setActiveFilter(e.value as (typeof STATES)[number])
+        }
       >
-        <TabList>
-          <Tab>All</Tab>
-          <Tab>Completed</Tab>
-          <Tab>Not completed</Tab>
-        </TabList>
-      </Tabs>
+        <Tabs.List>
+          <Tabs.Trigger value={STATES[0]}>All</Tabs.Trigger>
+          <Tabs.Trigger value={STATES[1]}>Completed</Tabs.Trigger>
+          <Tabs.Trigger value={STATES[2]}>Not completed</Tabs.Trigger>
+        </Tabs.List>
+      </Tabs.Root>
       <Stack
         borderColor="gray.300"
         borderWidth="1px"
         mt="4"
-        spacing="0"
         borderRadius="md"
         overflow="hidden"
       >
@@ -90,13 +86,23 @@ export function Practical02Page() {
             py="1"
             px="2"
             _hover={{ bg: 'gray.100' }}
+            css={{
+              '&:hover .delete-button': {
+                visibility: 'visible',
+              },
+            }}
           >
-            <Checkbox
-              isChecked={item.isCompleted}
-              onChange={(event) =>
-                setItemIsCompleted(item.id, event.target.checked)
+            <Checkbox.Root
+              checked={!!item.isCompleted}
+              colorPalette="blue"
+              onCheckedChange={({ checked }) =>
+                // TODO: !!checked is a weird solution, it doesn't consider the indeterminate state
+                setItemIsCompleted(item.id, !!checked)
               }
-            />
+            >
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+            </Checkbox.Root>
             <Box
               flex="1"
               color={item.isCompleted ? 'gray.500' : undefined}
@@ -105,14 +111,15 @@ export function Practical02Page() {
               {item.description}
             </Box>
             <IconButton
-              icon={<DeleteIcon />}
+              className="delete-button"
               aria-label="Delete"
-              colorScheme="red"
               size="sm"
               onClick={() => removeItem(item.id)}
               visibility="hidden"
-              _groupHover={{ visibility: 'visible' }}
-            />
+              colorPalette="red"
+            >
+              <DeleteIcon />
+            </IconButton>
           </Stack>
         ))}
       </Stack>

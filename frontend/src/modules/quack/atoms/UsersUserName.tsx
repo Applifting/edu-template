@@ -1,11 +1,13 @@
-import { chakra, type ChakraProps } from '@frontend/shared/design-system';
+import { Text } from '@chakra-ui/react';
 
-export type UsersUserNameProps = ChakraProps & { username: string };
+export type UsersUserNameProps = {
+  userName: string;
+};
 
-export function UsersUserName({ username, ...restProps }: UsersUserNameProps) {
+export function UsersUserName({ userName, ...restProps }: UsersUserNameProps) {
   return (
-    <chakra.span color="gray.500" fontSize="sm" {...restProps}>
-      @{username}
-    </chakra.span>
+    <Text color="gray.500" fontSize="sm" {...restProps}>
+      @{userName}
+    </Text>
   );
 }

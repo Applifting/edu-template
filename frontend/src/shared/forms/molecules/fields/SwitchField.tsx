@@ -1,14 +1,37 @@
-import { Switch, type SwitchProps } from '@frontend/shared/design-system';
+import { Flex, Switch } from '@chakra-ui/react';
 
-import { FormField, type FormFieldBaseProps } from '../FormField';
+import { FormField } from '@frontend/shared/forms/molecules/FormField';
 
-export type SwitchFieldProps = FormFieldBaseProps<SwitchProps>;
+type SwitchFieldProps = {
+  id?: string;
+  name: string;
+  label?: string;
+  isRequired?: boolean;
+  children?: React.ReactNode;
+};
 
-export function SwitchField({ id, name, ...switchProps }: SwitchFieldProps) {
+export function SwitchField({
+  id,
+  name,
+  label,
+  children,
+  isRequired,
+  ...switchProps
+}: SwitchFieldProps) {
   return (
-    <FormField id={id} name={name} isRequired={switchProps.isRequired}>
+    <FormField id={id} name={name} required={isRequired}>
       {({ value, ...field }) => (
-        <Switch isChecked={value} {...switchProps} {...field} />
+        <Flex gap="2" alignItems="center">
+          <Switch.Root
+            checked={value}
+            onCheckedChange={({ checked }) => field.onChange(checked)}
+            {...switchProps}
+          >
+            <Switch.HiddenInput {...field} />
+            <Switch.Control />
+            <Switch.Label>{children}</Switch.Label>
+          </Switch.Root>
+        </Flex>
       )}
     </FormField>
   );

@@ -1,6 +1,9 @@
 import { User } from '@frontend/modules/auth/use-auth.hook';
 import { type AddQuackFormState } from '@frontend/modules/quack/types/addQuackForm';
-import { Heading, ReloadButton } from '@frontend/shared/design-system';
+import {
+  Heading,
+  ReloadButton,
+} from '@frontend/shared/design-system/components';
 import { MainSection, TopNavigation } from '@frontend/shared/navigation';
 
 import { type BaseQuackFragmentType } from '../graphql/BaseQuackFragment';

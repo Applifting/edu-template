@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 
-import { Heading, Paragraph } from '@frontend/shared/design-system';
+import { Heading, Paragraph } from '@frontend/shared/design-system/components';
 
 import { MainSection } from '../atoms';
 import { TopNavigation } from '../organisms';
@@ -20,7 +20,7 @@ export function PlaceholderTemplate({
       <MainSection maxW="30rem">
         <Heading>{title}</Heading>
 
-        {typeof children === 'undefined' ? (
+        {!children ? (
           <Paragraph>This page is empty for now...</Paragraph>
         ) : (
           children

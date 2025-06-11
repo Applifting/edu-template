@@ -1,10 +1,9 @@
+import { Box } from '@chakra-ui/react';
+
 import { route } from '@frontend/route';
-import { Box, Heading } from '@frontend/shared/design-system';
-import {
-  MainSection,
-  RouterLink,
-  TopNavigation,
-} from '@frontend/shared/navigation';
+import { Heading } from '@frontend/shared/design-system/components';
+import { MainSection, TopNavigation } from '@frontend/shared/navigation';
+import { RouterLink } from '@frontend/shared/navigation/atoms/RouterLink';
 
 import { SignInForm } from '../organisms/SignInForm';
 

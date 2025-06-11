@@ -1,14 +1,17 @@
 import { type ReactNode } from 'react';
+import { Button, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 
 import { route } from '@frontend/route';
-import { Button, ErrorBanner, Stack } from '@frontend/shared/design-system';
+import { ErrorBanner } from '@frontend/shared/design-system/components';
+import {
+  InputField,
+  SingleFileUploadField,
+} from '@frontend/shared/forms/molecules/fields';
 import { CheckboxField } from '@frontend/shared/forms/molecules/fields/CheckboxField';
-import { InputField } from '@frontend/shared/forms/molecules/fields/InputField';
-import { SingleFileUploadField } from '@frontend/shared/forms/molecules/fields/SingleFileUploadField';
 import { Form } from '@frontend/shared/forms/molecules/Form';
-import { RouterLink } from '@frontend/shared/navigation';
+import { RouterLink } from '@frontend/shared/navigation/atoms/RouterLink';
 
 const schema = zod
   .object({
@@ -72,61 +75,68 @@ export function SignUpForm({
       resolver={zodResolver(schema)}
       noValidate
     >
-      <Stack spacing="3" py="4">
+      <Stack gap="3" py="4">
         {errorMessage && <ErrorBanner title={errorMessage} />}
         <InputField
+          id="name"
           name="name"
           label="Name"
           type="text"
-          isRequired
+          required
           autoFocus
           autoComplete="on"
           autoCorrect="off"
           autoCapitalize="off"
         />
         <InputField
-          name="username"
+          id="userName"
+          name="userName"
           label="Username"
           type="text"
-          isRequired
+          required
           autoComplete="on"
           autoCorrect="off"
           autoCapitalize="off"
         />
         <InputField
+          id="email"
           name="email"
           label="Email"
           type="email"
-          isRequired
+          required
           placeholder="e.g. john@doe.com"
           autoComplete="on"
           autoCorrect="off"
           autoCapitalize="off"
         />
         <InputField
+          id="password"
           name="password"
           label="Password"
           type="password"
-          isRequired
+          required
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
         />
         <InputField
+          id="passwordConfirmation"
           name="passwordConfirmation"
           label="Password Confirmation"
           type="password"
-          isRequired
+          required
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
         />
         <SingleFileUploadField
+          id="profileImage"
           name="profileImage"
           label="Profile Image"
           accept="image/*"
         />
         <CheckboxField
+          id="terms"
           name="terms"
           label={
             <>
@@ -139,7 +149,7 @@ export function SignUpForm({
       <Button
         size="lg"
         type="submit"
-        isLoading={isLoading}
+        loading={isLoading}
         colorScheme="green"
         mt="4"
         mb="2"

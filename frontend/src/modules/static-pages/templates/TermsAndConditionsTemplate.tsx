@@ -1,4 +1,4 @@
-import { Heading, Paragraph } from '@frontend/shared/design-system';
+import { Heading, Paragraph } from '@frontend/shared/design-system/components';
 import { MainSection, TopNavigation } from '@frontend/shared/navigation';
 
 export function TermsAndConditionsTemplate() {

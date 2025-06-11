@@ -1,6 +1,5 @@
+import { useToken } from '@chakra-ui/react';
 import { Global } from '@emotion/react';
-
-import { useToken } from '../hooks';
 
 export type BodyBackgroundProps = { bg: string };
 
