@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
-
-import { type BoxProps } from '@frontend/shared/design-system';
+import { BoxProps } from '@chakra-ui/react';
 
 import { MainSection } from '../atoms';
 

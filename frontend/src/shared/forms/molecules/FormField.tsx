@@ -1,9 +1,9 @@
 import { type ReactNode } from 'react';
 import { type ControllerRenderProps, useController } from 'react-hook-form';
 
-import { Field, type FieldProps } from '@frontend/shared/design-system';
+import { Field, FieldProps } from '@frontend/shared/design-system/components';
 
-type BaseProps = Pick<FieldProps, 'id' | 'label' | 'isRequired'> & {
+type BaseProps = Pick<FieldProps, 'id' | 'label' | 'required'> & {
   name: string;
 };
 

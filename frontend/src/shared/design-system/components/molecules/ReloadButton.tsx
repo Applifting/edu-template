@@ -1,5 +1,9 @@
-import { Icon, TransparentButton, type TransparentButtonProps } from '../atoms';
-import { SyncIcon } from '../icons';
+import {
+  Icon,
+  TransparentButton,
+  type TransparentButtonProps,
+} from '@frontend/shared/design-system/components';
+import { SyncIcon } from '@frontend/shared/design-system/icons';
 
 export type ReloadButtonProps = TransparentButtonProps & {
   isLoading?: boolean;

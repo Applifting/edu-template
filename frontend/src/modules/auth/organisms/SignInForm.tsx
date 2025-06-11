@@ -1,9 +1,10 @@
 import { type ReactNode } from 'react';
+import { Button, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 
-import { Button, ErrorBanner, Stack } from '@frontend/shared/design-system';
-import { InputField } from '@frontend/shared/forms/molecules/fields/InputField';
+import { ErrorBanner } from '@frontend/shared/design-system/components';
+import { InputField } from '@frontend/shared/forms/molecules/fields';
 import { Form } from '@frontend/shared/forms/molecules/Form';
 
 const schema = zod.object({
@@ -35,24 +36,26 @@ export function SignInForm({
       resolver={zodResolver(schema)}
       noValidate
     >
-      <Stack spacing="3" py="4">
+      <Stack gap="3" py="4">
         {errorMessage && <ErrorBanner title={errorMessage} />}
         <InputField
+          id="email"
           name="email"
           label="Email"
           type="email"
           placeholder="e.g. john@doe.com"
-          isRequired
+          required
           autoFocus
           autoComplete="on"
           autoCorrect="off"
           autoCapitalize="off"
         />
         <InputField
+          id="password"
           name="password"
           label="Password"
           type="password"
-          isRequired
+          required
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
@@ -61,7 +64,7 @@ export function SignInForm({
       <Button
         size="lg"
         type="submit"
-        isLoading={isLoading}
+        loading={isLoading}
         colorScheme="green"
         mt="4"
         mb="2"

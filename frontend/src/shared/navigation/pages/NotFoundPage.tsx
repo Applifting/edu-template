@@ -1,7 +1,7 @@
 import { route } from '@frontend/route';
-import { Paragraph } from '@frontend/shared/design-system';
+import { Paragraph } from '@frontend/shared/design-system/components';
+import { RouterLink } from '@frontend/shared/navigation/atoms/RouterLink';
 
-import { RouterLink } from '../atoms';
 import { PlaceholderTemplate } from '../templates';
 
 export function NotFoundPage() {

@@ -1,12 +1,13 @@
+import { Button } from '@chakra-ui/react';
+
 import { useFragment } from '@frontend/gql';
 import { User } from '@frontend/modules/auth/use-auth.hook';
 import { type AddQuackFormState } from '@frontend/modules/quack/types/addQuackForm';
 import {
-  Button,
   ErrorBanner,
   Loading,
   ReloadButton,
-} from '@frontend/shared/design-system';
+} from '@frontend/shared/design-system/components';
 import { MainSection, TopNavigation } from '@frontend/shared/navigation';
 
 import {

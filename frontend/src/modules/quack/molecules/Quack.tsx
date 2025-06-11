@@ -1,7 +1,9 @@
+import { Box, Stack } from '@chakra-ui/react';
+
 import { useFragment } from '@frontend/gql';
 import { route } from '@frontend/route';
-import { AvatarPhoto, Box, Stack } from '@frontend/shared/design-system';
-import { RouterLink } from '@frontend/shared/navigation';
+import { AvatarPhoto } from '@frontend/shared/design-system/components';
+import { RouterLink } from '@frontend/shared/navigation/atoms/RouterLink';
 import { formatDate } from '@shared/date';
 
 import { UsersName } from '../atoms/UsersName';
@@ -30,7 +32,7 @@ export function Quack({ quackFragment }: QuackProps) {
     <Stack
       as="article"
       direction="row"
-      spacing="4"
+      gap="4"
       width="100%"
       pb="2"
       mt="2"
@@ -49,10 +51,11 @@ export function Quack({ quackFragment }: QuackProps) {
           />
         </RouterLink>
       </Box>
-      <Stack spacing="0">
+
+      <Stack>
         <Box>
           <RouterLink to={linkToUser} color="inherit">
-            <UsersName name={name} /> <UsersUserName username={username} />
+            <UsersName name={name} /> <UsersUserName userName={username} />
           </RouterLink>
           {' - '}
           <Box as="span" fontSize="sm" color="gray.500">

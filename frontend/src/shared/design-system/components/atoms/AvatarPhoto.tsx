@@ -15,7 +15,8 @@ export function AvatarPhoto({
       src={src}
       alt={alt}
       borderRadius="md"
-      border="1px"
+      borderWidth="1px"
+      borderStyle="solid"
       borderColor="gray.100"
       w={size}
       h={size}

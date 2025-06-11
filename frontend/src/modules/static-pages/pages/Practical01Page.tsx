@@ -1,12 +1,7 @@
 import { useState } from 'react';
+import { Box, Button, Stack } from '@chakra-ui/react';
 
-import {
-  Box,
-  Button,
-  Heading,
-  Paragraph,
-  Stack,
-} from '@frontend/shared/design-system';
+import { Heading, Paragraph } from '@frontend/shared/design-system/components';
 
 export function Practical01Page() {
   const [counter, setCounter] = useState(0);
@@ -14,15 +9,15 @@ export function Practical01Page() {
   return (
     <Box>
       <Heading>Practical 01</Heading>
-      <Paragraph>Counter: {counter}</Paragraph>
+      <Paragraph mb={3}>Counter: {counter}</Paragraph>
       <Stack direction="row">
-        <Button colorScheme="red" onClick={() => setCounter(counter - 1)}>
+        <Button colorPalette="red" onClick={() => setCounter(counter - 1)}>
           -1
         </Button>
-        <Button colorScheme="blue" onClick={() => setCounter(0)}>
+        <Button colorPalette="blue" onClick={() => setCounter(0)}>
           Reset
         </Button>
-        <Button colorScheme="green" onClick={() => setCounter(counter + 1)}>
+        <Button colorPalette="green" onClick={() => setCounter(counter + 1)}>
           +1
         </Button>
       </Stack>

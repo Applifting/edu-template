@@ -1,13 +1,13 @@
 import { type ComponentPropsWithoutRef } from 'react';
+import { Button, type ButtonProps } from '@chakra-ui/react';
 
-import { chakra, type ChakraProps } from '../system';
-
-export type TransparentButtonProps = ChakraProps &
+export type TransparentButtonProps = ButtonProps &
   ComponentPropsWithoutRef<'button'>;
 
 export function TransparentButton(props: TransparentButtonProps) {
   return (
-    <chakra.button
+    <Button
+      variant="ghost"
       display="flex"
       alignItems="center"
       color="gray.600"

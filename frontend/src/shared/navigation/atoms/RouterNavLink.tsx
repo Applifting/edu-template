@@ -3,10 +3,26 @@ import {
   type NavLinkProps as ReactRouterNavLinkProps,
 } from 'react-router-dom';
 
-import { NavLink, type NavLinkProps } from '@frontend/shared/design-system';
+import {
+  ChakraNavLinkProps,
+  NavLink as ChakraNavLink,
+} from '@frontend/shared/design-system/components';
 
-type Props = Omit<NavLinkProps, 'as'> & ReactRouterNavLinkProps;
+type Props = Omit<ChakraNavLinkProps, 'asChild'> & ReactRouterNavLinkProps;
 
 export function RouterNavLink(props: Props) {
-  return <NavLink {...props} as={ReactRouterNavLink} />;
+  const { children, to, ...rest } = props;
+  return (
+    <ChakraNavLink asChild {...rest}>
+      <ReactRouterNavLink
+        to={to}
+        style={({ isActive }) => ({
+          backgroundColor: isActive ? 'rgba(0, 0, 0, 0.16)' : undefined,
+          fontWeight: isActive ? 'bold' : undefined,
+        })}
+      >
+        {children}
+      </ReactRouterNavLink>
+    </ChakraNavLink>
+  );
 }

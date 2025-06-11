@@ -1,4 +1,9 @@
-import { Button, ErrorBanner, Loading } from '@frontend/shared/design-system';
+import { Button } from '@chakra-ui/react';
+
+import {
+  ErrorBanner,
+  Loading,
+} from '@frontend/shared/design-system/components';
 
 import { type BaseQuackFragmentType } from '../graphql/BaseQuackFragment';
 import { Quack } from '../molecules/Quack';

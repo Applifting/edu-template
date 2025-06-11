@@ -1,4 +1,7 @@
-import { AvatarPhoto, Heading } from '@frontend/shared/design-system';
+import {
+  AvatarPhoto,
+  Heading,
+} from '@frontend/shared/design-system/components';
 
 export type UserDetailHeaderProps = {
   name: string;

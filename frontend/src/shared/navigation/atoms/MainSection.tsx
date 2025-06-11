@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
-
-import { Box, type BoxProps, Center } from '@frontend/shared/design-system';
+import { Box, BoxProps, Center } from '@chakra-ui/react';
 
 export type MainSectionProps = BoxProps & {
   children: ReactNode;
