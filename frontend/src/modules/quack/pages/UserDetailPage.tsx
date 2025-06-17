@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import { gql } from '@frontend/gql';
 import { useAuth } from '@frontend/modules/auth/use-auth.hook';

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { Ref } from 'react';
 import {
   Link as ChakraLink,
   type LinkProps as ChakraLinkProps,
@@ -6,18 +6,15 @@ import {
 
 export type LinkProps = ChakraLinkProps & {
   noUnderline?: boolean;
+  ref?: Ref<HTMLAnchorElement>;
 };
 
-export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { noUnderline, ...rest }: LinkProps,
-  ref,
-) {
+export function Link({ noUnderline, ...rest }: LinkProps) {
   return (
     <ChakraLink
       color="green.600"
       _hover={{ textDecoration: noUnderline ? 'none' : 'underline' }}
-      ref={ref}
       {...rest}
     />
   );
-});
+}

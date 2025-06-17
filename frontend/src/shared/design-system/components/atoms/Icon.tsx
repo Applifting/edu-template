@@ -1,4 +1,3 @@
-import { forwardRef } from 'react';
 import {
   Icon as ChakraIcon,
   type IconProps as ChakraIconProps,
@@ -8,15 +7,11 @@ export type IconProps = ChakraIconProps & {
   isSpinning?: boolean;
 };
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
-  { isSpinning = false, ...restProps },
-  ref,
-) {
+export function Icon({ isSpinning = false, ...restProps }: IconProps) {
   return (
     <ChakraIcon
-      ref={ref}
       {...restProps}
       animation={isSpinning ? `spin 2s linear infinite` : undefined}
     />
   );
-});
+}

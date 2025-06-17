@@ -1,7 +1,7 @@
 import {
   NavLink as ReactRouterNavLink,
   type NavLinkProps as ReactRouterNavLinkProps,
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
   ChakraNavLinkProps,

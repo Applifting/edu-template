@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { SignInTemplate } from '@frontend/modules/auth/templates/SignInTemplate';
 import { useAuth } from '@frontend/modules/auth/use-auth.hook';

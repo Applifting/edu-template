@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { Ref } from 'react';
+import { Link as ReactRouterLink } from 'react-router';
 
 import {
   Link,
@@ -8,15 +8,13 @@ import {
 
 type Props = Omit<LinkProps, 'asChild'> & {
   to: string;
+  ref?: Ref<HTMLAnchorElement>;
 };
 
-export const RouterLink = forwardRef<HTMLAnchorElement, Props>(
-  function RouterLink(props, ref) {
-    const { to, children, ...rest } = props;
-    return (
-      <Link asChild ref={ref} {...rest}>
-        <ReactRouterLink to={to}>{children}</ReactRouterLink>
-      </Link>
-    );
-  },
-);
+export function RouterLink({ children, to, ...rest }: Props) {
+  return (
+    <Link asChild {...rest}>
+      <ReactRouterLink to={to}>{children}</ReactRouterLink>
+    </Link>
+  );
+}

@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 
 import { Routes } from '@frontend/Routes';
 import { Provider } from '@frontend/shared/design-system/Provider';
