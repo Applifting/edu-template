@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { SignUpTemplate } from '../templates/SignUpTemplate';
 import { useAuth } from '../use-auth.hook';

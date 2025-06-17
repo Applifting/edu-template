@@ -1,4 +1,4 @@
-import { Route, Routes as RouterRoutes } from 'react-router-dom';
+import { Route, Routes as RouterRoutes } from 'react-router';
 
 import { HomePage, UserDetailPage } from '@frontend/modules/quack';
 import { NotFoundPage, PageWrapper } from '@frontend/shared/navigation';

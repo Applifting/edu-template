@@ -11,7 +11,7 @@ import { NetworkError } from '@apollo/client/errors';
 import { onError } from '@apollo/client/link/error';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { GraphQLFormattedError } from 'graphql';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { config } from '@frontend/config';
 import { route } from '@frontend/route';

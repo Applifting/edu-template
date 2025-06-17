@@ -12,7 +12,7 @@ import {
   FaFeatherAlt as QuackerIcon,
   FaTimes as CloseIcon,
 } from 'react-icons/fa';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useAuth } from '@frontend/modules/auth/use-auth.hook';
 import { PRACTICALS, route } from '@frontend/route';
