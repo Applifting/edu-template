@@ -107,7 +107,9 @@ export function TopNavigation() {
             </>
           ) : (
             <>
-              <RouterNavLink to={route.signIn()}>Sign In</RouterNavLink>
+              <RouterNavLink to={route.signIn()} color="white">
+                Sign in
+              </RouterNavLink>
               <Flex alignItems="center">
                 <Button
                   colorPalette="green"
@@ -115,7 +117,9 @@ export function TopNavigation() {
                   mx={{ base: '2', sm: '4' }}
                   asChild
                 >
-                  <RouterLink to={route.signUp()}>Sign Up</RouterLink>
+                  <RouterLink to={route.signUp()} color="white">
+                    Sign up
+                  </RouterLink>
                 </Button>
               </Flex>
             </>
@@ -139,7 +143,7 @@ export function TopNavigation() {
       </Flex>
       <Stack display={{ base: mobileNav.open ? 'flex' : 'none', md: 'none' }}>
         {baseLinks.map(({ to, title }) => (
-          <RouterNavLink to={to} key={to}>
+          <RouterNavLink to={to} key={to} color="white">
             {title}
           </RouterNavLink>
         ))}

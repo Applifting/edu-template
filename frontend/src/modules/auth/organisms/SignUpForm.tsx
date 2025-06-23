@@ -150,7 +150,7 @@ export function SignUpForm({
         size="lg"
         type="submit"
         loading={isLoading}
-        colorScheme="green"
+        colorPalette="green"
         mt="4"
         mb="2"
       >
