@@ -13,7 +13,9 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       proxy: { '/uploads': { target: env.VITE_UPLOADS, changeOrigin: true } },
-      allowedHosts: env.VITE_ALLOWED_HOSTS ? env.VITE_ALLOWED_HOSTS.split(',') : [],
+      allowedHosts: env.VITE_ALLOWED_HOSTS
+        ? env.VITE_ALLOWED_HOSTS.split(',')
+        : [],
     },
     build: { outDir: 'build', copyPublicDir: false },
     resolve: {
