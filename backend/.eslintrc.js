@@ -20,6 +20,7 @@ const config = {
   },
   ignorePatterns: [
     '.eslintrc.js',
+    'index.js',
     '**/*.spec.ts',
     '**/*.test.ts',
     'coverage/**',

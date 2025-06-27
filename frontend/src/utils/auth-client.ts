@@ -1,7 +1,8 @@
 import { usernameClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
+import { config } from '@frontend/config';
 
 export const authClient = createAuthClient({
-  baseURL: 'http://localhost:4000', // todo: change to env variable
+  baseURL: config.BETTER_AUTH_URL,
   plugins: [usernameClient()],
 });
