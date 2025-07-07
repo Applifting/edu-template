@@ -89,8 +89,8 @@ export function SignUpForm({
           autoCapitalize="off"
         />
         <InputField
-          id="userName"
-          name="userName"
+          id="username"
+          name="username"
           label="Username"
           type="text"
           required
