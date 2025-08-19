@@ -1,17 +1,14 @@
 # [4IT580: Agilní vývoj webových aplikací](http://4it580.vse.cz/) na [VŠE](https://www.vse.cz/)
 
-## [📖 4IT580: Docs](https://vse-4it580-docs-2024.vercel.app)
+## [📖 4IT580: Docs](https://4it5801-public.gitlab.io/)
 
 ## JavaScript
 
 We will be using [Node.js](https://nodejs.org/). Please see [`.nvmrc`](./.nvmrc) to find current node.js version we are using.
-New JavaScript features (ES2015+) are "enabled" for all modern browsers with [Babel](https://babeljs.io/).
 
 ### Reference
 
 - [JavaScript reference on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference)
-- [Learn ES2015](https://babeljs.io/docs/en/learn) + more:
-  - [object rest spread](http://babeljs.io/docs/plugins/transform-object-rest-spread/)
 - [TypeScript docs](https://www.typescriptlang.org/docs/)
 
 ### Literature
@@ -26,7 +23,7 @@ New JavaScript features (ES2015+) are "enabled" for all modern browsers with [Ba
 
 ### JavaScript Packages
 
-- [yarn CLI docs](https://yarnpkg.com/en/docs/cli/)
+- [yarn CLI docs](https://classic.yarnpkg.com/en/docs/cli/)
 - Useful commands:
   - `yarn install` (install local dependencies - based on `package.json` and `yarn.lock` files)
   - `yarn add <package-name>` (install new NPM package and add it as a dependency to `package.json`)
@@ -46,6 +43,25 @@ First download and install [Node.js](https://nodejs.org/en/download/) version de
 ```shell
 corepack enable
 yarn install
+```
+
+## Yarn Workspaces
+
+This project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). There are command aliases to help you run scripts in each workspace:
+
+- `yarn frontend <script-name>`
+- `yarn backend <script-name>`
+
+## Run Frontend
+
+```shell
+yarn frontend dev
+```
+
+## Run Backend
+
+```shell
+yarn backend start
 ```
 
 ## Run Checks
