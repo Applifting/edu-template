@@ -11,6 +11,7 @@
     "build:vite": "vite build",
     "test": "vitest",
     "download-schema": "run-s \"download-schema:*\"",
+    "restart": "touch ./tmp/restart.txt",
     "download-schema:script": "node ./bin/download-schema.mjs",
     "download-schema:format": "prettier --write schema.graphql",
     "graphql": "run-s download-schema \"graphql:*\"",

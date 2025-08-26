@@ -122,8 +122,8 @@ $ yarn backend start:prod
 # locally with docker compose (run in repo root)
 $ yarn backend docker:up
 
-# regenerate prisma schema after changes
-$ yarn backend prisma:generate
+# regenerate prisma schema and reseed data after changes
+$ yarn backend seed
 ```
 
 ### Prisma
@@ -131,28 +131,14 @@ $ yarn backend prisma:generate
 All Prisma commands should be run from the root directory of the project using the `yarn backend` prefix:
 
 ```bash
-# generate Prisma client
-$ yarn backend prisma:generate
-
-# create a new migration
-$ yarn backend prisma:migrations:generate [MigrationName]
-
-# run migrations
-$ yarn backend prisma:migrations:run
-
+# generate Prisma client and seed DB
+$ yarn backend seed
 # open Prisma Studio to view/edit data
 $ yarn backend prisma:studio
 ```
 
 You actually do not need to manage migrations manually, the seed script by itself should be able to synchronize your database with the prisma schema.
 This should be sufficient for the aim of this course (have a working application ready for presentation). Migrations are a topic you will have to deal with in the future if you're going to turn this into a real project.
-
-### Seed
-
-```bash
-# seed database with example data
-$ yarn backend seed
-```
 
 ### Test
 
@@ -194,20 +180,11 @@ Visualize the code structure, modules, classes etc.
 $ yarn backend docs:serve
 ```
 
-### Prisma studio
+### Prisma studio in Docker
 
-When the app is running in docker, you can run prisma studio locally with the following command to access the data in docker:
+If you want to run the app in docker, you can run prisma studio locally with the following command to access the data in docker:
 
 ```bash
 # run in repo root
 $ yarn backend docker:prisma:studio
-```
-
-### Dropping/creating DB
-
-Sometimes you might need to do it manually. When the app is running in docker:
-
-```bash
-$ docker-compose exec postgres createdb -U postgres quacker_local
-$ docker-compose exec postgres dropdb -U postgres quacker_local
 ```

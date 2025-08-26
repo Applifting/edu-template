@@ -10,6 +10,7 @@
     "backend": "yarn workspace backend",
     "frontend": "yarn workspace frontend",
     "check-all": "run-s lint:fix format \"backend build\" \"frontend build:tsc\"",
+    "restart": "yarn workspace backend restart && yarn workspace frontend restart",
     "format": "run-s \"format:no-write --write --list-different\"",
     "format:check": "run-s \"format:no-write --check\"",
     "format:no-write": "prettier \"**/*.{cjs,js,ts,tsx,json,css,scss,graphql,md,yaml,yml}\"",
