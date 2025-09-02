@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { Box, Button, Stack } from '@chakra-ui/react';
 import { type FieldValues } from 'react-hook-form';
 
 import { Heading, Paragraph } from '@frontend/shared/design-system/components';
@@ -24,18 +24,14 @@ export function SettingsSection<
 }: SettingsSectionProps<TFieldValues>) {
   return (
     <Form {...formProps}>
-      <Flex direction={{ base: 'column', md: 'row' }} columnGap="2">
-        <Box flex="1">
-          <Heading>{title}</Heading>
-          {description && <Paragraph>{description}</Paragraph>}
+      <Heading>{title}</Heading>
+      {description && <Paragraph>{description}</Paragraph>}
+      <Stack p="8" bg="white">
+        {children}
+        <Box textAlign="right">
+          <Button type="submit">Save</Button>
         </Box>
-        <Stack flex="2" p="8" bg="white" borderRadius="md" boxShadow="base">
-          {children}
-          <Box textAlign="right">
-            <Button type="submit">Save</Button>
-          </Box>
-        </Stack>
-      </Flex>
+      </Stack>
     </Form>
   );
 }
