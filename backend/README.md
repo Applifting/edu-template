@@ -119,7 +119,7 @@ $ yarn backend start:dev
 # production mode
 $ yarn backend start:prod
 
-# locally with docker compose (run in repo root)
+# locally with docker compose (run in repo root) - will only run database for you now, you still need to run the server manually using the previous commands
 $ yarn backend docker:up
 
 # regenerate prisma schema and reseed data after changes
@@ -142,19 +142,13 @@ This should be sufficient for the aim of this course (have a working application
 
 ### Test
 
-Integration tests creates clean database on startup so the tests are run on clean independent database. After the tests are done, the database is dropped.
+There are currently any tests but there are still commands ready to run them if you want to add them later.
 
 ```bash
 # unit tests
 $ yarn backend test
 
-# e2e tests
-$ yarn backend test:e2e
-
-# integration tests
-$ yarn backend test:integration
-
-# test coverage
+# test with coverage (will generate a coverage report HTML files in the coverage folder)
 $ yarn backend test:cov
 ```
 
@@ -166,6 +160,10 @@ In this application, [**better-auth**](https://www.npmjs.com/package/better-auth
 # propagate changes to the database schema (schema.prisma)
 $ yarn backend auth:generate
 ```
+
+Hopefully you won't need to use this command and the following part, unless you want to change how the auth works/add more features to it (better ask us if you're trying to/need to for your project):
+
+Keep in mind that there are 2 better auth configurations, one in the src/shared/auth/providers/better-auth.provider.ts (the complete config that is being used in the whole app) and one in the src/shared/auth/config/better-auth.config.ts (this config is being used by the CLI command above). You need to add the necessary changes to the better-auth config file to generate new database schema changes.
 
 ### GraphQL playground
 
@@ -188,3 +186,28 @@ If you want to run the app in docker, you can run prisma studio locally with the
 # run in repo root
 $ yarn backend docker:prisma:studio
 ```
+
+### Email Service Adapters
+
+This template offers some options for email service sending. It's simply configurable via injecting email adapters. You can find the adapters in the src/core/email folder. SMTP adapter should cover most of your cases or you can write your own adapter (e.g. using Mailchimp/Mailgun API etc.) if you decide you actually need sending emails from your application.
+
+### MJML Email Template
+
+You can check the application for how MJML templates are being used.
+MJML is a framework for creating responsive emails. Check https://mjml.io/ for more information.
+
+To create a new MJML email template, follow these steps:
+
+1. **Create the MJML file**
+
+   Add your MJML template file inside the `assets/templates/mjml` folder.  
+   Example:  
+   `assets/templates/mjml/example.mjml`
+
+2. **Compile the MJML to HTML**
+
+   Run the following command in your terminal while in the backend directory to convert the MJML file to HTML:
+
+   ```bash
+   npx mjml assets/templates/mjml/example.mjml -o assets/templates/html/example.html
+   ```
