@@ -67,6 +67,15 @@ export class Config {
   @IsNotEmpty()
   readonly frontendBaseUrl!: string;
 
+  @Env('FRONTEND_PROD_URL', {
+    defaultValue: 'http://localhost:3000',
+    expose: true,
+    removeTrailingSlash: true,
+  })
+  @IsUrl({ require_tld: false })
+  @IsNotEmpty()
+  readonly frontendProdUrl!: string;
+
   @Env('FRONTEND_RESET_PASSWORD_ROUTE', {
     defaultValue: 'reset-password',
     expose: true,

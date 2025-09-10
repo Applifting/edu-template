@@ -48,7 +48,7 @@ const createAuth = (
         },
       },
     },
-    trustedOrigins: [config.frontendBaseUrl],
+    trustedOrigins: [config.frontendBaseUrl, config.frontendProdUrl],
     emailVerification: {
       sendVerificationEmail: async ({ user, url }) => {
         const compiledTemplate =

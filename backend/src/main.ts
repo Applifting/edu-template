@@ -21,7 +21,7 @@ async function main(): Promise<void> {
 
   // Configure CORS - Allows cross-origin requests from specific origins
   app.enableCors({
-    origin: [config.baseUrl, config.frontendBaseUrl],
+    origin: [config.baseUrl, config.frontendBaseUrl, config.frontendProdUrl],
     credentials: true,
   });
 
