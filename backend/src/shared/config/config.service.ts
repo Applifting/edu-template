@@ -2,11 +2,23 @@ import { Env } from '@applifting-io/nestjs-decorated-config';
 import { Injectable, LogLevel } from '@nestjs/common';
 import {
   IsBoolean,
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsSemVer,
   IsUrl,
 } from 'class-validator';
+
+export const DATABASE_PROVIDERS = [
+  'sqlite',
+  'cockroachdb',
+  'mysql',
+  'postgresql',
+  'sqlserver',
+  'mongodb',
+] as const;
+
+export type DatabaseProvider = (typeof DATABASE_PROVIDERS)[number];
 
 /**
  * A config class that is populated from environment variables and enable the use of validation decorators.
@@ -96,7 +108,8 @@ export class Config {
     expose: true,
     defaultValue: 'postgresql',
   })
-  readonly databaseProvider!: string;
+  @IsIn(DATABASE_PROVIDERS)
+  readonly databaseProvider!: DatabaseProvider;
 
   @Env('POSTGRES_SSL', { expose: true, defaultValue: false })
   @IsBoolean()
@@ -129,8 +142,20 @@ export class Config {
   @IsBoolean()
   readonly prettyPrintLogs?: boolean;
 
+  @Env('RESEND_API_KEY')
+  @IsOptional()
+  readonly resendApiKey?: string;
+
+  @Env('EMAIL_FROM', {
+    expose: true,
+    defaultValue: 'Quacker <onboarding@resend.dev>',
+  })
+  @IsNotEmpty()
+  readonly emailFrom!: string;
+
   @Env('SMTP_HOST', { expose: true })
-  readonly smtpHost!: string;
+  @IsOptional()
+  readonly smtpHost?: string;
 
   @Env('SMTP_SECURE', { expose: true, defaultValue: true })
   @IsBoolean()
@@ -140,8 +165,10 @@ export class Config {
   readonly smtpPort!: number;
 
   @Env('SMTP_USERNAME', { expose: true })
-  readonly smtpUsername!: string;
+  @IsOptional()
+  readonly smtpUsername?: string;
 
   @Env('SMTP_PASSWORD')
-  readonly smtpPassword!: string;
+  @IsOptional()
+  readonly smtpPassword?: string;
 }

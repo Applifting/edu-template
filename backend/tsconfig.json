@@ -7,6 +7,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -23,8 +24,12 @@
     // Set `sourceRoot` to  "/" to strip the build path prefix
     // from generated source code references.
     // This improves issue grouping in Sentry.
-    "typeRoots": ["./prisma", "./node_modules/@types"],
-    "types": ["node"]
+    "typeRoots": [
+      "./prisma",
+      "./node_modules/@types",
+      "../node_modules/@types"
+    ],
+    "types": ["node", "express", "multer"]
   },
   "include": [
     "prisma/prisma-json-types.ts",
