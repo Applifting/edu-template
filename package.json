@@ -9,6 +9,9 @@
   "scripts": {
     "backend": "yarn workspace backend",
     "frontend": "yarn workspace frontend",
+    "dev": "run-s \"backend docker:up:wait\" \"backend seed\" dev:servers",
+    "dev:servers": "run-p \"backend start:dev\" \"frontend dev\"",
+    "dev:down": "yarn backend docker:down",
     "check-all": "run-s lint:fix format \"backend build\" \"frontend build:tsc\"",
     "restart": "yarn workspace backend restart && yarn workspace frontend restart",
     "format": "run-s \"format:no-write --write --list-different\"",
