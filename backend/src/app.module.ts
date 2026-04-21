@@ -21,7 +21,6 @@ const imports = [
   WelcomeModule,
   QuackModule,
   UsersModule,
-  WelcomeModule,
   GraphqlSetupModule,
 ];
 

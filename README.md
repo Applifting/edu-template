@@ -52,6 +52,30 @@ This project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspac
 - `yarn frontend <script-name>`
 - `yarn backend <script-name>`
 
+## Run everything (recommended)
+
+Starts the database (via Docker), seeds it, then runs the backend and
+frontend dev servers side by side:
+
+```shell
+yarn dev
+```
+
+This is equivalent to:
+
+1. `yarn backend docker:up:wait` — `docker compose up -d --wait` with a MariaDB
+   healthcheck so the DB is reachable before moving on.
+2. `yarn backend seed` — syncs the Prisma schema and seeds example users and
+   quacks. Safe to run repeatedly.
+3. `yarn dev:servers` — runs `yarn backend start:dev` and `yarn frontend dev`
+   in parallel.
+
+Stop the database container when you're done:
+
+```shell
+yarn dev:down
+```
+
 ## Run Frontend
 
 ```shell

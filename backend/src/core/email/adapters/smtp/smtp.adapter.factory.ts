@@ -1,4 +1,4 @@
-import { EmailService } from '../interfaces/email-service.interface';
+import { EmailService } from '../../interfaces/email-service.interface';
 import { SMTPConfig } from './interfaces/smtp-config.interface';
 import { SMTPAdapter } from './services/smtp-adapter';
 

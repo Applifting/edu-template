@@ -6,5 +6,6 @@ export class WelcomeDto {
   healthCheck!: string;
   graphqlApi!: string;
   restApi!: string;
+  swaggerDocs!: string;
   authEndpointsDocs!: string;
 }

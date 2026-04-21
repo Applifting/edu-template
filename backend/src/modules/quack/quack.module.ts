@@ -8,6 +8,7 @@ import { PermissionsModule } from '../../shared/permissions/permissions.module';
 import { QuackResolver } from './graphql/resolvers/quack.resolver';
 import { UserQuacksResolver } from './graphql/resolvers/user-quacks.resolver';
 import { QuackRepository } from './repositories/quack.repository';
+import { QuacksController } from './rest/controllers/quacks.controller';
 import { QuacksService } from './services/quacks.service';
 
 @Module({
@@ -26,6 +27,7 @@ import { QuacksService } from './services/quacks.service';
     }),
     PubSubModule,
   ],
+  controllers: [QuacksController],
   providers: [
     QuacksService,
     QuackResolver,

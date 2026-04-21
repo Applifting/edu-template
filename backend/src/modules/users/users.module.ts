@@ -6,10 +6,12 @@ import { PermissionsModule } from 'src/shared/permissions/permissions.module';
 import { QuackUserResolver } from './graphql/resolvers/quack-user.resolver';
 import { UserResolver } from './graphql/resolvers/user.resolver';
 import { UserRepository } from './repositories/user.repository';
+import { UsersController } from './rest/controllers/users.controller';
 import { UserService } from './services/user.service';
 
 @Module({
   imports: [AuthModule, PrismaModule, PermissionsModule, QuackModule],
+  controllers: [UsersController],
   providers: [UserRepository, UserService, UserResolver, QuackUserResolver],
 })
 export class UsersModule {}

@@ -25,8 +25,12 @@ async function main(): Promise<void> {
     credentials: true,
   });
 
-  // Setup GraphQL file upload middleware
-  app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 5 }));
+  // Setup GraphQL file upload middleware (scoped to /graphql so it doesn't
+  // swallow REST multipart requests)
+  app.use(
+    '/graphql',
+    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 5 }),
+  );
 
   // Setup cookie parser middleware
   app.use(cookieParser());
@@ -39,16 +43,17 @@ async function main(): Promise<void> {
   // Configure API prefix for all routes
   app.setGlobalPrefix('api');
 
-  // Setup Swagger API documentation
+  // Setup Swagger API documentation at /api/docs
   const swaggerConfig = new DocumentBuilder()
     .setTitle(config.name)
     .setDescription(config.description)
     .setVersion(config.version)
     .addServer('/api')
+    .addCookieAuth('better-auth.session_token')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/docs', app, document);
 
   // Print debug information for development purposes
   if (config.nodeEnv !== 'production') {

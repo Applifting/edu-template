@@ -11,6 +11,19 @@ services:
       MYSQL_PASSWORD: quackerPassword
     ports:
       - 3306:3306
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mariadb-admin',
+          'ping',
+          '-uquackerUser',
+          '-pquackerPassword',
+        ]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
 
   adminer:
     image: adminer

@@ -174,27 +174,32 @@ If you want to run the app in docker, you can run prisma studio locally with the
 $ yarn backend docker:prisma:studio
 ```
 
-### Email Service Adapters
+### Email Service
 
-This template offers some options for email service sending. It's simply configurable via injecting email adapters. You can find the adapters in the src/core/email folder. SMTP adapter should cover most of your cases or you can write your own adapter (e.g. using Mailchimp/Mailgun API etc.) if you decide you actually need sending emails from your application.
+Emails are sent via [Resend](https://resend.com). Templates are authored as
+React components using [react-email](https://react.email) and live in
+`src/core/email/templates/`.
 
-### MJML Email Template
+- `ResendAdapter` is used automatically when `RESEND_API_KEY` is set.
+- If `RESEND_API_KEY` is empty (the default in `.env.example`), the
+  `ConsoleMailerAdapter` logs emails to stdout — handy for local dev.
+- The `from` address comes from `EMAIL_FROM`.
 
-You can check the application for how MJML templates are being used.
-MJML is a framework for creating responsive emails. Check https://mjml.io/ for more information.
+#### Authoring templates
 
-To create a new MJML email template, follow these steps:
+Templates are plain `.tsx` React components receiving typed props. Use the
+components from `@react-email/components` to keep markup email-client safe.
 
-1. **Create the MJML file**
+Preview templates locally with the bundled react-email dev server:
 
-   Add your MJML template file inside the `assets/templates/mjml` folder.  
-   Example:  
-   `assets/templates/mjml/example.mjml`
+```bash
+yarn backend email:dev
+```
 
-2. **Compile the MJML to HTML**
+To render a template to HTML at runtime, use the `renderEmail` helper in
+`src/core/email/render.ts`:
 
-   Run the following command in your terminal while in the backend directory to convert the MJML file to HTML:
-
-   ```bash
-   npx mjml assets/templates/mjml/example.mjml -o assets/templates/html/example.html
-   ```
+```ts
+const html = await renderEmail(VerifyEmail, { url });
+await emailProvider.sendEmail(user.email, 'Verify your email address', html);
+```

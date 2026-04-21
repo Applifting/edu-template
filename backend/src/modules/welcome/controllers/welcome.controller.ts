@@ -28,6 +28,7 @@ export class WelcomeController {
       healthCheck: '/health',
       graphqlApi: '/graphql',
       restApi: '/api',
+      swaggerDocs: '/api/docs',
       authEndpointsDocs: '/api/auth/reference',
     };
   }
