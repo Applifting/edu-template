@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { LogOut, User as UserIcon } from "lucide-react"
 
-import { ROUTES } from "@/app/routes"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,26 +12,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-type HeaderMenuUser = {
-  name: string
-  username: string
-  profileImageUrl?: string
-}
+import { useSession } from "@/features/auth/hooks/useSession"
+import { useSignOut } from "@/features/auth/hooks/useSignOut"
 
-type HeaderMenuProps = {
-  user: HeaderMenuUser | null
-  onSignOut: () => void
-  isSigningOut?: boolean
-}
+export function HeaderMenu() {
+  const { user } = useSession()
+  const signOut = useSignOut()
 
-export function HeaderMenu({ user, onSignOut, isSigningOut }: HeaderMenuProps) {
   if (!user) {
     return (
       <Button
         asChild
         size="sm"
       >
-        <Link to={ROUTES.login}>Sign in</Link>
+        <Link to="/login">Sign in</Link>
       </Button>
     )
   }
@@ -76,14 +69,17 @@ export function HeaderMenu({ user, onSignOut, isSigningOut }: HeaderMenuProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to={ROUTES.userDetail(user.username)}>
+          <Link
+            to="/users/$username"
+            params={{ username: user.username }}
+          >
             <UserIcon className="size-4" />
             Profile
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={onSignOut}
-          disabled={isSigningOut}
+          onSelect={() => signOut.mutate()}
+          disabled={signOut.isPending}
         >
           <LogOut className="size-4" />
           Sign out

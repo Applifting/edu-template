@@ -51,8 +51,8 @@ function SignUpPage() {
       <main className="grid min-h-svh place-content-center bg-muted px-6 py-12">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Create your account</CardTitle>
-            <CardDescription>Join Quacker and start sharing.</CardDescription>
+            <CardTitle className="text-2xl">Sign up</CardTitle>
+            <CardDescription>Create your Quacker account.</CardDescription>
           </CardHeader>
           <CardContent>
             <SignUpForm

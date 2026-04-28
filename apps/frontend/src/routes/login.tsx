@@ -48,8 +48,8 @@ function LoginPage() {
       <main className="grid min-h-svh place-content-center bg-muted px-6">
         <Card className="w-full max-w-sm">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Welcome back</CardTitle>
-            <CardDescription>Sign in to your Quacker account.</CardDescription>
+            <CardTitle className="text-2xl">Sign in</CardTitle>
+            <CardDescription>Welcome back to Quacker.</CardDescription>
           </CardHeader>
           <CardContent>
             <SignInForm
