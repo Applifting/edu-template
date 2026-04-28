@@ -6,10 +6,9 @@ import { Seo } from "@/components/Seo"
 import { Button } from "@/components/ui/button"
 import { gql } from "@/gql"
 
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useSession } from "@/features/auth/hooks/useSession"
 import { QuackForm } from "@/features/quack/components/QuackForm"
 import { QuackList } from "@/features/quack/components/QuackList"
-import { useAddQuack } from "@/features/quack/hooks/useAddQuack"
 
 const QuacksQuery = gql(/* GraphQL */ `
   query Quacks {
@@ -25,14 +24,12 @@ export const Route = createFileRoute("/_ProtectedPages/")({
 })
 
 function HomePage() {
-  const { user } = useAuth()
+  const { user } = useSession()
   const quacksQuery = useQuery(QuacksQuery)
 
   const reload = () => {
     void quacksQuery.refetch()
   }
-
-  const addQuack = useAddQuack({ onCompleted: reload })
 
   return (
     <>
@@ -53,7 +50,7 @@ function HomePage() {
 
         {user ? (
           <QuackForm
-            {...addQuack}
+            onPosted={reload}
             className="mb-4"
           />
         ) : null}

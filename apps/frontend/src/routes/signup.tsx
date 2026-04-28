@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import { authSessionQueryOptions } from "@/features/auth/api/authSessionQueryOptions"
 import { SignUpForm } from "@/features/auth/components/SignUpForm"
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useSignUp } from "@/features/auth/hooks/useSignUp"
 
 export const Route = createFileRoute("/signup")({
   component: SignUpPage,
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/signup")({
 
 function SignUpPage() {
   const navigate = useNavigate()
-  const { signUp } = useAuth()
+  const signUp = useSignUp()
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleSubmit = async (values: {

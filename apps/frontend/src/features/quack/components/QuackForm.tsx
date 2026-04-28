@@ -3,22 +3,16 @@ import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-import type { UseAddQuackReturn } from "@/features/quack/hooks/useAddQuack"
+import { useAddQuack } from "@/features/quack/hooks/useAddQuack"
 
-type QuackFormProps = UseAddQuackReturn & {
+type QuackFormProps = {
+  onPosted?: () => void
   maxLength?: number
   className?: string
 }
 
-export function QuackForm({
-  isLoading,
-  error,
-  text,
-  setText,
-  onSubmit,
-  maxLength = 250,
-  className,
-}: QuackFormProps) {
+export function QuackForm({ onPosted, maxLength = 250, className }: QuackFormProps) {
+  const { isLoading, error, text, setText, onSubmit } = useAddQuack({ onCompleted: onPosted })
   const length = text.length
   const isLengthValid = length <= maxLength
 

@@ -6,11 +6,8 @@ import type { GraphQLFormattedError } from "graphql"
 
 import { env } from "@/config/env"
 import { queryClient } from "@/config/react-query"
+import { authKeys } from "@/lib/auth-keys"
 
-// Duplicated intentionally: config/ sits below features/ in the layer
-// graph so it can't import from features/auth/api/authKeys. Keep this in
-// sync with features/auth/api/authKeys.ts.
-const AUTH_SESSION_QUERY_KEY = ["auth", "session"] as const
 const UNAUTHENTICATED_CODE = "UNAUTHENTICATED"
 
 const hasUnauthenticatedErrorCode = (errors: readonly GraphQLFormattedError[] | undefined) =>
@@ -21,13 +18,16 @@ const hasNetworkStatusCode = (error: NetworkError | undefined | null, code: numb
   return "statusCode" in error && error.statusCode === code
 }
 
+// On 401 / UNAUTHENTICATED, drop the auth session query so the next protected
+// route loader sees no session and redirects through the standard login flow.
 const onAuthError = onError(({ graphQLErrors, networkError }) => {
   if (hasUnauthenticatedErrorCode(graphQLErrors) || hasNetworkStatusCode(networkError, 401)) {
-    queryClient.setQueryData(AUTH_SESSION_QUERY_KEY, null)
-    void queryClient.invalidateQueries({ queryKey: AUTH_SESSION_QUERY_KEY })
+    void queryClient.invalidateQueries({ queryKey: authKeys.session() })
   }
 })
 
+// `Apollo-Require-Preflight` opts the request into Apollo Server's CSRF
+// prevention; required for multipart (file upload) operations.
 const uploadLink = createUploadLink({
   uri: env.VITE_GRAPHQL_API,
   headers: { "Apollo-Require-Preflight": "ok" },
@@ -36,19 +36,7 @@ const uploadLink = createUploadLink({
 
 export const apolloClient = new ApolloClient({
   link: from([onAuthError, uploadLink]),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          users: {
-            merge<T>(_existing: T[] = [], incoming: T[]): T[] {
-              return [...incoming]
-            },
-          },
-        },
-      },
-    },
-  }),
+  cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: { fetchPolicy: "cache-and-network" },
     query: { notifyOnNetworkStatusChange: true, fetchPolicy: "cache-first" },

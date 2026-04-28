@@ -14,13 +14,21 @@ import { UsersUserName } from "@/features/quack/components/UsersUserName"
 
 type QuackProps = { quackFragment: BaseQuackFragmentType }
 
+// The cast is here because the codegen output's `useFragment` returns
+// `unknown`-shaped data when the schema hasn't been regenerated. Run
+// `pnpm graphql` against a running backend to pick up typed fragment
+// results, then drop this cast.
+type QuackFragmentShape = {
+  text: string
+  createdAt: string
+  user: { name: string; username: string; profileImageUrl?: string | null }
+}
+
 export function Quack({ quackFragment }: QuackProps) {
-  const fragment = useFragment(BaseQuackFragment, quackFragment) as {
-    text: string
-    createdAt: string
-    user: { name: string; username: string; profileImageUrl?: string | null }
-  }
-  const { user, text, createdAt } = fragment
+  const { user, text, createdAt } = useFragment(
+    BaseQuackFragment,
+    quackFragment,
+  ) as QuackFragmentShape
   const { name, username, profileImageUrl } = user
 
   const linkToUser = ROUTES.userDetail(username)

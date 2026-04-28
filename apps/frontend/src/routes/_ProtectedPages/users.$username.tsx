@@ -7,12 +7,11 @@ import { Seo } from "@/components/Seo"
 import { Button } from "@/components/ui/button"
 import { gql, useFragment } from "@/gql"
 
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useSession } from "@/features/auth/hooks/useSession"
 import { QuackUserDetailFragment } from "@/features/quack/api/QuackUserDetailFragment"
 import { QuackForm } from "@/features/quack/components/QuackForm"
 import { QuackList } from "@/features/quack/components/QuackList"
 import { UserDetailHeader } from "@/features/quack/components/UserDetailHeader"
-import { useAddQuack } from "@/features/quack/hooks/useAddQuack"
 
 const UserDetailQuery = gql(/* GraphQL */ `
   query UserDetail($username: String!) {
@@ -28,14 +27,13 @@ export const Route = createFileRoute("/_ProtectedPages/users/$username")({
 
 function UserDetailPage() {
   const { username } = Route.useParams()
-  const { user: currentUser } = useAuth()
+  const { user: currentUser } = useSession()
   const userQuery = useQuery(UserDetailQuery, { variables: { username } })
 
   const reload = () => {
     void userQuery.refetch()
   }
 
-  const addQuack = useAddQuack({ onCompleted: reload })
   const user = useFragment(QuackUserDetailFragment, userQuery.data?.user)
   const isOwnProfile = currentUser?.username === username
 
@@ -63,7 +61,7 @@ function UserDetailPage() {
 
             {isOwnProfile ? (
               <QuackForm
-                {...addQuack}
+                onPosted={reload}
                 className="mb-4"
               />
             ) : null}

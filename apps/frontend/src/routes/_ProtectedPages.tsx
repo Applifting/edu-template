@@ -5,7 +5,8 @@ import { Header } from "@/components/Header/Header"
 import { Seo } from "@/components/Seo"
 
 import { authSessionQueryOptions } from "@/features/auth/api/authSessionQueryOptions"
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useSession } from "@/features/auth/hooks/useSession"
+import { useSignOut } from "@/features/auth/hooks/useSignOut"
 import { encodeRedirectUri } from "@/features/auth/lib/redirect"
 
 export const Route = createFileRoute("/_ProtectedPages")({
@@ -22,7 +23,8 @@ export const Route = createFileRoute("/_ProtectedPages")({
 })
 
 function Layout() {
-  const { user, signOut } = useAuth()
+  const { user } = useSession()
+  const signOut = useSignOut()
 
   return (
     <>

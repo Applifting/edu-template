@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import { authSessionQueryOptions } from "@/features/auth/api/authSessionQueryOptions"
 import { SignInForm } from "@/features/auth/components/SignInForm"
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useSignIn } from "@/features/auth/hooks/useSignIn"
 import { decodeRedirectUri } from "@/features/auth/lib/redirect"
 
 const loginSearchParamsSchema = z.object({
@@ -29,7 +29,7 @@ function LoginPage() {
   const { from } = Route.useSearch()
   const redirectTo = from ? decodeRedirectUri(from) : ROUTES.home
   const navigate = useNavigate()
-  const { signIn } = useAuth()
+  const signIn = useSignIn()
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleSubmit = async (values: { email: string; password: string }) => {

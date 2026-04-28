@@ -58,7 +58,7 @@ const typescriptRules = {
       types: ["boolean"],
       format: ["PascalCase"],
       prefix: ["is", "should", "has", "can", "did", "will", "does"],
-      filter: { regex: "^(asChild|prev|required)$", match: false },
+      filter: { regex: "^(asChild|prev|required|rememberMe)$", match: false },
     },
   ],
   "@typescript-eslint/only-throw-error": "off",

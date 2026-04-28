@@ -1,8 +1,8 @@
 import { queryOptions } from "@tanstack/react-query"
 
-import { authClient } from "@/features/auth/lib/auth-client"
+import { authKeys } from "@/lib/auth-keys"
 
-import { authKeys } from "./authKeys"
+import { authClient } from "@/features/auth/lib/auth-client"
 
 export type SessionUser = {
   id: string
