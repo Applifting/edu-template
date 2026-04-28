@@ -3,7 +3,7 @@ module.exports = {
   env: { browser: true, es2020: true },
   extends: ['react-app'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', 'simple-import-sort', 'import'],
+  plugins: ['react-refresh', 'simple-import-sort'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],

@@ -1,18 +1,14 @@
 {
   "private": true,
   "license": "MIT",
-  "workspaces": [
-    "backend",
-    "frontend"
-  ],
   "scripts": {
-    "backend": "yarn workspace backend",
-    "frontend": "yarn workspace frontend",
+    "backend": "pnpm --filter backend",
+    "frontend": "pnpm --filter frontend",
     "dev": "run-s \"backend docker:up:wait\" \"backend seed\" dev:servers",
     "dev:servers": "run-p \"backend start:dev\" \"frontend dev\"",
-    "dev:down": "yarn backend docker:down",
+    "dev:down": "pnpm backend docker:down",
     "check-all": "run-s lint:fix format \"backend build\" \"frontend build:tsc\"",
-    "restart": "yarn workspace backend restart && yarn workspace frontend restart",
+    "restart": "pnpm --filter backend restart && pnpm --filter frontend restart",
     "format": "run-s \"format:no-write --write --list-different\"",
     "format:check": "run-s \"format:no-write --check\"",
     "format:no-write": "prettier \"**/*.{cjs,js,ts,tsx,json,css,scss,graphql,md,yaml,yml}\"",
@@ -37,6 +33,28 @@
     "prettier": "3.3.3",
     "typescript": "~5.8.3"
   },
-  "packageManager": "yarn@1.22.22+sha256.c17d3797fb9a9115bf375e31bfd30058cac6bc9c3b8807a3d8cb2094794b51ca",
-  "dependencies": {}
+  "packageManager": "pnpm@10.15.0",
+  "dependencies": {},
+  "pnpm": {
+    "overrides": {
+      "better-auth": "1.2.7",
+      "zod": "^3.22.5"
+    },
+    "onlyBuiltDependencies": [
+      "@apollo/protobufjs",
+      "@compodoc/compodoc",
+      "@nestjs/core",
+      "@parcel/watcher",
+      "@prisma/client",
+      "@prisma/engines",
+      "@sentry/cli",
+      "bufferutil",
+      "es5-ext",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "sqlite3",
+      "utf-8-validate"
+    ]
+  }
 }
