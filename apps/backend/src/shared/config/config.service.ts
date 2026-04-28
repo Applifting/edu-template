@@ -9,14 +9,7 @@ import {
   IsUrl,
 } from 'class-validator';
 
-export const DATABASE_PROVIDERS = [
-  'sqlite',
-  'cockroachdb',
-  'mysql',
-  'postgresql',
-  'sqlserver',
-  'mongodb',
-] as const;
+export const DATABASE_PROVIDERS = ['mysql'] as const;
 
 export type DatabaseProvider = (typeof DATABASE_PROVIDERS)[number];
 
@@ -106,7 +99,7 @@ export class Config {
 
   @Env('DATABASE_PROVIDER', {
     expose: true,
-    defaultValue: 'postgresql',
+    defaultValue: 'mysql',
   })
   @IsIn(DATABASE_PROVIDERS)
   readonly databaseProvider!: DatabaseProvider;

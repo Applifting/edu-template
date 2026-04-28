@@ -4,7 +4,8 @@
   "scripts": {
     "backend": "pnpm --filter backend",
     "frontend": "pnpm --filter frontend",
-    "dev": "run-s \"backend docker:up:wait\" \"backend seed\" dev:servers",
+    "env:check": "node scripts/check-env.js",
+    "dev": "run-s env:check \"backend docker:up:wait\" \"backend seed\" dev:servers",
     "dev:servers": "run-p \"backend start:dev\" \"frontend dev\"",
     "dev:down": "pnpm backend docker:down",
     "check-all": "run-s \"backend build\" \"frontend type-check\" \"frontend lint:check\" \"frontend format:check\"",
