@@ -3,8 +3,7 @@
   "license": "MIT",
   "workspaces": [
     "backend",
-    "frontend",
-    "shared"
+    "frontend"
   ],
   "scripts": {
     "backend": "yarn workspace backend",
@@ -24,7 +23,6 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
-    "date-fns": "^3.6.0",
     "dotenv-flow": "^4.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.5",

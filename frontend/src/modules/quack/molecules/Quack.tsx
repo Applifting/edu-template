@@ -4,7 +4,7 @@ import { useFragment } from '@frontend/gql';
 import { route } from '@frontend/route';
 import { AvatarPhoto } from '@frontend/shared/design-system/components';
 import { RouterLink } from '@frontend/shared/navigation/atoms/RouterLink';
-import { formatDate } from '@shared/date';
+import { formatDate } from '@frontend/shared/utils/date';
 
 import { UsersName } from '../atoms/UsersName';
 import { UsersUserName } from '../atoms/UsersUserName';

@@ -22,7 +22,6 @@ export default defineConfig(({ mode }) => {
       alias: {
         // These must be kept in sync with tsconfig.json!
         '@frontend': resolve(__dirname, './src'),
-        '@shared': resolve(__dirname, '../shared/src'),
       },
     },
     test: {
