@@ -1,10 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 import { Config } from '../../shared/config/config.service';
-import { EmailModule } from './email.module';
-import { EmailDebugController } from './controllers/email-debug.controller';
+import { ConsoleMailerAdapterFactory } from './adapters/console-mailer/console-mailer.adapter.factory';
 import { ResendAdapterFactory } from './adapters/resend/resend.adapter.factory';
 import { SMTPAdapterFactory } from './adapters/smtp/smtp.adapter.factory';
-import { ConsoleMailerAdapterFactory } from './adapters/console-mailer/console-mailer.adapter.factory';
+import { EmailDebugController } from './controllers/email-debug.controller';
+import { EmailModule } from './email.module';
 
 /**
  * Picks an email adapter based on env:

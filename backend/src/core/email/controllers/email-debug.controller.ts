@@ -19,7 +19,8 @@ class PreviewEmailQuery {
   @IsOptional()
   @ApiProperty({
     required: false,
-    description: "Fill in if you want to send this preview email to this email address. If using basic resend account, you have to use the email address you registered with."
+    description:
+      'Fill in if you want to send this preview email to this email address. If using basic resend account, you have to use the email address you registered with.',
   })
   sendTo?: string;
 }
@@ -46,12 +47,8 @@ export class EmailDebugController {
     const body = await renderEmail(VerifyEmail, {
       url: `${this.config.baseUrl}/api/auth/verify-email?token=example-token`,
     });
-    if(query.sendTo) {
-      await this.emailService.sendEmail(
-      query.sendTo,
-      'verify-email',
-      body
-    );
+    if (query.sendTo) {
+      await this.emailService.sendEmail(query.sendTo, 'verify-email', body);
     }
     return body;
   }
