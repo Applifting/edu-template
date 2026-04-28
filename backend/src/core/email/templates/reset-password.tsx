@@ -32,8 +32,8 @@ export const ResetPassword = ({
             Reset your password
           </Heading>
           <Text className="text-gray-700 text-base leading-6 mt-4">
-            Hi {username}, we received a request to reset your Quacker
-            password. Click the button below to choose a new one.
+            Hi {username}, we received a request to reset your Quacker password.
+            Click the button below to choose a new one.
           </Text>
           <Section className="text-center my-8">
             <Button
