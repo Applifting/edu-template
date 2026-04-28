@@ -1,10 +1,14 @@
-import { createFileRoute, redirect } from "@tanstack/react-router"
+import { useState } from "react"
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
 
 import { ROUTES } from "@/app/routes"
 import { Seo } from "@/components/Seo"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 import { authSessionQueryOptions } from "@/features/auth/api/authSessionQueryOptions"
+import { SignInForm } from "@/features/auth/components/SignInForm"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import { decodeRedirectUri } from "@/features/auth/lib/redirect"
 
 const loginSearchParamsSchema = z.object({
@@ -24,20 +28,46 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { from } = Route.useSearch()
   const redirectTo = from ? decodeRedirectUri(from) : ROUTES.home
+  const navigate = useNavigate()
+  const { signIn } = useAuth()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    setErrorMessage(null)
+    try {
+      await signIn.mutateAsync(values)
+      await navigate({ to: redirectTo })
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Sign in failed")
+    }
+  }
 
   return (
     <>
       <Seo title="Sign in" />
-      <main className="grid min-h-svh place-content-center px-6">
-        <div className="w-full max-w-sm">
-          <h1 className="text-center text-2xl font-semibold">Sign in</h1>
-          <p className="mt-1 text-center text-sm text-muted-foreground">
-            Sign in form arrives in the auth feature commit.
-          </p>
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            After sign in you&apos;ll be redirected to <code>{redirectTo}</code>.
-          </p>
-        </div>
+      <main className="grid min-h-svh place-content-center bg-muted px-6">
+        <Card className="w-full max-w-sm">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Welcome back</CardTitle>
+            <CardDescription>Sign in to your Quacker account.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SignInForm
+              isLoading={signIn.isPending}
+              errorMessage={errorMessage}
+              onSubmit={handleSubmit}
+            />
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+              No account?{" "}
+              <Link
+                to={ROUTES.signup}
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Sign up
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
       </main>
     </>
   )
