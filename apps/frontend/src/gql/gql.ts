@@ -11,20 +11,23 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * 3. It does not support dead code elimination, so it will add unused operations.
  *
  * Therefore it is highly recommended to use the babel or swc plugin for production.
+ * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
-const documents = {
-  '\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n':
-    types.SignUpDocument,
-  '\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n':
-    types.AddQuackDocument,
-  '\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n':
-    types.BaseQuackFragmentDoc,
-  '\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n':
-    types.QuackUserDetailFragmentDoc,
-  '\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n':
-    types.QuacksDocument,
-  '\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n':
-    types.UserDetailDocument,
+type Documents = {
+    "\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n": typeof types.SignUpDocument,
+    "\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n": typeof types.AddQuackDocument,
+    "\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n": typeof types.BaseQuackFragmentDoc,
+    "\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n": typeof types.QuackUserDetailFragmentDoc,
+    "\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n": typeof types.QuacksDocument,
+    "\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n": typeof types.UserDetailDocument,
+};
+const documents: Documents = {
+    "\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n": types.SignUpDocument,
+    "\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n": types.AddQuackDocument,
+    "\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n": types.BaseQuackFragmentDoc,
+    "\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n": types.QuackUserDetailFragmentDoc,
+    "\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n": types.QuacksDocument,
+    "\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n": types.UserDetailDocument,
 };
 
 /**
@@ -44,43 +47,30 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: '\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n',
-): (typeof documents)['\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n'];
+export function gql(source: "\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n"): (typeof documents)["\n  mutation SignUp($data: SignUpInputType!) {\n    signUp(data: $data) {\n      id\n      name\n      email\n      username\n      profileImageUrl\n      role\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: '\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n',
-): (typeof documents)['\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n'];
+export function gql(source: "\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation AddQuack($text: String!) {\n    addQuack(text: $text) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: '\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n',
-): (typeof documents)['\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n'];
+export function gql(source: "\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n"): (typeof documents)["\n  fragment BaseQuack on Quack {\n    id\n    createdAt\n    user {\n      id\n      name\n      username\n      profileImageUrl\n    }\n    text\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: '\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n',
-): (typeof documents)['\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n'];
+export function gql(source: "\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n"): (typeof documents)["\n  fragment QuackUserDetail on User {\n    id\n    name\n    username\n    profileImageUrl\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: '\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n',
-): (typeof documents)['\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n'];
+export function gql(source: "\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n"): (typeof documents)["\n  query Quacks {\n    quacks {\n      id\n      ...BaseQuack\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: '\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n',
-): (typeof documents)['\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n'];
+export function gql(source: "\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n"): (typeof documents)["\n  query UserDetail($username: String!) {\n    user(username: $username) {\n      ...QuackUserDetail\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
-  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;

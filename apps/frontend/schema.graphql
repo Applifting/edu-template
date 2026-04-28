@@ -23,9 +23,7 @@ type Quack {
 Event emitted when a new quack is created. Subscribe via the `quackCreated` subscription field
 """
 type QuackCreatedEventType {
-  """
-  The id of the newly created quack
-  """
+  """The id of the newly created quack"""
   quackId: String!
 }
 
@@ -53,9 +51,7 @@ input UpdateUserInputType {
   role: UserRoleEnum
 }
 
-"""
-The `Upload` scalar type represents a file upload.
-"""
+"""The `Upload` scalar type represents a file upload."""
 scalar Upload
 
 type User {
@@ -68,9 +64,7 @@ type User {
   username: String!
 }
 
-"""
-User role
-"""
+"""User role"""
 enum UserRoleEnum {
   admin
   user

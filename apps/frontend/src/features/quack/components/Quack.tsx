@@ -14,22 +14,12 @@ import { UsersUserName } from "@/features/quack/components/UsersUserName"
 
 type QuackProps = { quackFragment: BaseQuackFragmentType }
 
-// The cast is here because the codegen output's `useFragment` returns
-// `unknown`-shaped data when the schema hasn't been regenerated. Run
-// `pnpm graphql` against a running backend to pick up typed fragment
-// results, then drop this cast.
-type QuackFragmentShape = {
-  text: string
-  createdAt: string
-  user: { name: string; username: string; profileImageUrl?: string | null }
-}
-
 export function Quack({ quackFragment }: QuackProps) {
-  const { user, text, createdAt } = useFragment(
-    BaseQuackFragment,
-    quackFragment,
-  ) as QuackFragmentShape
-  const { name, username, profileImageUrl } = user
+  // Direct field access (rather than destructuring) — typescript-eslint's
+  // no-unsafe-assignment trips on destructuring fragment-masked results
+  // even though individual property reads are correctly typed.
+  const fragment = useFragment(BaseQuackFragment, quackFragment)
+  const { name, username, profileImageUrl } = fragment.user
 
   const linkToUser = ROUTES.userDetail(username)
   const initials = name
@@ -62,9 +52,9 @@ export function Quack({ quackFragment }: QuackProps) {
             <UsersName name={name} /> <UsersUserName username={username} />
           </Link>
           <span className="text-xs text-muted-foreground">·</span>
-          <time className="text-xs text-muted-foreground">{formatDate(createdAt)}</time>
+          <time className="text-xs text-muted-foreground">{formatDate(fragment.createdAt)}</time>
         </div>
-        <p className="text-sm break-words whitespace-pre-line">{text}</p>
+        <p className="text-sm break-words whitespace-pre-line">{fragment.text}</p>
       </div>
     </article>
   )
