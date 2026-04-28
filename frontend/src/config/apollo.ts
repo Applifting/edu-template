@@ -16,8 +16,10 @@ const UNAUTHENTICATED_CODE = "UNAUTHENTICATED"
 const hasUnauthenticatedErrorCode = (errors: readonly GraphQLFormattedError[] | undefined) =>
   errors?.some((error) => error.extensions?.code === UNAUTHENTICATED_CODE) ?? false
 
-const hasNetworkStatusCode = (error: NetworkError | undefined | null, code: number) =>
-  Boolean(error) && error !== null && "statusCode" in error && error.statusCode === code
+const hasNetworkStatusCode = (error: NetworkError | undefined | null, code: number) => {
+  if (!error) return false
+  return "statusCode" in error && error.statusCode === code
+}
 
 const onAuthError = onError(({ graphQLErrors, networkError }) => {
   if (hasUnauthenticatedErrorCode(graphQLErrors) || hasNetworkStatusCode(networkError, 401)) {

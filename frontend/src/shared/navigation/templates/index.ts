@@ -1,1 +1,0 @@
-export { PlaceholderTemplate } from './PlaceholderTemplate';
