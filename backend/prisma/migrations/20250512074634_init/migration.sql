@@ -1,75 +1,88 @@
 -- CreateTable
-CREATE TABLE "quack" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "text" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "quack_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
+CREATE TABLE `quack` (
+    `id` VARCHAR(191) NOT NULL,
+    `text` TEXT NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    INDEX `quack_userId_idx`(`userId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "session" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "expiresAt" DATETIME NOT NULL,
-    "token" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL,
-    "updatedAt" DATETIME NOT NULL,
-    "ipAddress" TEXT,
-    "userAgent" TEXT,
-    "userId" TEXT NOT NULL,
-    "activeOrganizationId" TEXT,
-    CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
+CREATE TABLE `session` (
+    `id` VARCHAR(191) NOT NULL,
+    `expiresAt` DATETIME(3) NOT NULL,
+    `token` VARCHAR(255) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL,
+    `ipAddress` VARCHAR(45) NULL,
+    `userAgent` TEXT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `activeOrganizationId` VARCHAR(191) NULL,
+
+    INDEX `session_userId_idx`(`userId`),
+    UNIQUE INDEX `session_token_key`(`token`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "account" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "accountId" TEXT NOT NULL,
-    "providerId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "accessToken" TEXT,
-    "refreshToken" TEXT,
-    "idToken" TEXT,
-    "accessTokenExpiresAt" DATETIME,
-    "refreshTokenExpiresAt" DATETIME,
-    "scope" TEXT,
-    "password" TEXT,
-    "createdAt" DATETIME NOT NULL,
-    "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
+CREATE TABLE `account` (
+    `id` VARCHAR(191) NOT NULL,
+    `accountId` VARCHAR(191) NOT NULL,
+    `providerId` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `accessToken` TEXT NULL,
+    `refreshToken` TEXT NULL,
+    `idToken` TEXT NULL,
+    `accessTokenExpiresAt` DATETIME(3) NULL,
+    `refreshTokenExpiresAt` DATETIME(3) NULL,
+    `scope` VARCHAR(191) NULL,
+    `password` TEXT NULL,
+    `createdAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    INDEX `account_userId_idx`(`userId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "verification" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "identifier" TEXT NOT NULL,
-    "value" TEXT NOT NULL,
-    "expiresAt" DATETIME NOT NULL,
-    "createdAt" DATETIME,
-    "updatedAt" DATETIME
-);
+CREATE TABLE `verification` (
+    `id` VARCHAR(191) NOT NULL,
+    `identifier` VARCHAR(191) NOT NULL,
+    `value` VARCHAR(191) NOT NULL,
+    `expiresAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL,
+    `updatedAt` DATETIME(3) NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "user" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "emailVerified" BOOLEAN NOT NULL,
-    "image" TEXT,
-    "createdAt" DATETIME NOT NULL,
-    "updatedAt" DATETIME NOT NULL,
-    "role" TEXT NOT NULL DEFAULT 'user',
-    "profileImageUrl" TEXT,
-    "username" TEXT,
-    "displayUsername" TEXT
-);
+CREATE TABLE `user` (
+    `id` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `emailVerified` BOOLEAN NOT NULL,
+    `image` TEXT NULL,
+    `createdAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL,
+    `role` ENUM('user', 'admin') NOT NULL DEFAULT 'user',
+    `profileImageUrl` TEXT NULL,
+    `username` VARCHAR(50) NULL,
+    `displayUsername` VARCHAR(50) NULL,
 
--- CreateIndex
-CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
+    UNIQUE INDEX `user_email_key`(`email`),
+    UNIQUE INDEX `user_username_key`(`username`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+-- AddForeignKey
+ALTER TABLE `quack` ADD CONSTRAINT `quack_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- CreateIndex
-CREATE UNIQUE INDEX "user_username_key" ON "user"("username");
+-- AddForeignKey
+ALTER TABLE `session` ADD CONSTRAINT `session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `account` ADD CONSTRAINT `account_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
