@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import { Seo } from "@/components/Seo"
 
-export const Route = createFileRoute("/terms")({
+export const Route = createFileRoute("/_PublicLayout/terms")({
   component: TermsPage,
 })
 
