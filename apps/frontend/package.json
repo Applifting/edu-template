@@ -19,8 +19,7 @@
     "download-schema:format": "prettier --write schema.graphql",
     "graphql": "run-s download-schema \"graphql:*\"",
     "graphql:codegen": "graphql-codegen",
-    "graphql-watch": "graphql-codegen --watch",
-    "restart": "touch ./tmp/restart.txt"
+    "graphql-watch": "graphql-codegen --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
@@ -39,7 +38,6 @@
     "better-auth": "^1.6.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.0",
-    "cross-fetch": "^4.0.0",
     "date-fns": "^4.1.0",
     "graphql-tag": "^2.12.6",
     "lucide-react": "^0.544.0",
@@ -57,7 +55,6 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.3.3",
     "@graphql-codegen/typescript": "^4.0.9",
-    "@graphql-inspector/graphql-cli-common": "^2.9.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@parcel/watcher": "^2.4.1",
     "@tailwindcss/vite": "^4.2.4",
@@ -84,10 +81,8 @@
     "eslint-plugin-jsx-a11y": "catalog:lint",
     "eslint-plugin-react": "catalog:lint",
     "eslint-plugin-react-hooks": "catalog:lint",
-    "eslint-plugin-turbo": "catalog:lint",
     "globals": "catalog:lint",
     "jsdom": "^26.1.0",
-    "node-fetch": "^3.3.2",
     "prettier-plugin-sort-json": "^4.1.1",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4.2.4",

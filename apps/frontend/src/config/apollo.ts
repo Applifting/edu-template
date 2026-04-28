@@ -53,6 +53,5 @@ export const apolloClient = new ApolloClient({
     watchQuery: { fetchPolicy: "cache-and-network" },
     query: { notifyOnNetworkStatusChange: true, fetchPolicy: "cache-first" },
   },
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
   connectToDevTools: import.meta.env.DEV,
 })

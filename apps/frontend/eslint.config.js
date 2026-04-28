@@ -9,7 +9,6 @@ import importPlugin from "eslint-plugin-import"
 import jsxA11y from "eslint-plugin-jsx-a11y"
 import pluginReact from "eslint-plugin-react"
 import pluginReactHooks from "eslint-plugin-react-hooks"
-import turboPlugin from "eslint-plugin-turbo"
 import globals from "globals"
 import tseslint from "typescript-eslint"
 
@@ -152,10 +151,6 @@ export default [
   ...pluginQuery.configs["flat/recommended"],
   ...pluginRouter.configs["flat/recommended"],
   ...fixupConfigRules(importPlugin.flatConfigs.recommended),
-  {
-    plugins: { turbo: turboPlugin },
-    rules: { "turbo/no-undeclared-env-vars": "warn" },
-  },
   {
     languageOptions: {
       ...pluginReact.configs.flat.recommended.languageOptions,

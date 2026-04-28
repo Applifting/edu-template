@@ -19,12 +19,12 @@
     "noEmit": true,
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": false,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
     "types": ["vite/client", "vitest/globals"]
   },
+  "exclude": ["node_modules", "build", "dist"],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -32,6 +32,5 @@
     "vitest.config.ts",
     "prettier.config.js",
     "eslint.config.js"
-  ],
-  "exclude": ["node_modules", "build", "dist"]
+  ]
 }

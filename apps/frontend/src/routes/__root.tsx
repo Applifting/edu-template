@@ -21,7 +21,6 @@ function RootComponent() {
         richColors
         position="top-right"
       />
-      {/* eslint-disable-next-line turbo/no-undeclared-env-vars */}
       {import.meta.env.DEV && (
         <>
           <ReactQueryDevtools buttonPosition="bottom-right" />
