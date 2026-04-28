@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Seo } from "@/components/Seo"
 import { Button } from "@/components/ui/button"
 
-export const Route = createFileRoute("/_PublicLayout/practical-01")({
+export const Route = createFileRoute("/_ProtectedPages/practical-01")({
   component: Practical01Page,
 })
 

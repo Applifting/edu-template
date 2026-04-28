@@ -11,12 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as PublicLayoutRouteImport } from './routes/_PublicLayout'
 import { Route as ProtectedPagesRouteImport } from './routes/_ProtectedPages'
 import { Route as ProtectedPagesIndexRouteImport } from './routes/_ProtectedPages/index'
-import { Route as PublicLayoutTermsRouteImport } from './routes/_PublicLayout/terms'
-import { Route as PublicLayoutPractical01RouteImport } from './routes/_PublicLayout/practical-01'
-import { Route as PublicLayoutAboutRouteImport } from './routes/_PublicLayout/about'
+import { Route as ProtectedPagesTermsRouteImport } from './routes/_ProtectedPages/terms'
+import { Route as ProtectedPagesPractical01RouteImport } from './routes/_ProtectedPages/practical-01'
+import { Route as ProtectedPagesAboutRouteImport } from './routes/_ProtectedPages/about'
 import { Route as ProtectedPagesUsersUsernameRouteImport } from './routes/_ProtectedPages/users.$username'
 
 const SignupRoute = SignupRouteImport.update({
@@ -29,10 +28,6 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicLayoutRoute = PublicLayoutRouteImport.update({
-  id: '/_PublicLayout',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProtectedPagesRoute = ProtectedPagesRouteImport.update({
   id: '/_ProtectedPages',
   getParentRoute: () => rootRouteImport,
@@ -42,20 +37,21 @@ const ProtectedPagesIndexRoute = ProtectedPagesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProtectedPagesRoute,
 } as any)
-const PublicLayoutTermsRoute = PublicLayoutTermsRouteImport.update({
+const ProtectedPagesTermsRoute = ProtectedPagesTermsRouteImport.update({
   id: '/terms',
   path: '/terms',
-  getParentRoute: () => PublicLayoutRoute,
+  getParentRoute: () => ProtectedPagesRoute,
 } as any)
-const PublicLayoutPractical01Route = PublicLayoutPractical01RouteImport.update({
-  id: '/practical-01',
-  path: '/practical-01',
-  getParentRoute: () => PublicLayoutRoute,
-} as any)
-const PublicLayoutAboutRoute = PublicLayoutAboutRouteImport.update({
+const ProtectedPagesPractical01Route =
+  ProtectedPagesPractical01RouteImport.update({
+    id: '/practical-01',
+    path: '/practical-01',
+    getParentRoute: () => ProtectedPagesRoute,
+  } as any)
+const ProtectedPagesAboutRoute = ProtectedPagesAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => PublicLayoutRoute,
+  getParentRoute: () => ProtectedPagesRoute,
 } as any)
 const ProtectedPagesUsersUsernameRoute =
   ProtectedPagesUsersUsernameRouteImport.update({
@@ -68,29 +64,28 @@ export interface FileRoutesByFullPath {
   '/': typeof ProtectedPagesIndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/about': typeof PublicLayoutAboutRoute
-  '/practical-01': typeof PublicLayoutPractical01Route
-  '/terms': typeof PublicLayoutTermsRoute
+  '/about': typeof ProtectedPagesAboutRoute
+  '/practical-01': typeof ProtectedPagesPractical01Route
+  '/terms': typeof ProtectedPagesTermsRoute
   '/users/$username': typeof ProtectedPagesUsersUsernameRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof ProtectedPagesIndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/about': typeof PublicLayoutAboutRoute
-  '/practical-01': typeof PublicLayoutPractical01Route
-  '/terms': typeof PublicLayoutTermsRoute
+  '/about': typeof ProtectedPagesAboutRoute
+  '/practical-01': typeof ProtectedPagesPractical01Route
+  '/terms': typeof ProtectedPagesTermsRoute
+  '/': typeof ProtectedPagesIndexRoute
   '/users/$username': typeof ProtectedPagesUsersUsernameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_ProtectedPages': typeof ProtectedPagesRouteWithChildren
-  '/_PublicLayout': typeof PublicLayoutRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/_PublicLayout/about': typeof PublicLayoutAboutRoute
-  '/_PublicLayout/practical-01': typeof PublicLayoutPractical01Route
-  '/_PublicLayout/terms': typeof PublicLayoutTermsRoute
+  '/_ProtectedPages/about': typeof ProtectedPagesAboutRoute
+  '/_ProtectedPages/practical-01': typeof ProtectedPagesPractical01Route
+  '/_ProtectedPages/terms': typeof ProtectedPagesTermsRoute
   '/_ProtectedPages/': typeof ProtectedPagesIndexRoute
   '/_ProtectedPages/users/$username': typeof ProtectedPagesUsersUsernameRoute
 }
@@ -106,29 +101,27 @@ export interface FileRouteTypes {
     | '/users/$username'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/login'
     | '/signup'
     | '/about'
     | '/practical-01'
     | '/terms'
+    | '/'
     | '/users/$username'
   id:
     | '__root__'
     | '/_ProtectedPages'
-    | '/_PublicLayout'
     | '/login'
     | '/signup'
-    | '/_PublicLayout/about'
-    | '/_PublicLayout/practical-01'
-    | '/_PublicLayout/terms'
+    | '/_ProtectedPages/about'
+    | '/_ProtectedPages/practical-01'
+    | '/_ProtectedPages/terms'
     | '/_ProtectedPages/'
     | '/_ProtectedPages/users/$username'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   ProtectedPagesRoute: typeof ProtectedPagesRouteWithChildren
-  PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
 }
@@ -149,13 +142,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_PublicLayout': {
-      id: '/_PublicLayout'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof PublicLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_ProtectedPages': {
       id: '/_ProtectedPages'
       path: ''
@@ -170,26 +156,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPagesIndexRouteImport
       parentRoute: typeof ProtectedPagesRoute
     }
-    '/_PublicLayout/terms': {
-      id: '/_PublicLayout/terms'
+    '/_ProtectedPages/terms': {
+      id: '/_ProtectedPages/terms'
       path: '/terms'
       fullPath: '/terms'
-      preLoaderRoute: typeof PublicLayoutTermsRouteImport
-      parentRoute: typeof PublicLayoutRoute
+      preLoaderRoute: typeof ProtectedPagesTermsRouteImport
+      parentRoute: typeof ProtectedPagesRoute
     }
-    '/_PublicLayout/practical-01': {
-      id: '/_PublicLayout/practical-01'
+    '/_ProtectedPages/practical-01': {
+      id: '/_ProtectedPages/practical-01'
       path: '/practical-01'
       fullPath: '/practical-01'
-      preLoaderRoute: typeof PublicLayoutPractical01RouteImport
-      parentRoute: typeof PublicLayoutRoute
+      preLoaderRoute: typeof ProtectedPagesPractical01RouteImport
+      parentRoute: typeof ProtectedPagesRoute
     }
-    '/_PublicLayout/about': {
-      id: '/_PublicLayout/about'
+    '/_ProtectedPages/about': {
+      id: '/_ProtectedPages/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof PublicLayoutAboutRouteImport
-      parentRoute: typeof PublicLayoutRoute
+      preLoaderRoute: typeof ProtectedPagesAboutRouteImport
+      parentRoute: typeof ProtectedPagesRoute
     }
     '/_ProtectedPages/users/$username': {
       id: '/_ProtectedPages/users/$username'
@@ -202,11 +188,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface ProtectedPagesRouteChildren {
+  ProtectedPagesAboutRoute: typeof ProtectedPagesAboutRoute
+  ProtectedPagesPractical01Route: typeof ProtectedPagesPractical01Route
+  ProtectedPagesTermsRoute: typeof ProtectedPagesTermsRoute
   ProtectedPagesIndexRoute: typeof ProtectedPagesIndexRoute
   ProtectedPagesUsersUsernameRoute: typeof ProtectedPagesUsersUsernameRoute
 }
 
 const ProtectedPagesRouteChildren: ProtectedPagesRouteChildren = {
+  ProtectedPagesAboutRoute: ProtectedPagesAboutRoute,
+  ProtectedPagesPractical01Route: ProtectedPagesPractical01Route,
+  ProtectedPagesTermsRoute: ProtectedPagesTermsRoute,
   ProtectedPagesIndexRoute: ProtectedPagesIndexRoute,
   ProtectedPagesUsersUsernameRoute: ProtectedPagesUsersUsernameRoute,
 }
@@ -215,25 +207,8 @@ const ProtectedPagesRouteWithChildren = ProtectedPagesRoute._addFileChildren(
   ProtectedPagesRouteChildren,
 )
 
-interface PublicLayoutRouteChildren {
-  PublicLayoutAboutRoute: typeof PublicLayoutAboutRoute
-  PublicLayoutPractical01Route: typeof PublicLayoutPractical01Route
-  PublicLayoutTermsRoute: typeof PublicLayoutTermsRoute
-}
-
-const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
-  PublicLayoutAboutRoute: PublicLayoutAboutRoute,
-  PublicLayoutPractical01Route: PublicLayoutPractical01Route,
-  PublicLayoutTermsRoute: PublicLayoutTermsRoute,
-}
-
-const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
-  PublicLayoutRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   ProtectedPagesRoute: ProtectedPagesRouteWithChildren,
-  PublicLayoutRoute: PublicLayoutRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
 }
