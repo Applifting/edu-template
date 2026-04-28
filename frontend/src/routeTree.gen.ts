@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as Practical01RouteImport } from './routes/practical-01'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ProtectedPagesRouteImport } from './routes/_ProtectedPages'
@@ -25,6 +26,11 @@ const TermsRoute = TermsRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Practical01Route = Practical01RouteImport.update({
+  id: '/practical-01',
+  path: '/practical-01',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof ProtectedPagesIndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/practical-01': typeof Practical01Route
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
   '/users/$username': typeof ProtectedPagesUsersUsernameRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/practical-01': typeof Practical01Route
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
   '/': typeof ProtectedPagesIndexRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   '/_ProtectedPages': typeof ProtectedPagesRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/practical-01': typeof Practical01Route
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
   '/_ProtectedPages/': typeof ProtectedPagesIndexRoute
@@ -85,16 +94,25 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/practical-01'
     | '/signup'
     | '/terms'
     | '/users/$username'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/login' | '/signup' | '/terms' | '/' | '/users/$username'
+  to:
+    | '/about'
+    | '/login'
+    | '/practical-01'
+    | '/signup'
+    | '/terms'
+    | '/'
+    | '/users/$username'
   id:
     | '__root__'
     | '/_ProtectedPages'
     | '/about'
     | '/login'
+    | '/practical-01'
     | '/signup'
     | '/terms'
     | '/_ProtectedPages/'
@@ -105,6 +123,7 @@ export interface RootRouteChildren {
   ProtectedPagesRoute: typeof ProtectedPagesRouteWithChildren
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
+  Practical01Route: typeof Practical01Route
   SignupRoute: typeof SignupRoute
   TermsRoute: typeof TermsRoute
 }
@@ -123,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practical-01': {
+      id: '/practical-01'
+      path: '/practical-01'
+      fullPath: '/practical-01'
+      preLoaderRoute: typeof Practical01RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -181,6 +207,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProtectedPagesRoute: ProtectedPagesRouteWithChildren,
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
+  Practical01Route: Practical01Route,
   SignupRoute: SignupRoute,
   TermsRoute: TermsRoute,
 }

@@ -9,10 +9,10 @@ export const Route = createFileRoute("/terms")({
 function TermsPage() {
   return (
     <>
-      <Seo title="Terms" />
-      <main className="mx-auto w-full max-w-2xl px-4 py-8">
-        <h1 className="text-2xl font-semibold">Terms and conditions</h1>
-        <p className="mt-2 text-muted-foreground">Terms page content lands later.</p>
+      <Seo title="Terms and conditions" />
+      <main className="mx-auto w-full max-w-2xl space-y-4 px-4 py-8">
+        <h1 className="text-3xl font-semibold tracking-tight">Terms and conditions</h1>
+        <p className="text-muted-foreground">Live long and prosper.</p>
       </main>
     </>
   )
