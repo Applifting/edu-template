@@ -1,0 +1,6 @@
+build
+dist
+node_modules
+schema.graphql
+src/gql
+src/routeTree.gen.ts

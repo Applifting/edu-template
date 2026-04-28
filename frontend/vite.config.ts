@@ -1,33 +1,36 @@
 /// <reference types="vitest" />
-import react from '@vitejs/plugin-react';
-import { resolve } from 'node:path';
-import { defineConfig, loadEnv } from 'vite';
+import tailwindcss from "@tailwindcss/vite"
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
+import react from "@vitejs/plugin-react"
+import { defineConfig, loadEnv } from "vite"
+import { checker } from "vite-plugin-checker"
+import svgr from "vite-plugin-svgr"
+import tsconfigPaths from "vite-tsconfig-paths"
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load env variables based on mode
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = loadEnv(mode, process.cwd(), "")
 
   return {
-    plugins: [react()],
+    plugins: [
+      TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
+      react(),
+      tailwindcss(),
+      tsconfigPaths({ projects: ["tsconfig.json"] }),
+      svgr(),
+      checker({
+        typescript: true,
+        eslint: {
+          useFlatConfig: true,
+          lintCommand: "eslint './src/**/*.{ts,tsx,js,cjs,mjs}'",
+        },
+        overlay: { initialIsOpen: false },
+      }),
+    ],
     server: {
       port: 3000,
-      proxy: { '/uploads': { target: env.VITE_UPLOADS, changeOrigin: true } },
-      allowedHosts: env.VITE_ALLOWED_HOSTS
-        ? env.VITE_ALLOWED_HOSTS.split(',')
-        : [],
+      proxy: { "/uploads": { target: env.VITE_UPLOADS, changeOrigin: true } },
+      allowedHosts: env.VITE_ALLOWED_HOSTS ? env.VITE_ALLOWED_HOSTS.split(",") : [],
     },
-    build: { outDir: 'build', copyPublicDir: false },
-    resolve: {
-      alias: {
-        // These must be kept in sync with tsconfig.json!
-        '@frontend': resolve(__dirname, './src'),
-      },
-    },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: './vitest.setup.ts',
-    },
-  };
-});
+    build: { outDir: "build", copyPublicDir: false },
+  }
+})
