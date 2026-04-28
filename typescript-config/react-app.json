@@ -1,9 +1,0 @@
-{
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "React App",
-  "extends": "./react-base.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "verbatimModuleSyntax": true
-  }
-}

@@ -18,6 +18,6 @@
 **/*.log
 .DS_Store
 
-backend/uploads
-backend/tmp
-frontend/tmp
+apps/backend/uploads
+apps/backend/tmp
+apps/frontend/tmp

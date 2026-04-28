@@ -1,9 +1,5 @@
 packages:
-  - backend
-  - frontend
-  - eslint-config
-  - prettier-config
-  - typescript-config
+  - apps/*
 
 catalogs:
   default:

@@ -11,7 +11,7 @@
     "restart": "pnpm --filter backend restart && pnpm --filter frontend restart",
     "format": "run-s \"format:no-write --write --list-different\"",
     "format:check": "run-s \"format:no-write --check\"",
-    "format:no-write": "prettier \"**/*.{cjs,js,ts,tsx,json,css,scss,graphql,md,yaml,yml}\" --ignore-path .prettierignore --ignore-path frontend/.prettierignore",
+    "format:no-write": "prettier \"**/*.{cjs,js,ts,tsx,json,css,scss,graphql,md,yaml,yml}\" --ignore-path .prettierignore --ignore-path apps/frontend/.prettierignore",
     "prepare": "husky"
   },
   "devDependencies": {

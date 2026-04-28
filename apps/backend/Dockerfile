@@ -8,22 +8,22 @@ RUN corepack enable
 WORKDIR /app
 
 # Workspace metadata. Build context must be the repo root:
-#   docker build -f backend/Dockerfile -t backend-dev .
+#   docker build -f apps/backend/Dockerfile -t backend-dev .
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml .npmrc ./
-COPY backend/package.json ./backend/
-COPY frontend/package.json ./frontend/
+COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
 
 RUN pnpm install --frozen-lockfile
 
-COPY backend ./backend
-COPY frontend ./frontend
+COPY apps/backend ./apps/backend
+COPY apps/frontend ./apps/frontend
 
-RUN mkdir -p backend/uploads
+RUN mkdir -p apps/backend/uploads
 RUN chown -R node:node /app
 
 USER node
 
-WORKDIR /app/backend
+WORKDIR /app/apps/backend
 
 # Create .env file if it doesn't exist
 RUN touch .env
