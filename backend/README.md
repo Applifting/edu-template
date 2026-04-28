@@ -63,7 +63,7 @@ This project uses MariaDB running in Docker Compose for both development and pro
 1. Start the database and adminer:
 
 ```bash
-yarn backend docker:up
+pnpm backend docker:up
 ```
 
 2. Access Adminer at http://localhost:8080
@@ -76,7 +76,7 @@ yarn backend docker:up
 ## Running in Development
 
 ```bash
-yarn backend start:dev
+pnpm backend start:dev
 ```
 
 ## API Documentation
@@ -88,40 +88,40 @@ API documentation is available at http://localhost:4000/graphql when the server 
 First, make sure that you provided all the necessary env variables in .env file using .env.example as a template.
 
 ```bash
-$ yarn backend install
+$ pnpm install
 ```
 
 or
 
 ```bash
-$ yarn backend docker:up # this will also install and start the database, preferred
+$ pnpm backend docker:up # this will also install and start the database, preferred
 ```
 
 ### Running the app
 
 ```bash
 # watch mode (you will mostly need this)
-$ yarn backend start:dev
+$ pnpm backend start:dev
 
 # production mode
-$ yarn backend start:prod
+$ pnpm backend start:prod
 
 # locally with docker compose (run in repo root) - will only run database for you now, you still need to run the server manually using the previous commands
-$ yarn backend docker:up
+$ pnpm backend docker:up
 
 # regenerate prisma schema and reseed data after changes
-$ yarn backend seed
+$ pnpm backend seed
 ```
 
 ### Prisma
 
-All Prisma commands should be run from the root directory of the project using the `yarn backend` prefix:
+All Prisma commands should be run from the root directory of the project using the `pnpm backend` prefix:
 
 ```bash
 # generate Prisma client and seed DB
-$ yarn backend seed
+$ pnpm backend seed
 # open Prisma Studio to view/edit data
-$ yarn backend prisma:studio
+$ pnpm backend prisma:studio
 ```
 
 You actually do not need to manage migrations manually, the seed script by itself should be able to synchronize your database with the prisma schema.
@@ -133,10 +133,10 @@ There are currently any tests but there are still commands ready to run them if 
 
 ```bash
 # unit tests
-$ yarn backend test
+$ pnpm backend test
 
 # test with coverage (will generate a coverage report HTML files in the coverage folder)
-$ yarn backend test:cov
+$ pnpm backend test:cov
 ```
 
 ### Better Auth
@@ -145,7 +145,7 @@ In this application, [**better-auth**](https://www.npmjs.com/package/better-auth
 
 ```bash
 # propagate changes to the database schema (schema.prisma)
-$ yarn backend auth:generate
+$ pnpm backend auth:generate
 ```
 
 Hopefully you won't need to use this command and the following part, unless you want to change how the auth works/add more features to it (better ask us if you're trying to/need to for your project):
@@ -162,7 +162,7 @@ Visualize the code structure, modules, classes etc.
 
 ```bash
 # serve documentation
-$ yarn backend docs:serve
+$ pnpm backend docs:serve
 ```
 
 ### Prisma studio in Docker
@@ -171,7 +171,7 @@ If you want to run the app in docker, you can run prisma studio locally with the
 
 ```bash
 # run in repo root
-$ yarn backend docker:prisma:studio
+$ pnpm backend docker:prisma:studio
 ```
 
 ### Email Service
@@ -193,7 +193,7 @@ components from `@react-email/components` to keep markup email-client safe.
 Preview templates locally with the bundled react-email dev server:
 
 ```bash
-yarn backend email:dev
+pnpm backend email:dev
 ```
 
 To render a template to HTML at runtime, use the `renderEmail` helper in

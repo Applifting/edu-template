@@ -23,18 +23,18 @@ We will be using [Node.js](https://nodejs.org/). Please see [`.nvmrc`](./.nvmrc)
 
 ### JavaScript Packages
 
-- [yarn CLI docs](https://classic.yarnpkg.com/en/docs/cli/)
+- [pnpm CLI docs](https://pnpm.io/cli/install)
 - Useful commands:
-  - `yarn install` (install local dependencies - based on `package.json` and `yarn.lock` files)
-  - `yarn add <package-name>` (install new NPM package and add it as a dependency to `package.json`)
-  - `yarn <script-name>` (eg. `yarn start`, `yarn format`, see `"scripts"` section in `package.json`)
+  - `pnpm install` (install local dependencies - based on `package.json` and `pnpm-lock.yaml` files)
+  - `pnpm add <package-name>` (install new NPM package and add it as a dependency to `package.json`)
+  - `pnpm <script-name>` (eg. `pnpm start`, `pnpm format`, see `"scripts"` section in `package.json`)
 - Search for packages:
   - [npmjs.com](https://www.npmjs.com/)
 
 ## Project Requirements
 
 - [Node.js](https://nodejs.org/)
-- [Yarn v1](https://classic.yarnpkg.com/)
+- [pnpm](https://pnpm.io/) (the version is pinned via `packageManager` in `package.json`; `corepack` will pick it up)
 
 ## Local Installation
 
@@ -42,15 +42,15 @@ First download and install [Node.js](https://nodejs.org/en/download/) version de
 
 ```shell
 corepack enable
-yarn install
+pnpm install
 ```
 
-## Yarn Workspaces
+## pnpm Workspaces
 
-This project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). There are command aliases to help you run scripts in each workspace:
+This project uses [pnpm Workspaces](https://pnpm.io/workspaces). The packages are listed in `pnpm-workspace.yaml`. There are command aliases at the repo root to help you run scripts in each workspace:
 
-- `yarn frontend <script-name>`
-- `yarn backend <script-name>`
+- `pnpm frontend <script-name>` (alias for `pnpm --filter frontend <script-name>`)
+- `pnpm backend <script-name>` (alias for `pnpm --filter backend <script-name>`)
 
 ## Run everything (recommended)
 
@@ -58,34 +58,34 @@ Starts the database (via Docker), seeds it, then runs the backend and
 frontend dev servers side by side:
 
 ```shell
-yarn dev
+pnpm dev
 ```
 
 This is equivalent to:
 
-1. `yarn backend docker:up:wait` — `docker compose up -d --wait` with a MariaDB
+1. `pnpm backend docker:up:wait` — `docker compose up -d --wait` with a MariaDB
    healthcheck so the DB is reachable before moving on.
-2. `yarn backend seed` — syncs the Prisma schema and seeds example users and
+2. `pnpm backend seed` — syncs the Prisma schema and seeds example users and
    quacks. Safe to run repeatedly.
-3. `yarn dev:servers` — runs `yarn backend start:dev` and `yarn frontend dev`
+3. `pnpm dev:servers` — runs `pnpm backend start:dev` and `pnpm frontend dev`
    in parallel.
 
 Stop the database container when you're done:
 
 ```shell
-yarn dev:down
+pnpm dev:down
 ```
 
 ## Run Frontend
 
 ```shell
-yarn frontend dev
+pnpm frontend dev
 ```
 
 ## Run Backend
 
 ```shell
-yarn backend start
+pnpm backend start
 ```
 
 ## Run Checks
@@ -93,7 +93,7 @@ yarn backend start
 To run Prettier, ESLint, and TypeScript checks run following command:
 
 ```shell
-yarn check-all
+pnpm check-all
 ```
 
 ## Server Setup

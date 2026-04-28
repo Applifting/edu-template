@@ -36,6 +36,7 @@ escape hatch, not a long-term setting.
    `@graphql-inspector/graphql-cli-common`, which is itself a transitive
    dependency of `@graphql-codegen/cli`.
 3. Either:
+
    - Upgrade the offending top-level package to a version whose transitive
      graph no longer includes the v6 `@graphql-tools/*` chain, or
    - Add a targeted `pnpm.peerDependencyRules.allowedVersions` entry in the
