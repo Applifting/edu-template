@@ -39,10 +39,13 @@
       "@prisma/client",
       "@prisma/engines",
       "@sentry/cli",
+      "bufferutil",
       "es5-ext",
       "esbuild",
       "prisma",
-      "sharp"
+      "sharp",
+      "unrs-resolver",
+      "utf-8-validate"
     ]
   }
 }
