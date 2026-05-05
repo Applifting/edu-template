@@ -5,7 +5,7 @@ stages:
   - verify
 
 variables:
-  YARN_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/yarn'
+  PNPM_STORE: '$CI_PROJECT_DIR/.pnpm-store'
 
 .rules:
   rules:
@@ -16,29 +16,33 @@ variables:
 .cache_template: &cache_config
   key:
     files:
-      - yarn.lock
+      - pnpm-lock.yaml
   paths:
-    - cache/yarn
+    - .pnpm-store
     - node_modules
     - frontend/node_modules
     - backend/node_modules
+
+.pnpm_setup: &pnpm_setup
+  - corepack enable
+  - corepack prepare pnpm@10.15.0 --activate
+  - pnpm config set store-dir "$PNPM_STORE"
 
 install:
   stage: install
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - yarn.lock
+        - pnpm-lock.yaml
     - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"
       changes:
-        - yarn.lock
+        - pnpm-lock.yaml
   cache:
     <<: *cache_config
     policy: push
   script:
-    - echo 'yarn-offline-mirror ".yarn-cache/"' >> .yarnrc
-    - echo 'yarn-offline-mirror-pruning true' >> .yarnrc
-    - yarn install --frozen-lockfile --ignore-engines
+    - *pnpm_setup
+    - pnpm install --frozen-lockfile
 
 verify:
   stage: verify
@@ -48,10 +52,11 @@ verify:
     <<: *cache_config
     policy: pull
   script:
-    - yarn install --frozen-lockfile --ignore-engines
-    - yarn format:check
-    - yarn lint
-    - yarn frontend test
-    - yarn backend test
-    - yarn frontend build
-    - yarn backend build
+    - *pnpm_setup
+    - pnpm install --frozen-lockfile
+    - pnpm format:check
+    - pnpm lint
+    - pnpm --filter frontend test
+    - pnpm --filter backend test
+    - pnpm --filter frontend build
+    - pnpm --filter backend build
