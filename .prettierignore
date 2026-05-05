@@ -1,6 +1,4 @@
-package.json
 pnpm-lock.yaml
-
-/backend/schema.graphql
-/backend/dist
-/frontend/build
+node_modules
+apps
+.eslintcache

@@ -11,8 +11,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "prisma generate && nest build",
-    "format:check": "prettier \"src/**/*.ts\" \"test/**/*.ts\" --check",
-    "format:write": "prettier \"src/**/*.ts\" \"test/**/*.ts\" --write",
+    "format:check": "prettier \"src/**/*.ts\" \"test/**/*.ts\" --check --no-error-on-unmatched-pattern",
+    "format:write": "prettier \"src/**/*.ts\" \"test/**/*.ts\" --write --no-error-on-unmatched-pattern",
     "start": "prisma generate && nest start --env-file .env",
     "start:repl": "prisma generate && nest start --env-file .env --entryFile repl --watch",
     "start:dev": "prisma generate && nest start --env-file .env --watch --watch-ignore \"uploads/**/*\" --verbose",

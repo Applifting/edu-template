@@ -3,32 +3,32 @@ packages:
 
 catalogs:
   default:
-    "@types/node": ^20.19.0
-    "react-hook-form": ^7.74.0
-    "zod": ^4.3.6
-    "prettier": ^3.8.3
-    "typescript": ^5.9.0
+    '@types/node': ^20.19.0
+    'react-hook-form': ^7.74.0
+    'zod': ^4.3.6
+    'prettier': ^3.8.3
+    'typescript': ^5.9.0
 
   react19:
-    "react": ^19.2.5
-    "react-dom": ^19.2.5
-    "@types/react": ^19.2.0
-    "@types/react-dom": ^19.2.0
+    'react': ^19.2.5
+    'react-dom': ^19.2.5
+    '@types/react': ^19.2.0
+    '@types/react-dom': ^19.2.0
 
   lint:
-    "@eslint/compat": ^2.0.5
-    "@eslint/js": ^10.0.1
-    "@tanstack/eslint-plugin-query": ^5.100.0
-    "@tanstack/eslint-plugin-router": ^1.161.0
-    "@typescript-eslint/eslint-plugin": ^8.59.0
-    "@typescript-eslint/parser": ^8.59.0
-    "@vitest/eslint-plugin": ^1.6.16
-    "eslint": ^10.2.1
-    "eslint-import-resolver-typescript": ^3.10.0
-    "eslint-plugin-import": ^2.32.0
-    "eslint-plugin-jsx-a11y": ^6.10.0
-    "eslint-plugin-react": ^7.37.0
-    "eslint-plugin-react-hooks": ^7.1.0
-    "eslint-plugin-turbo": ^2.9.6
-    "globals": ^16.0.0
-    "typescript-eslint": ^8.59.0
+    '@eslint/compat': ^2.0.5
+    '@eslint/js': ^10.0.1
+    '@tanstack/eslint-plugin-query': ^5.100.0
+    '@tanstack/eslint-plugin-router': ^1.161.0
+    '@typescript-eslint/eslint-plugin': ^8.59.0
+    '@typescript-eslint/parser': ^8.59.0
+    '@vitest/eslint-plugin': ^1.6.16
+    'eslint': ^10.2.1
+    'eslint-import-resolver-typescript': ^3.10.0
+    'eslint-plugin-import': ^2.32.0
+    'eslint-plugin-jsx-a11y': ^6.10.0
+    'eslint-plugin-react': ^7.37.0
+    'eslint-plugin-react-hooks': ^7.1.0
+    'eslint-plugin-turbo': ^2.9.6
+    'globals': ^16.0.0
+    'typescript-eslint': ^8.59.0
