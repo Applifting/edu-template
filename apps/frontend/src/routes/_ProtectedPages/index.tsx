@@ -1,23 +1,14 @@
-import { useQuery } from "@apollo/client"
+import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { RefreshCw } from "lucide-react"
 
 import { Seo } from "@/components/Seo"
 import { Button } from "@/components/ui/button"
-import { gql } from "@/gql"
 
 import { useSession } from "@/features/auth/hooks/useSession"
+import { quacksQueryOptions } from "@/features/quack/api/quacksQueryOptions"
 import { QuackForm } from "@/features/quack/components/QuackForm"
 import { QuackList } from "@/features/quack/components/QuackList"
-
-const QuacksQuery = gql(/* GraphQL */ `
-  query Quacks {
-    quacks {
-      id
-      ...BaseQuack
-    }
-  }
-`)
 
 export const Route = createFileRoute("/_ProtectedPages/")({
   component: HomePage,
@@ -25,7 +16,7 @@ export const Route = createFileRoute("/_ProtectedPages/")({
 
 function HomePage() {
   const { user } = useSession()
-  const quacksQuery = useQuery(QuacksQuery)
+  const quacksQuery = useQuery(quacksQueryOptions())
 
   const reload = () => {
     void quacksQuery.refetch()
@@ -41,7 +32,7 @@ function HomePage() {
             variant="ghost"
             size="sm"
             onClick={reload}
-            disabled={quacksQuery.loading}
+            disabled={quacksQuery.isFetching}
           >
             <RefreshCw className="size-4" />
             Reload
@@ -56,9 +47,9 @@ function HomePage() {
         ) : null}
 
         <QuackList
-          quacks={quacksQuery.data?.quacks ?? []}
-          isLoading={quacksQuery.loading}
-          error={quacksQuery.error ? new Error(quacksQuery.error.message) : undefined}
+          quacks={quacksQuery.data ?? []}
+          isLoading={quacksQuery.isLoading}
+          error={quacksQuery.error ?? undefined}
           onReload={reload}
         />
       </section>

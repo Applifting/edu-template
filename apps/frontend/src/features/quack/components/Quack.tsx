@@ -2,24 +2,16 @@ import { Link } from "@tanstack/react-router"
 
 import { ROUTES } from "@/app/routes"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useFragment } from "@/gql"
 import { formatDate } from "@/lib/date"
 
-import {
-  BaseQuackFragment,
-  type BaseQuackFragmentType,
-} from "@/features/quack/api/BaseQuackFragment"
+import type { Quack as QuackData } from "@/features/quack/api/quackSchemas"
 import { UsersName } from "@/features/quack/components/UsersName"
 import { UsersUserName } from "@/features/quack/components/UsersUserName"
 
-type QuackProps = { quackFragment: BaseQuackFragmentType }
+type QuackProps = { quack: QuackData }
 
-export function Quack({ quackFragment }: QuackProps) {
-  // Direct field access (rather than destructuring) — typescript-eslint's
-  // no-unsafe-assignment trips on destructuring fragment-masked results
-  // even though individual property reads are correctly typed.
-  const fragment = useFragment(BaseQuackFragment, quackFragment)
-  const { name, username, profileImageUrl } = fragment.user
+export function Quack({ quack }: QuackProps) {
+  const { name, username, profileImageUrl } = quack.user
 
   const linkToUser = ROUTES.userDetail(username)
   const initials = name
@@ -52,9 +44,9 @@ export function Quack({ quackFragment }: QuackProps) {
             <UsersName name={name} /> <UsersUserName username={username} />
           </Link>
           <span className="text-xs text-muted-foreground">·</span>
-          <time className="text-xs text-muted-foreground">{formatDate(fragment.createdAt)}</time>
+          <time className="text-xs text-muted-foreground">{formatDate(quack.createdAt)}</time>
         </div>
-        <p className="text-sm break-words whitespace-pre-line">{fragment.text}</p>
+        <p className="text-sm break-words whitespace-pre-line">{quack.text}</p>
       </div>
     </article>
   )

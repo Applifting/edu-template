@@ -3,11 +3,11 @@ import { Loader2, RefreshCw } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 
-import type { BaseQuackFragmentType } from "@/features/quack/api/BaseQuackFragment"
+import type { Quack as QuackData } from "@/features/quack/api/quackSchemas"
 import { Quack } from "@/features/quack/components/Quack"
 
 type QuackListProps = {
-  quacks: (BaseQuackFragmentType & { id: string })[]
+  quacks: QuackData[]
   isLoading?: boolean
   error?: Error
   onReload?: () => void
@@ -47,7 +47,7 @@ export function QuackList({ quacks, isLoading, error, onReload }: QuackListProps
       {quacks.map((quack) => (
         <Quack
           key={quack.id}
-          quackFragment={quack}
+          quack={quack}
         />
       ))}
     </div>

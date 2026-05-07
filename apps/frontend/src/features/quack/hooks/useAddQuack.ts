@@ -1,28 +1,33 @@
 import { useState } from "react"
-import { useMutation } from "@apollo/client"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { AddQuackMutation } from "@/features/quack/api/AddQuackMutation"
+import { addQuack } from "@/features/quack/api/addQuack"
+import { quackKeys } from "@/features/quack/api/quackKeys"
 
 type UseAddQuackOptions = {
   onCompleted?: () => void
 }
 
 export function useAddQuack({ onCompleted }: UseAddQuackOptions = {}) {
+  const queryClient = useQueryClient()
   const [text, setText] = useState("")
-  const [mutate, { loading: isLoading, error }] = useMutation(AddQuackMutation, {
-    onCompleted: () => {
+
+  const mutation = useMutation({
+    mutationFn: addQuack,
+    onSuccess: async () => {
       setText("")
+      await queryClient.invalidateQueries({ queryKey: quackKeys.all() })
       onCompleted?.()
     },
   })
 
   return {
-    isLoading,
-    error: error ? new Error(error.message) : undefined,
+    isLoading: mutation.isPending,
+    error: mutation.error ?? undefined,
     text,
     setText,
     onSubmit: ({ text: nextText }: { text: string }) => {
-      void mutate({ variables: { text: nextText } })
+      mutation.mutate({ text: nextText })
     },
   }
 }
