@@ -4,8 +4,8 @@ import { PrismaModule } from 'src/core/prisma/prisma.module';
 import { AuthModule } from 'src/shared/auth/auth.module';
 import { Config } from 'src/shared/config/config.service';
 import { PermissionsModule } from '../../shared/permissions/permissions.module';
+import { QuacksController } from './controllers/quacks.controller';
 import { QuackRepository } from './repositories/quack.repository';
-import { QuacksController } from './rest/controllers/quacks.controller';
 import { QuacksService } from './services/quacks.service';
 
 @Module({

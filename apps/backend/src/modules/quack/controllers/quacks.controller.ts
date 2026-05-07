@@ -20,9 +20,9 @@ import {
 import { User } from 'src/shared/auth/decorators/user.decorator';
 import { Identity } from 'src/shared/auth/domain/identity';
 import { AuthenticatedUserGuard } from 'src/shared/auth/guards/authenticated-user.guard';
-import { QuacksService } from '../../services/quacks.service';
-import { CreateQuackDto } from '../dto/create-quack.dto';
-import { QuackResponseDto } from '../dto/quack.response.dto';
+import { QuacksService } from '../services/quacks.service';
+import { CreateQuackDto } from './dto/create-quack.dto';
+import { QuackResponseDto } from './dto/quack.response.dto';
 
 @ApiTags('quacks')
 @Controller('quacks')

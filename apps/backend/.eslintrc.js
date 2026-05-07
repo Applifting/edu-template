@@ -33,6 +33,33 @@ const config = {
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-floating-promises': 'error',
   },
+  overrides: [
+    {
+      // DTOs are presentation-layer types. Only files that own the HTTP
+      // boundary (controllers and the DTOs themselves) may reference them.
+      // Anywhere else should depend on domain types instead.
+      files: ['src/**/*.ts'],
+      excludedFiles: [
+        'src/**/*.controller.ts',
+        'src/**/controllers/**',
+        'src/**/dto/**',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: ['**/dto/**', '**/*.dto'],
+                message:
+                  'DTOs are presentation-layer types and must only be imported by controllers (or other DTOs). Depend on the domain type instead.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
 };
 
 module.exports = config;

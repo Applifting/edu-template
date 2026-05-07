@@ -25,15 +25,15 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { QuackResponseDto } from 'src/modules/quack/rest/dto/quack.response.dto';
+import { QuackResponseDto } from 'src/modules/quack/controllers/dto/quack.response.dto';
 import { QuacksService } from 'src/modules/quack/services/quacks.service';
 import { User } from 'src/shared/auth/decorators/user.decorator';
 import { Identity } from 'src/shared/auth/domain/identity';
 import { AuthenticatedUserGuard } from 'src/shared/auth/guards/authenticated-user.guard';
-import { UserService } from '../../services/user.service';
-import { SignUpDto } from '../dto/sign-up.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { UserResponseDto } from '../dto/user.response.dto';
+import { UserService } from '../services/user.service';
+import { SignUpDto } from './dto/sign-up.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserResponseDto } from './dto/user.response.dto';
 
 interface FileUpload {
   filename: string;
