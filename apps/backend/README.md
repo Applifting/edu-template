@@ -13,8 +13,6 @@ Compared to the bare bones Nest app you get when you create a new project, we al
 - Example database entities (**Users**, **Quacks**, **Files**) with migrations
 - Configured tests and resolve common issues with them in Nest (like proper path resolving)
 - Decorator-based configuration with our `@applifting-io/nestjs-decorated-config` package
-- GraphQL dataloaders with our `@applifting-io/nestjs-dataloader` package
-- Real-time updates with GraphQL Subscriptions or Server-Sent Events
 - File upload
 - Unit tests
 
@@ -30,20 +28,20 @@ classDiagram
   }
 
   namespace presentation {
-    class FeatureResolver
-    class FeatureType
-    class CreateFeatureInputType
-    class UpdateFeatureInputType
+    class FeatureController
+    class CreateFeatureDto
+    class UpdateFeatureDto
+    class FeatureResponseDto
   }
 
   namespace repositories {
     class FeatureRepository
   }
 
-  FeatureResolver --> FeatureType
-  FeatureResolver --> CreateFeatureInputType
-  FeatureResolver --> UpdateFeatureInputType
-  FeatureResolver ..> FeatureService
+  FeatureController --> CreateFeatureDto
+  FeatureController --> UpdateFeatureDto
+  FeatureController --> FeatureResponseDto
+  FeatureController ..> FeatureService
   FeatureService ..> FeatureRepository
 ```
 
@@ -51,7 +49,7 @@ classDiagram
 
 - MariaDB running in Docker Compose for consistent development and production environments
 - Prisma over TypeORM as it's newer, more type safe and offers a better developer experience overall
-- Primarily code-first Apollo Graphql over Rest, same reasons as above
+- REST API documented via Swagger/OpenAPI (NestJS `@nestjs/swagger`)
 - BetterAuth library for authentication to provide battery-included solution for registering users, logging in, email verification etc. without having to re-invent the wheel
 
 ## Database Configuration
@@ -81,7 +79,7 @@ pnpm backend start:dev
 
 ## API Documentation
 
-API documentation is available at http://localhost:4000/graphql when the server is running.
+REST API (Swagger/OpenAPI) is available at http://localhost:4000/api/docs when the server is running.
 
 # Installation
 
@@ -151,10 +149,6 @@ $ pnpm backend auth:generate
 Hopefully you won't need to use this command and the following part, unless you want to change how the auth works/add more features to it (better ask us if you're trying to/need to for your project):
 
 Keep in mind that there are 2 better auth configurations, one in the src/shared/auth/providers/better-auth.provider.ts (the complete config that is being used in the whole app) and one in the src/shared/auth/config/better-auth.config.ts (this config is being used by the CLI command above). You need to add the necessary changes to the better-auth config file to generate new database schema changes.
-
-### GraphQL playground
-
-After running locally, go to http://localhost:4000/graphql to test GraphQL Playground
 
 ### Compodoc
 

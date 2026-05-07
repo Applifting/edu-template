@@ -26,10 +26,7 @@ const config = {
     'coverage/**',
   ],
   rules: {
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      { argsIgnorePattern: 'returns' }, // for use in graphql resolvers
-    ],
+    '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',

@@ -26,7 +26,6 @@ export class WelcomeController {
       description: this.config.description,
       version: this.config.version,
       healthCheck: '/health',
-      graphqlApi: '/graphql',
       restApi: '/api',
       swaggerDocs: '/api/docs',
       authEndpointsDocs: '/api/auth/reference',

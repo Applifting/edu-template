@@ -1,7 +1,0 @@
-projects:
-  frontend:
-    schema: 'apps/frontend/schema.graphql'
-    documents: 'apps/frontend/src/**/*.{ts,tsx}'
-  backend:
-    schema: 'apps/backend/src/graphql/**/*.graphql'
-    documents: 'apps/backend/src/**/*.ts'

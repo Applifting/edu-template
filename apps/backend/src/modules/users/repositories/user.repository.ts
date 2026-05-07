@@ -4,7 +4,7 @@ import { PrismaService } from 'src/core/prisma/prisma.service';
 import { User, UserRoleEnum } from '../domain/user';
 
 // in many production ready app, it is okay to have mappers like these across the application.
-// It clearly separates database objects (used in db/repositories) from domain objects (used in services) and from presentation (used in graphql/rest resolvers) objects
+// It clearly separates database objects (used in db/repositories) from domain objects (used in services) and from presentation (used in REST controllers/DTOs) objects
 // in some places, like the post repository, we can skip them because the types are at this time compatible.
 // usually we would also store them in their own file, like in users/repositories/mappers/user.mapper.ts
 // we keep it like this for simplicity here.

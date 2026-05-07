@@ -3,7 +3,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { toNodeHandler } from 'better-auth/node';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
-import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
 import { AppModule } from './app.module';
 import { BetterAuth } from './shared/auth/providers/better-auth.provider';
 import { Config } from './shared/config/config.service';
@@ -24,13 +23,6 @@ async function main(): Promise<void> {
     origin: [config.baseUrl, config.frontendBaseUrl, config.frontendProdUrl],
     credentials: true,
   });
-
-  // Setup GraphQL file upload middleware (scoped to /graphql so it doesn't
-  // swallow REST multipart requests)
-  app.use(
-    '/graphql',
-    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 5 }),
-  );
 
   // Setup cookie parser middleware
   app.use(cookieParser());

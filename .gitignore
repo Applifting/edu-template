@@ -17,3 +17,6 @@ yarn-error.log*
 
 .eslintcache
 *.tsbuildinfo
+
+# Playwright MCP traces from local browser walkthroughs
+.playwright-mcp/

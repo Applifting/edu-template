@@ -8,7 +8,6 @@ import { WelcomeModule } from './modules/welcome/welcome.module';
 import { SeedModule } from './scripts/seed/seed.module';
 import { AuthModule } from './shared/auth/auth.module';
 import { Config } from './shared/config/config.service';
-import { GraphqlSetupModule } from './shared/graphql/graphql-setup.module';
 
 const imports = [
   ConfigModule.forRootAsync(Config, { validate: true, printOnStartup: true }),
@@ -21,7 +20,6 @@ const imports = [
   WelcomeModule,
   QuackModule,
   UsersModule,
-  GraphqlSetupModule,
 ];
 
 @Module({
