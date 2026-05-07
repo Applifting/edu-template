@@ -25,6 +25,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { QuackResponseDto } from 'src/modules/quack/rest/dto/quack.response.dto';
+import { QuacksService } from 'src/modules/quack/services/quacks.service';
 import { User } from 'src/shared/auth/decorators/user.decorator';
 import { Identity } from 'src/shared/auth/domain/identity';
 import { AuthenticatedUserGuard } from 'src/shared/auth/guards/authenticated-user.guard';
@@ -57,7 +59,10 @@ const toFileUpload = (file: Express.Multer.File): FileUpload => ({
   }),
 )
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly quacksService: QuacksService,
+  ) {}
 
   @Get(':username')
   @ApiOperation({ summary: 'Get a user by username' })
@@ -71,6 +76,21 @@ export class UsersController {
       throw new NotFoundException(`User '${username}' not found`);
     }
     return UserResponseDto.fromDomain(user);
+  }
+
+  @Get(':username/quacks')
+  @ApiOperation({ summary: 'List quacks authored by a user' })
+  @ApiResponse({ status: 200, type: [QuackResponseDto] })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  async getQuacksByUsername(
+    @Param('username') username: string,
+  ): Promise<QuackResponseDto[]> {
+    const user = await this.userService.getUserByUsername(username);
+    if (!user) {
+      throw new NotFoundException(`User '${username}' not found`);
+    }
+    const quacks = await this.quacksService.getQuacksByUserId(user.id);
+    return quacks.map(QuackResponseDto.fromDomain);
   }
 
   @Post('sign-up')

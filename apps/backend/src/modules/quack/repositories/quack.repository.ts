@@ -1,6 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { Quack as PrismaQuack, User as PrismaUser } from '@prisma/client';
 import { PrismaService } from 'src/core/prisma/prisma.service';
+import { UserRoleEnum } from '../../users/domain/user';
 import { Quack } from '../domain/quack';
+
+const mapPrismaQuackToDomain = (
+  quack: PrismaQuack & { user?: PrismaUser },
+): Quack => ({
+  id: quack.id,
+  text: quack.text,
+  userId: quack.userId,
+  createdAt: quack.createdAt,
+  updatedAt: quack.updatedAt,
+  user: quack.user
+    ? {
+        id: quack.user.id,
+        name: quack.user.name,
+        email: quack.user.email,
+        username: quack.user.username ?? '',
+        profileImageUrl: quack.user.image ?? undefined,
+        role: quack.user.role as UserRoleEnum,
+        createdAt: quack.user.createdAt,
+        updatedAt: quack.user.updatedAt,
+      }
+    : undefined,
+});
 
 /**
  * If you decide to choose a different ORM or database, you should only need to change the repository files methods implementation.
@@ -11,47 +35,51 @@ export class QuackRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async getById(id: string): Promise<Quack | null> {
-    return this.prisma.quack.findUnique({
+    const quack = await this.prisma.quack.findUnique({
       where: { id },
       include: { user: true },
     });
+    return quack ? mapPrismaQuackToDomain(quack) : null;
   }
 
   async getQuacks(): Promise<Quack[]> {
-    return this.prisma.quack.findMany({
+    const quacks = await this.prisma.quack.findMany({
       include: { user: true },
       orderBy: { createdAt: 'desc' },
     });
+    return quacks.map(mapPrismaQuackToDomain);
   }
 
   async getQuacksByUserId(userId: string): Promise<Quack[]> {
-    const user = await this.prisma.user.findFirst({
-      where: { id: userId },
-      include: { quacks: true },
+    const quacks = await this.prisma.quack.findMany({
+      where: { userId },
+      include: { user: true },
+      orderBy: { createdAt: 'desc' },
     });
-
-    return user?.quacks ?? [];
+    return quacks.map(mapPrismaQuackToDomain);
   }
 
   async createQuack(createQuackData: {
     text: string;
     userId: string;
   }): Promise<Quack> {
-    return await this.prisma.quack.create({
+    const quack = await this.prisma.quack.create({
       data: {
         text: createQuackData.text,
         user: {
-          connect: { id: createQuackData.userId! },
+          connect: { id: createQuackData.userId },
         },
       },
       include: { user: true },
     });
+    return mapPrismaQuackToDomain(quack);
   }
 
   async delete(id: string): Promise<Quack | null> {
-    return this.prisma.quack.delete({
+    const quack = await this.prisma.quack.delete({
       where: { id },
       include: { user: true },
     });
+    return mapPrismaQuackToDomain(quack);
   }
 }
