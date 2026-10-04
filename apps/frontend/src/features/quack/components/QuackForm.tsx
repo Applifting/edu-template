@@ -1,18 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Angry, Frown, Laugh, Loader2, Smile, type LucideIcon } from "lucide-react"
-import { useForm, useWatch } from "react-hook-form"
+import { Controller, useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
@@ -59,89 +52,87 @@ export function QuackForm({ className }: QuackFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form
-        noValidate
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className={cn("space-y-3", className)}
-      >
-        {addQuack.error ? (
-          <Alert variant="destructive">
-            <AlertDescription>{addQuack.error.message}</AlertDescription>
-          </Alert>
-        ) : null}
+    <form
+      noValidate
+      onSubmit={form.handleSubmit(handleSubmit)}
+      className={cn("space-y-3", className)}
+    >
+      {addQuack.error ? (
+        <Alert variant="destructive">
+          <AlertDescription>{addQuack.error.message}</AlertDescription>
+        </Alert>
+      ) : null}
 
-        <FormField
-          control={form.control}
-          name="text"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>New quack</FormLabel>
-              <FormControl>
-                <Textarea
-                  rows={3}
-                  placeholder="Quack something..."
-                  disabled={addQuack.isPending}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+      <Controller
+        control={form.control}
+        name="text"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="quack-text">New quack</FieldLabel>
+            <Textarea
+              id="quack-text"
+              rows={3}
+              placeholder="Quack something..."
+              disabled={addQuack.isPending}
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="mood"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel id="mood-label">Mood (optional)</FieldLabel>
+            <ToggleGroup
+              type="single"
+              aria-labelledby="mood-label"
+              value={field.value ?? ""}
+              onValueChange={(value) => field.onChange(value || undefined)}
+              disabled={addQuack.isPending}
+              spacing={2}
+              className="flex-wrap"
+            >
+              {quackMoods.map((mood) => {
+                const Icon = MOOD_ICON[mood]
+                return (
+                  <ToggleGroupItem
+                    key={mood}
+                    value={mood}
+                    aria-label={mood}
+                  >
+                    <Icon aria-hidden />
+                  </ToggleGroupItem>
+                )
+              })}
+            </ToggleGroup>
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <div className="flex items-center justify-end gap-3">
+        <span
+          className={cn(
+            "text-sm",
+            length > MAX_LENGTH ? "text-destructive" : "text-muted-foreground",
           )}
-        />
-
-        <FormField
-          control={form.control}
-          name="mood"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel id="mood-label">Mood (optional)</FormLabel>
-              <ToggleGroup
-                type="single"
-                aria-labelledby="mood-label"
-                value={field.value ?? ""}
-                onValueChange={(value) => field.onChange(value || undefined)}
-                disabled={addQuack.isPending}
-                spacing={2}
-                className="flex-wrap"
-              >
-                {quackMoods.map((mood) => {
-                  const Icon = MOOD_ICON[mood]
-                  return (
-                    <ToggleGroupItem
-                      key={mood}
-                      value={mood}
-                      aria-label={mood}
-                    >
-                      <Icon aria-hidden />
-                    </ToggleGroupItem>
-                  )
-                })}
-              </ToggleGroup>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex items-center justify-end gap-3">
-          <span
-            className={cn(
-              "text-sm",
-              length > MAX_LENGTH ? "text-destructive" : "text-muted-foreground",
-            )}
-          >
-            {length}/{MAX_LENGTH}
-          </span>
-          <Button
-            type="submit"
-            size="sm"
-            disabled={addQuack.isPending}
-          >
-            {addQuack.isPending ? <Loader2 className="size-4 animate-spin" /> : null}
-            Quack
-          </Button>
-        </div>
-      </form>
-    </Form>
+        >
+          {length}/{MAX_LENGTH}
+        </span>
+        <Button
+          type="submit"
+          size="sm"
+          disabled={addQuack.isPending}
+        >
+          {addQuack.isPending ? <Loader2 className="size-4 animate-spin" /> : null}
+          Quack
+        </Button>
+      </div>
+    </form>
   )
 }

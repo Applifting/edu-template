@@ -30,6 +30,10 @@ The CLI puts `shadow-xs`/`shadow-sm` on inputs, textareas and cards. [`DESIGN.md
 
 Whenever you need an icon, use `lucide-react` (already installed, and the `iconLibrary` in `components.json`). No emoji as icons, no other icon packages, no hand-written SVGs. Icon-only controls still need an `aria-label` per [`DESIGN.md`](DESIGN.md).
 
+### Forms
+
+React Hook Form `Controller` + the `Field` components from `src/components/ui/field.tsx`, validated with a zod schema. `QuackForm.tsx` is the example. shadcn's older `Form`/`FormField` components are not in this project — don't add them.
+
 ### The app is already running
 
 Assume the dev servers are up. If something is listening on the app's ports, that is this application: use it. Don't start a second instance, don't restart it, don't run `pnpm dev`.
