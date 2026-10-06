@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
+import { Angry, Frown, Laugh, Loader2, Smile, type LucideIcon } from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
@@ -13,26 +13,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
 
-import { quackMoods } from "@/features/quack/api/quackSchemas"
+import { quackMoods, type QuackMood } from "@/features/quack/api/quackSchemas"
 import { useAddQuack } from "@/features/quack/hooks/useAddQuack"
 
 // Mirrors the server-side DTO (MaxLength(280)) so the user is told before
 // the request is made — the server still validates independently.
 const MAX_LENGTH = 280
 
-// Radix Select can't use "" as an item value, so "no mood" gets a sentinel
-// that is mapped to an omitted field on submit.
-const NO_MOOD = "none"
+const MOOD_ICON: Record<QuackMood, LucideIcon> = {
+  happy: Smile,
+  sad: Frown,
+  angry: Angry,
+  silly: Laugh,
+}
 
 const schema = z.object({
   text: z
@@ -40,7 +37,7 @@ const schema = z.object({
     .trim()
     .min(1, "Write something first")
     .max(MAX_LENGTH, `Keep it under ${MAX_LENGTH} characters`),
-  mood: z.enum([NO_MOOD, ...quackMoods]),
+  mood: z.enum(quackMoods).optional(),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -51,20 +48,14 @@ export function QuackForm({ className }: QuackFormProps) {
   const addQuack = useAddQuack()
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { text: "", mood: NO_MOOD },
+    defaultValues: { text: "", mood: undefined },
   })
 
   const text = useWatch({ control: form.control, name: "text" })
   const length = text?.length ?? 0
 
   const handleSubmit = (values: FormValues) => {
-    addQuack.mutate(
-      {
-        text: values.text,
-        mood: values.mood === NO_MOOD ? undefined : values.mood,
-      },
-      { onSuccess: () => form.reset() },
-    )
+    addQuack.mutate({ text: values.text, mood: values.mood }, { onSuccess: () => form.reset() })
   }
 
   return (
@@ -80,59 +71,57 @@ export function QuackForm({ className }: QuackFormProps) {
           </Alert>
         ) : null}
 
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <FormField
-            control={form.control}
-            name="text"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>New quack</FormLabel>
-                <FormControl>
-                  <Textarea
-                    rows={3}
-                    placeholder="Quack something..."
-                    disabled={addQuack.isPending}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="mood"
-            render={({ field }) => (
-              <FormItem className="sm:w-36">
-                <FormLabel>Mood</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={field.onChange}
+        <FormField
+          control={form.control}
+          name="text"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>New quack</FormLabel>
+              <FormControl>
+                <Textarea
+                  rows={3}
+                  placeholder="Quack something..."
                   disabled={addQuack.isPending}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value={NO_MOOD}>No mood</SelectItem>
-                    {quackMoods.map((mood) => (
-                      <SelectItem
-                        key={mood}
-                        value={mood}
-                      >
-                        <span className="capitalize">{mood}</span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="mood"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel id="mood-label">Mood (optional)</FormLabel>
+              <ToggleGroup
+                type="single"
+                aria-labelledby="mood-label"
+                value={field.value ?? ""}
+                onValueChange={(value) => field.onChange(value || undefined)}
+                disabled={addQuack.isPending}
+                spacing={2}
+                className="flex-wrap"
+              >
+                {quackMoods.map((mood) => {
+                  const Icon = MOOD_ICON[mood]
+                  return (
+                    <ToggleGroupItem
+                      key={mood}
+                      value={mood}
+                      aria-label={mood}
+                    >
+                      <Icon aria-hidden />
+                    </ToggleGroupItem>
+                  )
+                })}
+              </ToggleGroup>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex items-center justify-end gap-3">
           <span
