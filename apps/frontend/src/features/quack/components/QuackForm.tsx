@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
+import { Angry, Frown, Laugh, Loader2, Smile, type LucideIcon } from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
 import { z } from "zod"
 
@@ -14,13 +14,22 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
 
+import { quackMoods, type QuackMood } from "@/features/quack/api/quackSchemas"
 import { useAddQuack } from "@/features/quack/hooks/useAddQuack"
 
 // Mirrors the server-side DTO (MaxLength(280)) so the user is told before
 // the request is made — the server still validates independently.
 const MAX_LENGTH = 280
+
+const MOOD_ICON: Record<QuackMood, LucideIcon> = {
+  happy: Smile,
+  sad: Frown,
+  angry: Angry,
+  silly: Laugh,
+}
 
 const schema = z.object({
   text: z
@@ -28,6 +37,7 @@ const schema = z.object({
     .trim()
     .min(1, "Write something first")
     .max(MAX_LENGTH, `Keep it under ${MAX_LENGTH} characters`),
+  mood: z.enum(quackMoods).optional(),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -38,14 +48,14 @@ export function QuackForm({ className }: QuackFormProps) {
   const addQuack = useAddQuack()
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { text: "" },
+    defaultValues: { text: "", mood: undefined },
   })
 
   const text = useWatch({ control: form.control, name: "text" })
   const length = text?.length ?? 0
 
   const handleSubmit = (values: FormValues) => {
-    addQuack.mutate({ text: values.text }, { onSuccess: () => form.reset() })
+    addQuack.mutate({ text: values.text, mood: values.mood }, { onSuccess: () => form.reset() })
   }
 
   return (
@@ -75,6 +85,39 @@ export function QuackForm({ className }: QuackFormProps) {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="mood"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel id="mood-label">Mood (optional)</FormLabel>
+              <ToggleGroup
+                type="single"
+                aria-labelledby="mood-label"
+                value={field.value ?? ""}
+                onValueChange={(value) => field.onChange(value || undefined)}
+                disabled={addQuack.isPending}
+                spacing={2}
+                className="flex-wrap"
+              >
+                {quackMoods.map((mood) => {
+                  const Icon = MOOD_ICON[mood]
+                  return (
+                    <ToggleGroupItem
+                      key={mood}
+                      value={mood}
+                      aria-label={mood}
+                    >
+                      <Icon aria-hidden />
+                    </ToggleGroupItem>
+                  )
+                })}
+              </ToggleGroup>
               <FormMessage />
             </FormItem>
           )}
