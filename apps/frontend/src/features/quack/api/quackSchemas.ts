@@ -8,9 +8,13 @@ export const quackUserSchema = z.object({
   username: z.string(),
 })
 
+export const quackMoods = ["happy", "sad", "angry", "silly"] as const
+export type QuackMood = (typeof quackMoods)[number]
+
 export const quackSchema = z.object({
   id: z.string(),
   text: z.string(),
+  mood: z.enum(quackMoods).nullable(),
   userId: z.string(),
   createdAt: z.coerce.date(),
   user: quackUserSchema,

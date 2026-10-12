@@ -1,18 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
 const schema = z
@@ -51,117 +44,115 @@ export function SignUpForm({ isLoading, errorMessage, onSubmit }: SignUpFormProp
   })
 
   return (
-    <Form {...form}>
-      <form
-        noValidate
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
+    <form
+      noValidate
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-4"
+    >
+      {errorMessage ? (
+        <Alert variant="destructive">
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
+      ) : null}
+
+      <Controller
+        control={form.control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="sign-up-name">Name</FieldLabel>
+            <Input
+              id="sign-up-name"
+              autoComplete="name"
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="username"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="sign-up-username">Username</FieldLabel>
+            <Input
+              id="sign-up-username"
+              autoComplete="username"
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="email"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="sign-up-email">Email</FieldLabel>
+            <Input
+              id="sign-up-email"
+              type="email"
+              placeholder="e.g. john@doe.com"
+              autoComplete="email"
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="password"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="sign-up-password">Password</FieldLabel>
+            <Input
+              id="sign-up-password"
+              type="password"
+              autoComplete="new-password"
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="passwordConfirmation"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="sign-up-passwordConfirmation">Confirm password</FieldLabel>
+            <Input
+              id="sign-up-passwordConfirmation"
+              type="password"
+              autoComplete="new-password"
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          </Field>
+        )}
+      />
+
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full"
+        disabled={isLoading}
       >
-        {errorMessage ? (
-          <Alert variant="destructive">
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        ) : null}
-
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="name"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="username"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="e.g. john@doe.com"
-                  autoComplete="email"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="new-password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="passwordConfirmation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="new-password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button
-          type="submit"
-          size="lg"
-          className="w-full"
-          disabled={isLoading}
-        >
-          {isLoading ? <Loader2 className="size-4 animate-spin" /> : null}
-          Sign up
-        </Button>
-      </form>
-    </Form>
+        {isLoading ? <Loader2 className="size-4 animate-spin" /> : null}
+        Sign up
+      </Button>
+    </form>
   )
 }
